@@ -399,7 +399,7 @@
             @foreach($stats as $key => $value)
             <div class="glass-card rounded-2xl p-6 hover:shadow-lg transition-shadow duration-300">
                 <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">{{ ucfirst($key) }}</p>
-                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">{{ number_format($value) }}</h3>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white counter-number" data-target="{{ $value }}">0</h3>
             </div>
             @endforeach
         </div>
@@ -582,6 +582,29 @@
             border: 1px solid rgba(55, 65, 81, 0.3);
         }
         
+        /* Chart visibility improvements for dark mode */
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .dark canvas {
+            filter: brightness(1.1) contrast(1.05);
+        }
+        
+        /* Ensure chart containers are visible */
+        #contentPieChart,
+        #engagementBarChart,
+        #activityLineChart {
+            position: relative;
+        }
+        
+        .dark #contentPieChart,
+        .dark #engagementBarChart,
+        .dark #activityLineChart {
+            background: transparent;
+        }
+        
         @media print {
             .no-print, .screen-only { display: none !important; }
             .print-only { display: block !important; }
@@ -598,46 +621,58 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Animated Counter
+            // Animated Counter for Stats Numbers
             const counters = document.querySelectorAll('.counter-number');
-            const progressBars = document.querySelectorAll('.progress-bar');
             
-            counters.forEach((counter, index) => {
-                const target = +counter.getAttribute('data-target');
-                const duration = 2000; // 2 seconds
-                const increment = target / (duration / 16); // 60fps
-                let current = 0;
+            const animateCounter = (element, target, duration = 2000) => {
+                const start = 0;
+                const startTime = performance.now();
                 
-                setTimeout(() => {
-                    const updateCounter = () => {
-                        current += increment;
-                        if (current < target) {
-                            counter.textContent = Math.ceil(current).toLocaleString();
-                            requestAnimationFrame(updateCounter);
-                        } else {
-                            counter.textContent = target.toLocaleString();
-                        }
-                    };
-                    updateCounter();
+                const updateCounter = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
                     
-                    // Animate progress bar
-                    if (progressBars[index]) {
-                        progressBars[index].style.width = '100%';
+                    // Easing function for smooth animation
+                    const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                    const current = Math.floor(start + (target - start) * easeOutQuart);
+                    
+                    element.textContent = current.toLocaleString();
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        element.textContent = target.toLocaleString();
                     }
-                }, index * 100);
+                };
+                
+                requestAnimationFrame(updateCounter);
+            };
+            
+            // Animate each counter with a slight delay for staggered effect
+            counters.forEach((counter, index) => {
+                const target = parseInt(counter.getAttribute('data-target')) || 0;
+                setTimeout(() => {
+                    animateCounter(counter, target, 2000);
+                }, index * 150);
             });
             
             const isDark = localStorage.getItem('darkMode') === 'true';
-            const textColor = isDark ? '#e5e7eb' : '#374151';
-            const gridColor = isDark ? '#374151' : '#e5e7eb';
+            const textColor = isDark ? '#f3f4f6' : '#374151';
+            const gridColor = isDark ? 'rgba(75, 85, 99, 0.3)' : '#e5e7eb';
+            const axisColor = isDark ? '#9ca3af' : '#6b7280';
             
-            // Morocco Colors
+            // Morocco Colors - adjusted for dark mode visibility
             const moroccoRed = '#991b1b';
+            const moroccoRedLight = isDark ? '#dc2626' : '#991b1b';
             const moroccoGrey = '#6b7280';
+            const moroccoGreyLight = isDark ? '#9ca3af' : '#6b7280';
             const moroccoWhite = '#ffffff';
-            const accentBlue = '#3b82f6';
-            const accentGreen = '#10b981';
+            const accentBlue = isDark ? '#60a5fa' : '#3b82f6';
+            const accentGreen = isDark ? '#34d399' : '#10b981';
             const accentYellow = '#f59e0b';
+            
+            // Chart fill colors with better opacity for dark mode
+            const fillOpacity = isDark ? '40' : '20';
             
             // Content Distribution Pie Chart
             const pieCtx = document.getElementById('contentPieChart');
@@ -648,8 +683,8 @@
                         labels: ['Cities', 'Destinations'],
                         datasets: [{
                             data: [{{ $stats['cities'] }}, {{ $stats['destinations'] }}],
-                            backgroundColor: [moroccoRed, moroccoGrey],
-                            borderColor: moroccoWhite,
+                            backgroundColor: [moroccoRedLight, moroccoGreyLight],
+                            borderColor: isDark ? '#1f2937' : moroccoWhite,
                             borderWidth: 3,
                             hoverOffset: 10
                         }]
@@ -704,8 +739,8 @@
                                 {{ $stats['commentaires'] }},
                                 {{ $stats['newsletters'] }}
                             ],
-                            backgroundColor: [moroccoRed, moroccoGrey, accentBlue, accentGreen],
-                            borderColor: [moroccoRed, moroccoGrey, accentBlue, accentGreen],
+                            backgroundColor: [moroccoRedLight, moroccoGreyLight, accentBlue, accentGreen],
+                            borderColor: [moroccoRedLight, moroccoGreyLight, accentBlue, accentGreen],
                             borderWidth: 2,
                             borderRadius: 8,
                             borderSkipped: false
@@ -717,32 +752,43 @@
                         plugins: {
                             legend: { display: false },
                             tooltip: {
-                                backgroundColor: isDark ? '#1f2937' : '#ffffff',
+                                backgroundColor: isDark ? '#111827' : '#ffffff',
                                 titleColor: textColor,
                                 bodyColor: textColor,
-                                borderColor: gridColor,
+                                borderColor: isDark ? '#374151' : '#e5e7eb',
                                 borderWidth: 1,
-                                padding: 12
+                                padding: 12,
+                                titleFont: { size: 13, weight: '600' },
+                                bodyFont: { size: 12 }
                             }
                         },
                         scales: {
                             y: {
                                 beginAtZero: true,
                                 ticks: {
-                                    color: textColor,
+                                    color: axisColor,
                                     font: { size: 11 }
                                 },
                                 grid: {
                                     color: gridColor,
-                                    drawBorder: false
+                                    drawBorder: false,
+                                    lineWidth: 1
+                                },
+                                border: {
+                                    color: axisColor,
+                                    width: 1
                                 }
                             },
                             x: {
                                 ticks: {
-                                    color: textColor,
+                                    color: axisColor,
                                     font: { size: 11, weight: '600' }
                                 },
-                                grid: { display: false }
+                                grid: { display: false },
+                                border: {
+                                    color: axisColor,
+                                    width: 1
+                                }
                             }
                         }
                     }
@@ -752,52 +798,46 @@
             // Platform Activity Line Chart
             const lineCtx = document.getElementById('activityLineChart');
             if (lineCtx) {
+                const activityLabels = @json($activityData['labels'] ?? []);
+                const contentData = @json($activityData['content'] ?? []);
+                const engagementData = @json($activityData['engagement'] ?? []);
+                
                 new Chart(lineCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                        labels: activityLabels,
                         datasets: [
                             {
                                 label: 'Content Items',
-                                data: [
-                                    Math.floor({{ $stats['cities'] + $stats['destinations'] }} * 0.6),
-                                    Math.floor({{ $stats['cities'] + $stats['destinations'] }} * 0.7),
-                                    Math.floor({{ $stats['cities'] + $stats['destinations'] }} * 0.8),
-                                    Math.floor({{ $stats['cities'] + $stats['destinations'] }} * 0.9),
-                                    Math.floor({{ $stats['cities'] + $stats['destinations'] }} * 0.95),
-                                    {{ $stats['cities'] + $stats['destinations'] }}
-                                ],
-                                borderColor: moroccoRed,
-                                backgroundColor: moroccoRed + '20',
+                                data: contentData,
+                                borderColor: moroccoRedLight,
+                                backgroundColor: moroccoRedLight + fillOpacity,
                                 borderWidth: 3,
                                 fill: true,
                                 tension: 0.4,
-                                pointBackgroundColor: moroccoRed,
-                                pointBorderColor: moroccoWhite,
+                                pointBackgroundColor: moroccoRedLight,
+                                pointBorderColor: isDark ? '#111827' : moroccoWhite,
                                 pointBorderWidth: 2,
                                 pointRadius: 5,
-                                pointHoverRadius: 7
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: moroccoRedLight,
+                                pointHoverBorderColor: isDark ? '#f3f4f6' : moroccoWhite
                             },
                             {
                                 label: 'Community Engagement',
-                                data: [
-                                    Math.floor(({{ $stats['volontaires'] + $stats['contacts'] + $stats['commentaires'] + $stats['newsletters'] }}) * 0.5),
-                                    Math.floor(({{ $stats['volontaires'] + $stats['contacts'] + $stats['commentaires'] + $stats['newsletters'] }}) * 0.65),
-                                    Math.floor(({{ $stats['volontaires'] + $stats['contacts'] + $stats['commentaires'] + $stats['newsletters'] }}) * 0.75),
-                                    Math.floor(({{ $stats['volontaires'] + $stats['contacts'] + $stats['commentaires'] + $stats['newsletters'] }}) * 0.85),
-                                    Math.floor(({{ $stats['volontaires'] + $stats['contacts'] + $stats['commentaires'] + $stats['newsletters'] }}) * 0.92),
-                                    {{ $stats['volontaires'] + $stats['contacts'] + $stats['commentaires'] + $stats['newsletters'] }}
-                                ],
-                                borderColor: moroccoGrey,
-                                backgroundColor: moroccoGrey + '20',
+                                data: engagementData,
+                                borderColor: moroccoGreyLight,
+                                backgroundColor: moroccoGreyLight + fillOpacity,
                                 borderWidth: 3,
                                 fill: true,
                                 tension: 0.4,
-                                pointBackgroundColor: moroccoGrey,
-                                pointBorderColor: moroccoWhite,
+                                pointBackgroundColor: moroccoGreyLight,
+                                pointBorderColor: isDark ? '#111827' : moroccoWhite,
                                 pointBorderWidth: 2,
                                 pointRadius: 5,
-                                pointHoverRadius: 7
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: moroccoGreyLight,
+                                pointHoverBorderColor: isDark ? '#f3f4f6' : moroccoWhite
                             }
                         ]
                     },
@@ -820,34 +860,45 @@
                                 }
                             },
                             tooltip: {
-                                backgroundColor: isDark ? '#1f2937' : '#ffffff',
+                                backgroundColor: isDark ? '#111827' : '#ffffff',
                                 titleColor: textColor,
                                 bodyColor: textColor,
-                                borderColor: gridColor,
+                                borderColor: isDark ? '#374151' : '#e5e7eb',
                                 borderWidth: 1,
-                                padding: 12
+                                padding: 12,
+                                titleFont: { size: 13, weight: '600' },
+                                bodyFont: { size: 12 }
                             }
                         },
                         scales: {
                             y: {
                                 beginAtZero: true,
                                 ticks: {
-                                    color: textColor,
+                                    color: axisColor,
                                     font: { size: 11 }
                                 },
                                 grid: {
                                     color: gridColor,
-                                    drawBorder: false
+                                    drawBorder: false,
+                                    lineWidth: 1
+                                },
+                                border: {
+                                    color: axisColor,
+                                    width: 1
                                 }
                             },
                             x: {
                                 ticks: {
-                                    color: textColor,
+                                    color: axisColor,
                                     font: { size: 11, weight: '600' }
                                 },
                                 grid: {
                                     color: gridColor,
                                     drawBorder: false
+                                },
+                                border: {
+                                    color: axisColor,
+                                    width: 1
                                 }
                             }
                         }

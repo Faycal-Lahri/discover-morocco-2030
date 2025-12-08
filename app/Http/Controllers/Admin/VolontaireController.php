@@ -22,6 +22,11 @@ class VolontaireController extends Controller
             });
         }
 
+        // Filter by volunteer city
+        if ($request->has('volunteer_city') && $request->volunteer_city != '') {
+            $query->where('ville_volontariat', 'like', "%{$request->volunteer_city}%");
+        }
+
         // Sorting
         if ($request->has('sort')) {
             switch ($request->sort) {
@@ -42,7 +47,8 @@ class VolontaireController extends Controller
             $query->latest();
         }
 
-        $volontaires = $query->paginate(10)->withQueryString();
+        // Show all volunteers or use a very high pagination limit
+        $volontaires = $query->paginate(1000)->withQueryString();
 
         return view('admin.volontaires.index', compact('volontaires'));
     }
@@ -62,12 +68,26 @@ class VolontaireController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
+            'date_naissance' => 'nullable|date',
+            'identite' => 'nullable|string|max:255',
             'email' => 'required|email|max:255',
             'telephone' => 'nullable|string|max:20',
+            'pays' => 'nullable|string|max:255',
             'ville' => 'nullable|string|max:255',
-            'disponibilite' => 'nullable|string',
+            'adresse' => 'nullable|string|max:500',
+            'ville_volontariat' => 'nullable|string|max:255',
+            'langues' => 'nullable|string',
+            'niveau_etudes' => 'nullable|string|max:255',
             'competences' => 'nullable|string',
+            'disponibilite' => 'nullable|string',
         ]);
+
+        // Convert languages string to array if provided
+        if (isset($validated['langues']) && is_string($validated['langues'])) {
+            $languesArray = array_map('trim', explode(',', $validated['langues']));
+            $languesArray = array_filter($languesArray); // Remove empty values
+            $validated['langues'] = !empty($languesArray) ? $languesArray : null;
+        }
 
         $volontaire->update($validated);
 

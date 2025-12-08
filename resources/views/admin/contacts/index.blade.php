@@ -18,13 +18,13 @@
                     </svg>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search messages..." class="pl-10 pr-4 h-12 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:ring-primary-500 focus:border-primary-500 w-full md:w-64 has-icon">
                 </div>
-                <select name="status" onchange="this.form.submit()" class="py-2 pl-4 pr-8 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:ring-primary-500 focus:border-primary-500">
+                <select name="status" onchange="this.form.submit()" class="px-4 h-12 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:ring-primary-500 focus:border-primary-500" style="padding-right: 2.5rem;">
                     <option value="">All Status</option>
                     <option value="non_lu" {{ request('status') == 'non_lu' ? 'selected' : '' }}>Non Lu</option>
                     <option value="en_cours" {{ request('status') == 'en_cours' ? 'selected' : '' }}>En Cours</option>
                     <option value="traite" {{ request('status') == 'traite' ? 'selected' : '' }}>Traité</option>
                 </select>
-                <select name="sort" onchange="this.form.submit()" class="py-2 pl-4 pr-8 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:ring-primary-500 focus:border-primary-500">
+                <select name="sort" onchange="this.form.submit()" class="px-4 h-12 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:ring-primary-500 focus:border-primary-500" style="padding-right: 2.5rem;">
                     <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Newest First</option>
                     <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
                     <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Name (A-Z)</option>
@@ -171,10 +171,10 @@
                                     </span>
                                 </div>
                                 <div class="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-                                    <a :href="`/admin_morocco_2030/contacts/${selectedContact.id}/edit`" class="btn-primary flex-1 text-center">
+                                    <a :href="`/admin_morocco_2030/contacts/${selectedContact.id}/edit`" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium transition-colors text-sm">
                                         Change Status
                                     </a>
-                                    <button @click="showModal = false" class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                                    <button @click="showModal = false" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium text-sm">
                                         Close
                                     </button>
                                 </div>
