@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\LogActivity;
+
 
 class City extends Model
 {
-    use HasFactory, LogActivity;
+    use HasFactory;
 
     protected $fillable = ['nom', 'titre', 'size', 'description', 'label', 'image', 'video'];
 

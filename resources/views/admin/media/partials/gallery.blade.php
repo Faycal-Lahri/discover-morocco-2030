@@ -8,11 +8,14 @@
             </svg>
             City Pictures
         </h3>
-        <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $cityImages->count() }} Items</span>
+        <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $cityImages->count() }} Items</span>
+            <a href="{{ route('admin.media.index', array_merge(request()->query(), ['section' => 'city_images'])) }}" class="px-3 py-1.5 rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-400 dark:hover:bg-primary-900/50 text-xs font-bold uppercase tracking-wide transition-colors">See All</a>
+        </div>
     </div>
     
     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        @foreach($cityImages as $media)
+        @foreach($cityImages->take(5) as $media)
             <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-sm hover:shadow-xl transition-all duration-300">
                 <img src="{{ Storage::url($media->file_path) }}" alt="City Media" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
                 
@@ -34,7 +37,8 @@
                             View Full
                         </button>
                     </div>
-                    <div class="text-xs text-white/80 font-medium truncate">
+                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">{{ $media->mediable->nom }}</div>
+                    <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}
                     </div>
                 </div>
@@ -54,11 +58,14 @@
             </svg>
             City Videos
         </h3>
-        <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $cityVideos->count() }} Items</span>
+        <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $cityVideos->count() }} Items</span>
+            <a href="{{ route('admin.media.index', array_merge(request()->query(), ['section' => 'city_videos'])) }}" class="px-3 py-1.5 rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-400 dark:hover:bg-primary-900/50 text-xs font-bold uppercase tracking-wide transition-colors">See All</a>
+        </div>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        @foreach($cityVideos as $media)
+        @foreach($cityVideos->take(4) as $media)
             <div class="group relative aspect-video rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-sm hover:shadow-xl transition-all duration-300">
                 <video class="w-full h-full object-cover">
                     <source src="{{ Storage::url($media->file_path) }}" type="video/mp4">
@@ -87,7 +94,8 @@
                             Play Full
                         </button>
                     </div>
-                    <div class="text-xs text-white/80 font-medium truncate">
+                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">{{ $media->mediable->nom }}</div>
+                    <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}
                     </div>
                 </div>
@@ -108,11 +116,14 @@
             </svg>
             Destination Pictures
         </h3>
-        <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $destinationImages->count() }} Items</span>
+        <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $destinationImages->count() }} Items</span>
+            <a href="{{ route('admin.media.index', array_merge(request()->query(), ['section' => 'destination_images'])) }}" class="px-3 py-1.5 rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-400 dark:hover:bg-primary-900/50 text-xs font-bold uppercase tracking-wide transition-colors">See All</a>
+        </div>
     </div>
     
     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        @foreach($destinationImages as $media)
+        @foreach($destinationImages->take(5) as $media)
             <div class="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-sm hover:shadow-xl transition-all duration-300">
                 <img src="{{ Storage::url($media->file_path) }}" alt="Destination Media" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
                 
@@ -134,7 +145,10 @@
                             View Full
                         </button>
                     </div>
-                    <div class="text-xs text-white/80 font-medium truncate">
+                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">
+                        {{ $media->mediable->city->nom }} <span class="text-white/60 mx-0.5">/</span> {{ $media->mediable->nom }}
+                    </div>
+                    <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}
                     </div>
                 </div>
@@ -154,11 +168,14 @@
             </svg>
             Destination Videos
         </h3>
-        <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $destinationVideos->count() }} Items</span>
+        <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-300">{{ $destinationVideos->count() }} Items</span>
+            <a href="{{ route('admin.media.index', array_merge(request()->query(), ['section' => 'destination_videos'])) }}" class="px-3 py-1.5 rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 dark:bg-primary-900/30 dark:text-primary-400 dark:hover:bg-primary-900/50 text-xs font-bold uppercase tracking-wide transition-colors">See All</a>
+        </div>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        @foreach($destinationVideos as $media)
+        @foreach($destinationVideos->take(4) as $media)
             <div class="group relative aspect-video rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shadow-sm hover:shadow-xl transition-all duration-300">
                 <video class="w-full h-full object-cover">
                     <source src="{{ Storage::url($media->file_path) }}" type="video/mp4">
@@ -187,7 +204,10 @@
                             Play Full
                         </button>
                     </div>
-                    <div class="text-xs text-white/80 font-medium truncate">
+                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">
+                        {{ $media->mediable->city->nom }} <span class="text-white/60 mx-0.5">/</span> {{ $media->mediable->nom }}
+                    </div>
+                    <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}
                     </div>
                 </div>

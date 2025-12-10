@@ -1,6 +1,6 @@
 <table class="w-full">
     <thead>
-        <tr class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <tr class="bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-700">
             <th class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-left">Volunteer</th>
             <th class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-left">Contact Info</th>
             <th class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-left">Location</th>
@@ -9,9 +9,9 @@
             <th class="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
         </tr>
     </thead>
-    <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
         @forelse($volontaires as $volontaire)
-        <tr class="hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors group">
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
             <td class="px-6 py-4">
                 <div class="flex items-center">
                     <div class="h-10 w-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center shrink-0">
@@ -82,7 +82,7 @@
         </tr>
         @empty
         <tr>
-            <td colspan="6" class="px-8 py-16 text-center text-gray-500 dark:text-gray-400">
+            <td colspan="6" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                 <div class="flex flex-col items-center justify-center">
                     <div class="h-20 w-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
                         <svg class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,11 +98,11 @@
     </tbody>
 </table>
 @if($volontaires->hasPages())
-<div class="px-8 py-5 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
+<div class="px-6 py-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50">
     {{ $volontaires->links() }}
 </div>
 @else
-<div class="px-8 py-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 text-sm text-gray-600 dark:text-gray-400 text-center">
+<div class="px-6 py-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 text-sm text-gray-600 dark:text-gray-400 text-center">
     Showing all {{ $volontaires->total() }} volunteer{{ $volontaires->total() !== 1 ? 's' : '' }}
 </div>
 @endif

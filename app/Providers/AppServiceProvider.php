@@ -27,21 +27,25 @@ class AppServiceProvider extends ServiceProvider
     {
         // Share recent activities with the admin layout
         View::composer('layouts.admin', function ($view) {
-            $recent_activities = Activity::latest()->take(10)->get()->map(function ($activity) {
-                // Format the message based on action
-                $action_text = match($activity->action) {
-                    'created' => 'New ' . class_basename($activity->subject_type) . ' added',
-                    'updated' => class_basename($activity->subject_type) . ' updated',
-                    'deleted' => class_basename($activity->subject_type) . ' deleted',
-                    default => 'Activity'
-                };
-                
-                $activity->message = $activity->description ?? $action_text;
-                $activity->type = class_basename($activity->subject_type);
-                return $activity;
-            });
-
-            $view->with('global_recent_activities', $recent_activities);
+            try {
+                $recent_activities = Activity::latest()->take(10)->get()->map(function ($activity) {
+                    $activity->message = $activity->description;
+                    $activity->type = class_basename($activity->subject_type);
+                    return $activity;
+                });
+                $view->with('global_recent_activities', $recent_activities);
+            } catch (\Exception $e) {
+                // Fail silently if table doesn't exist yet (migration)
+                $view->with('global_recent_activities', collect());
+            }
         });
+
+        // Register Observers for Activity Logging
+        City::observe(\App\Observers\ActivityObserver::class);
+        Destination::observe(\App\Observers\ActivityObserver::class);
+        Volontaire::observe(\App\Observers\ActivityObserver::class);
+        Contact::observe(\App\Observers\ActivityObserver::class);
+        \App\Models\Commentaire::observe(\App\Observers\ActivityObserver::class);
+        \App\Models\Newsletter::observe(\App\Observers\ActivityObserver::class);
     }
 }

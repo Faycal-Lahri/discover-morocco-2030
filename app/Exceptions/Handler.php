@@ -26,5 +26,9 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, $request) {
+            return back()->with('error', 'File is too large! Please update your php.ini configuration or upload a smaller file.');
+        });
     }
 }

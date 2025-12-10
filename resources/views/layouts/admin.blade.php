@@ -138,10 +138,14 @@
         input[type="email"], 
         input[type="number"], 
         input[type="password"], 
+        input[type="date"], 
+        input[type="tel"], 
+        input[type="url"], 
+        input[type="search"], 
         textarea, 
         select {
             width: 100%;
-            padding: 0.875rem 1rem;
+            padding: 0.875rem 1.5rem;
             border-radius: 1rem;
             border: 1px solid #e5e7eb;
             background-color: #ffffff;
@@ -271,7 +275,29 @@
         }
     </style>
 </head>
-<body class="h-full font-sans antialiased text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-black selection:bg-primary-500 selection:text-white" x-data="{ sidebarOpen: false, darkMode: localStorage.getItem('darkMode') === 'true' }" :class="{ 'dark': darkMode }">
+<body class="h-full font-sans antialiased text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-black selection:bg-primary-500 selection:text-white select-none" x-data="{ sidebarOpen: false, darkMode: localStorage.getItem('darkMode') === 'true' }" :class="{ 'dark': darkMode }">
+    
+    <!-- Content Protection Script -->
+    <script>
+        // Disable Image Dragging
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.nodeName === 'IMG') {
+                e.preventDefault();
+            }
+        });
+    </script>
+    <style>
+        /* Allow selection in inputs */
+        input, textarea, [contenteditable] {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+        /* Disable dragging for visuals */
+        img {
+            -webkit-user-drag: none;
+            user-drag: none;
+        }
+    </style>
     
     <!-- Notifications Toast -->
     @if(session('success'))
@@ -292,6 +318,31 @@
             Toast.fire({
                 icon: 'success',
                 title: '{{ session('success') }}',
+                background: localStorage.getItem('darkMode') === 'true' ? '#111827' : '#fff',
+                color: localStorage.getItem('darkMode') === 'true' ? '#fff' : '#000'
+            })
+        });
+    </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'error',
+                title: '{{ session('error') }}',
                 background: localStorage.getItem('darkMode') === 'true' ? '#111827' : '#fff',
                 color: localStorage.getItem('darkMode') === 'true' ? '#fff' : '#000'
             })
@@ -404,6 +455,17 @@
                     </svg>
                     Newsletter
                 </a>
+
+                <div class="pt-6 pb-3">
+                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-widest">System</p>
+                </div>
+
+                <a href="{{ route('admin.activities.index') }}" class="group flex items-center px-4 py-3.5 text-sm font-medium rounded-2xl transition-all duration-200 {{ request()->routeIs('admin.activities.*') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400 shadow-sm ring-1 ring-primary-200 dark:ring-primary-800' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-white' }}">
+                    <svg class="mr-3 h-5 w-5 flex-shrink-0 {{ request()->routeIs('admin.activities.*') ? 'text-primary-600 dark:text-primary-500' : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    Activity Log
+                </a>
             </nav>
         </div>
 
@@ -494,41 +556,112 @@
         </div>
     </div>
 
-    <!-- Global Loader -->
-    <div id="global-loader" class="fixed inset-0 z-[100] bg-white dark:bg-gray-900 flex items-center justify-center transition-all duration-700">
+    @if(request()->routeIs('admin.dashboard'))
+    <!-- Apple-Style Cinematic Loader -->
+    <div id="global-loader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black transition-all duration-800 ease-in-out"
+         style="background: radial-gradient(circle at center, #500e0e 0%, #1a0202 100%);">
+        
         <div class="relative flex flex-col items-center">
-            <!-- Animated Logo Container -->
-            <div class="relative w-24 h-24 mb-6">
-                <div class="absolute inset-0 border-4 border-gray-100 dark:border-gray-800 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-transparent border-t-primary-600 rounded-full animate-spin"></div>
-                <div class="absolute inset-4 bg-gradient-to-br from-primary-600 to-primary-800 rounded-full animate-pulse shadow-lg shadow-primary-500/30 flex items-center justify-center">
-                    <span class="text-white font-bold text-2xl">M</span>
-                </div>
+            <!-- Icon Container -->
+            <div class="relative w-32 h-32 mb-10 flex items-center justify-center">
+                <!-- Shockwave Ring (Triggers on finish) -->
+                <div class="absolute inset-0 border border-white/20 rounded-full scale-50 opacity-0 animate-shockwave"></div>
+                
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-lg z-10" style="filter: drop-shadow(0 0 15px rgba(255,255,255,0.15));">
+                    <!-- Perfect Continuous Path -->
+                    <path class="animate-liquid-draw" 
+                          d="M50 5 L80.9 95 L2 38 L98 38 L19.1 95 L50 5" 
+                          fill="none" 
+                          stroke="white" 
+                          stroke-width="2" 
+                          stroke-linecap="round" 
+                          stroke-linejoin="round" />
+                </svg>
             </div>
-            
-            <div class="text-center space-y-2">
-                <div class="text-2xl font-display font-bold tracking-tight">
-                    MOROCCO<span class="text-primary-600">2030</span>
+
+            <!-- Masked Typography -->
+            <div class="text-center z-10">
+                <!-- Title Mask -->
+                <div class="overflow-hidden mb-3 h-16 flex items-end justify-center">
+                    <h1 class="font-display font-black text-6xl text-white tracking-[0.2em] uppercase transform translate-y-full opacity-0 animate-slide-up-reveal leading-none">
+                        Morocco
+                    </h1>
                 </div>
-                <div class="text-sm text-gray-500 dark:text-gray-400 font-medium animate-pulse">
-                    Loading Experience...
+                
+                <!-- Subtitle Fade -->
+                <div class="flex items-center justify-center gap-4 opacity-0 animate-fade-in">
+                    <div class="h-[1px] w-8 bg-white/40"></div>
+                    <span class="font-sans font-medium text-white/60 tracking-[0.5em] text-sm">2030</span>
+                    <div class="h-[1px] w-8 bg-white/40"></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <style>
+        /* 1. Liquid Drawing Animation */
+        .animate-liquid-draw {
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: liquidDraw 2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        @keyframes liquidDraw {
+            0% { stroke-dashoffset: 600; opacity: 0; }
+            10% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+
+        /* 2. Shockwave Ripple */
+        .animate-shockwave {
+            animation: shockwave 1s ease-out 1.8s forwards;
+        }
+
+        @keyframes shockwave {
+            0% { transform: scale(0.5); opacity: 0; border-width: 2px; }
+            50% { opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; border-width: 0; }
+        }
+
+        /* 3. Masked Slide Up (Premium Feel) */
+        .animate-slide-up-reveal {
+            animation: slideUpReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+        }
+
+        @keyframes slideUpReveal {
+            from { transform: translateY(110%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* 4. Subtle Fade In */
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+
     <script>
         window.addEventListener('load', function() {
             const loader = document.getElementById('global-loader');
+            
+            // Timing: 3.5s total
             setTimeout(() => {
+                // Apple-style dissolution
+                loader.style.transition = 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
                 loader.style.opacity = '0';
-                loader.style.transform = 'scale(1.1)';
+                loader.style.transform = 'scale(1.02)'; // Slight expansion on exit
+                loader.style.pointerEvents = 'none';
+
                 setTimeout(() => {
                     loader.style.display = 'none';
-                }, 700);
-            }, 800);
+                }, 800);
+            }, 3500);
         });
     </script>
+    @endif
     
     
     <!-- Global Delete Confirmation Script -->

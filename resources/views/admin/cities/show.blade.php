@@ -143,25 +143,36 @@
 
             <!-- Upload Section (Hidden by default) -->
             <div id="upload-section" class="hidden mb-8 p-6 rounded-xl bg-gray-50 dark:bg-gray-900/50 border-2 border-dashed border-gray-300 dark:border-gray-700">
-                <form action="{{ route('admin.media.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col md:flex-row gap-4 items-end">
+                <form action="{{ route('admin.media.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col md:flex-row gap-4 items-end" x-data="{ type: 'image', open: false }">
                     @csrf
                     <input type="hidden" name="model_type" value="App\Models\City">
                     <input type="hidden" name="model_id" value="{{ $city->id }}">
                     
-                    <div class="flex-1 w-full">
+                    <div class="flex-1 w-full" x-data="{ fileName: '' }">
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Select File</label>
-                        <input type="file" name="file" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 dark:file:bg-primary-900/30 dark:file:text-primary-300">
+                        <label class="flex flex-col items-center justify-center w-full h-12 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors group px-4">
+                            <span class="text-sm text-gray-500 dark:text-gray-400 truncate w-full text-center" x-text="fileName || 'Click to choose file...'"></span>
+                            <input type="file" name="file" class="hidden" required @change="fileName = $event.target.files[0].name">
+                        </label>
                     </div>
                     
                     <div class="w-full md:w-48">
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Type</label>
-                        <select name="type" class="w-full rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-                            <option value="image">Image</option>
-                            <option value="video">Video</option>
-                        </select>
+                        <div class="relative">
+                            <input type="hidden" name="type" :value="type">
+                            <button type="button" @click="open = !open" @click.outside="open = false" 
+                                class="w-full flex items-center justify-between px-6 py-3.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all shadow-sm group">
+                                <span x-text="type === 'image' ? 'Image' : 'Video'" class="text-gray-900 dark:text-white"></span>
+                                <svg class="w-5 h-5 text-gray-400" :class="{'rotate-180': open}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            <div x-show="open" class="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                                <div @click="type = 'image'; open = false" class="px-6 py-3.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer font-medium">Image</div>
+                                <div @click="type = 'video'; open = false" class="px-6 py-3.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer font-medium">Video</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn-primary whitespace-nowrap">
+                    <button type="submit" class="btn-primary whitespace-nowrap h-[50px]">
                         Upload
                     </button>
                 </form>

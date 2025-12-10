@@ -46,12 +46,51 @@
                 </div>
 
                 <!-- Size -->
-                <div>
+                <div x-data="{
+                    selected: '{{ old('size') }}',
+                    open: false,
+                    items: [
+                        { value: 'big', label: 'Big City' },
+                        { value: 'small', label: 'Small Town' }
+                    ],
+                    get label() {
+                        const item = this.items.find(i => i.value == this.selected);
+                        return item ? item.label : 'Select Size...';
+                    }
+                }">
                     <label for="size" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Size <span class="text-red-500">*</span></label>
-                    <select name="size" id="size" required>
-                        <option value="big" {{ old('size') == 'big' ? 'selected' : '' }}>Big City</option>
-                        <option value="small" {{ old('size') == 'small' ? 'selected' : '' }}>Small Town</option>
-                    </select>
+                    <div class="relative">
+                        <input type="hidden" name="size" :value="selected">
+                        <button type="button" @click="open = !open" @click.outside="open = false" 
+                            class="w-full flex items-center justify-between px-6 py-3.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all shadow-sm group">
+                            <span x-text="label" :class="{'text-gray-500 dark:text-gray-400': !selected, 'text-gray-900 dark:text-white': selected}"></span>
+                            <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                             class="absolute w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-[50] overflow-hidden">
+                            <div class="py-1">
+                                <template x-for="item in items" :key="item.value">
+                                    <div @click="selected = item.value; open = false" 
+                                         class="px-6 py-3.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer font-medium flex items-center justify-between"
+                                         :class="{'bg-primary-50 dark:bg-primary-900/10 text-primary-600 dark:text-primary-400': selected == item.value}">
+                                        <span x-text="item.label"></span>
+                                        <svg x-show="selected == item.value" class="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                     @error('size') <p class="mt-2 text-sm text-red-500 font-medium flex items-center"><svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{{ $message }}</p> @enderror
                 </div>
 

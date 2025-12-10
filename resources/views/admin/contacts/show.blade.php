@@ -45,14 +45,32 @@
 
             <div class="glass-card rounded-2xl p-6">
                 <h4 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Status</h4>
-                <form action="{{ route('admin.contacts.update', $contact) }}" method="POST">
+                <form action="{{ route('admin.contacts.update', $contact) }}" method="POST" x-data="{ 
+                    selected: '{{ $contact->statut }}',
+                    open: false, 
+                    labels: {
+                        'non_lu': 'Non Lu',
+                        'en_cours': 'En Cours',
+                        'traite': 'Traité'
+                    }
+                }">
                     @csrf
                     @method('PUT')
-                    <select name="statut" onchange="this.form.submit()" class="w-full rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-primary-500 focus:border-primary-500 transition-colors">
-                        <option value="non_lu" {{ $contact->statut == 'non_lu' ? 'selected' : '' }}>Non Lu</option>
-                        <option value="en_cours" {{ $contact->statut == 'en_cours' ? 'selected' : '' }}>En Cours</option>
-                        <option value="traite" {{ $contact->statut == 'traite' ? 'selected' : '' }}>Traité</option>
-                    </select>
+                    <div class="relative">
+                        <input type="hidden" name="statut" :value="selected">
+                        <button type="button" @click="open = !open" @click.outside="open = false" 
+                            class="w-full flex items-center justify-between px-6 py-3.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all shadow-sm">
+                            <span x-text="labels[selected]" class="text-gray-900 dark:text-white"></span>
+                            <svg class="w-5 h-5 text-gray-400" :class="{'rotate-180': open}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div x-show="open" class="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                            <template x-for="(label, key) in labels" :key="key">
+                                <div @click="selected = key; $el.closest('form').submit()" 
+                                     class="px-6 py-3.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer font-medium"
+                                     x-text="label"></div>
+                            </template>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

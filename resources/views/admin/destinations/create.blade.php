@@ -17,20 +17,58 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- City -->
-                <div class="md:col-span-2">
+                <!-- City -->
+                <div class="md:col-span-2" x-data="{
+                    selected: '{{ old('city_id') }}',
+                    open: false,
+                    items: [
+                        { value: '', label: 'Select a City' },
+                        @foreach($cities as $city)
+                            { value: '{{ $city->id }}', label: '{{ addslashes($city->nom) }}' },
+                        @endforeach
+                    ],
+                    get label() {
+                        const item = this.items.find(i => i.value == this.selected);
+                        return item ? item.label : 'Select a City';
+                    }
+                }">
                     <label for="city_id" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">City <span class="text-red-500">*</span></label>
                     <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        <input type="hidden" name="city_id" :value="selected">
+                        <button type="button" @click="open = !open" @click.outside="open = false" 
+                            class="w-full flex items-center justify-between pl-10 pr-6 py-3.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all shadow-sm group">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400 group-hover:text-primary-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                            <span x-text="label" :class="{'text-gray-500 dark:text-gray-400': !selected, 'text-gray-900 dark:text-white': selected}"></span>
+                            <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
+                        </button>
+
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                             class="absolute w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-[50] overflow-hidden max-h-60 overflow-y-auto custom-scrollbar">
+                            <div class="py-1">
+                                <template x-for="item in items" :key="item.value">
+                                    <div @click="selected = item.value; open = false" 
+                                         class="px-6 py-3.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer font-medium flex items-center justify-between"
+                                         :class="{'bg-primary-50 dark:bg-primary-900/10 text-primary-600 dark:text-primary-400': selected == item.value}">
+                                        <span x-text="item.label"></span>
+                                        <svg x-show="selected == item.value" class="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
-                        <select name="city_id" id="city_id" required class="w-full pl-10 has-icon">
-                            <option value="">Select a City</option>
-                            @foreach($cities as $city)
-                                <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>{{ $city->nom }}</option>
-                            @endforeach
-                        </select>
                     </div>
                     @error('city_id') <p class="mt-2 text-sm text-red-500 font-medium flex items-center"><svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{{ $message }}</p> @enderror
                 </div>

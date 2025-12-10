@@ -106,9 +106,12 @@ class PremiumModal {
 
                 <div class="p-8">
                     <div class="flex items-center gap-5 mb-8">
-                        <div class="w-16 h-16 rounded-2xl ${s.headerIcon} flex items-center justify-center text-xl font-bold shadow-sm">
-                            ${v.nom?.charAt(0)}${v.prenom?.charAt(0)}
-                        </div>
+                        ${v.photo ?
+                `<img src="/storage/${v.photo}" class="w-16 h-16 rounded-2xl object-cover shadow-sm border border-gray-100 dark:border-gray-700">` :
+                `<div class="w-16 h-16 rounded-2xl ${s.headerIcon} flex items-center justify-center text-xl font-bold shadow-sm">
+                                ${v.nom?.charAt(0)}${v.prenom?.charAt(0)}
+                            </div>`
+            }
                         <div>
                             <h2 class="text-2xl font-bold tracking-tight mb-1">${v.nom} ${v.prenom}</h2>
                             <div class="flex items-center gap-3">
@@ -122,10 +125,12 @@ class PremiumModal {
                         <div>
                             <div class="${s.label}">Contact Info</div>
                             <div class="${s.value}">${v.telephone || 'N/A'}</div>
+                            ${v.identite ? `<div class="text-xs ${s.muted} mt-1">ID: ${v.identite}</div>` : ''}
                         </div>
                          <div>
-                            <div class="${s.label}">City</div>
+                            <div class="${s.label}">Location</div>
                             <div class="${s.value}">${v.ville || 'N/A'}</div>
+                            ${v.pays ? `<div class="text-xs ${s.muted} mt-1">${v.pays}</div>` : ''}
                         </div>
                         <div>
                             <div class="${s.label}">Date of Birth</div>
@@ -138,6 +143,14 @@ class PremiumModal {
                          <div class="col-span-2">
                             <div class="${s.label}">Volunteering City</div>
                             <div class="${s.value}">${v.ville_volontariat || 'N/A'}</div>
+                        </div>
+                         <div class="col-span-2">
+                            <div class="${s.label}">Languages</div>
+                            <div class="${s.value}">${Array.isArray(v.langues) ? v.langues.join(', ') : (v.langues || 'N/A')}</div>
+                        </div>
+                         <div class="col-span-2">
+                            <div class="${s.label}">Application Date</div>
+                            <div class="${s.value}">${v.created_at ? new Date(v.created_at).toLocaleDateString() : 'N/A'}</div>
                         </div>
                     </div>
 
@@ -157,9 +170,16 @@ class PremiumModal {
                         <button onclick="window.premiumModal.close()" class="px-4 py-2 text-sm font-medium ${s.muted} hover:text-gray-900 dark:hover:text-white transition-colors">
                             Close
                         </button>
+                        
+                        ${v.cv ? `
+                        <a href="/storage/${v.cv}" target="_blank" class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            View CV
+                        </a>` : ''}
+
                         <a href="/admin_morocco_2030/volontaires/${v.id}/edit" class="${s.btnPrimary} px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                            Edit Volunteer
+                            Edit
                         </a>
                     </div>
                 </div>
@@ -283,13 +303,7 @@ class PremiumModal {
         return `
             <div class="relative">
                  <button onclick="window.premiumModal.close()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${s.muted}">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-
-                <div class="p-8">
-                     <div class="flex items-center gap-4 mb-6">
-                         <div class="w-12 h-12 rounded-xl ${s.headerIcon} flex items-center justify-center">
-                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
                         <div>
                             <span class="text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-0.5">

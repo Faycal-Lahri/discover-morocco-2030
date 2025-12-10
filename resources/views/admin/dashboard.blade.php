@@ -17,53 +17,53 @@
     </div>
 
     <!-- Report Preview Modal -->
-    <div id="reportModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <!-- Background overlay -->
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeReportModal()"></div>
+    <div id="reportModal" class="fixed inset-0 z-[9999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity" onclick="closeReportModal()"></div>
 
-            <!-- Modal panel -->
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-middle bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl sm:w-full">
+        <!-- Centered Container -->
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <!-- Modal Panel -->
+            <div class="bg-white dark:bg-gray-800 w-full max-w-3xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] relative z-10 animate-scale-in">
                 
                 <!-- Modal Header -->
-                <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-100 dark:border-gray-700">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
-                                Official Report Preview
-                            </h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    Review the generated report before downloading.
-                                </p>
-                            </div>
-                        </div>
-                        <button onclick="closeReportModal()" type="button" class="bg-white dark:bg-gray-800 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none">
-                            <span class="sr-only">Close</span>
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between flex-shrink-0 bg-white dark:bg-gray-800 rounded-t-2xl">
+                    <div>
+                        <h3 class="text-lg font-display font-bold text-gray-900 dark:text-white">
+                            Official Report Preview
+                        </h3>
                     </div>
+                    <button onclick="closeReportModal()" type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
 
-                <!-- Modal Body (Iframe) -->
-                <div class="bg-gray-50 dark:bg-gray-900 px-4 py-4 sm:p-6" style="height: 65vh;">
-                    <iframe id="reportFrame" src="" class="w-full h-full border rounded-md" frameborder="0"></iframe>
-                    <div id="loadingReport" class="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 z-10">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-800"></div>
+                <!-- Modal Body -->
+                <div class="flex-1 overflow-hidden relative bg-gray-50 dark:bg-gray-900">
+                    <iframe id="reportFrame" src="" class="w-full h-full border-0" frameborder="0" style="min-height: 500px;"></iframe>
+                    
+                    <!-- Loading State -->
+                    <div id="loadingReport" class="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 z-10 hover:cursor-wait">
+                        <div class="flex flex-col items-center">
+                            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-800 mb-3"></div>
+                            <span class="text-gray-500 text-xs font-bold tracking-widest uppercase">Generating PDF</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-100 dark:border-gray-700">
-                    <a href="{{ route('admin.report.generate', ['download' => 'true']) }}" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-900 text-base font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Download PDF
-                    </a>
-                    <button type="button" onclick="closeReportModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                <div class="px-6 py-4 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-b-2xl flex-shrink-0 flex justify-end gap-3">
+                    <button type="button" onclick="closeReportModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         Cancel
                     </button>
+                    <a href="{{ route('admin.report.generate', ['download' => 'true']) }}" class="px-4 py-2 rounded-xl bg-red-900 text-sm font-bold text-white hover:bg-red-800 shadow-md transition-all flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Report
+                    </a>
                 </div>
             </div>
         </div>
@@ -79,7 +79,8 @@
             modal.classList.remove('hidden');
             
             // Set source if not already set or refresh
-            frame.src = "{{ route('admin.report.generate') }}";
+            // Cache bust to ensure fresh data
+            frame.src = "{{ route('admin.report.generate') }}?t=" + new Date().getTime();
             
             // Handle loading state
             loader.classList.remove('hidden');
@@ -93,13 +94,9 @@
             const frame = document.getElementById('reportFrame');
             
             modal.classList.add('hidden');
-            // Clear src to stop memory usage or keep it if caching is preferred. 
-            // Clearing it ensures fresh generation next time but feels slower.
-            // Let's clear it to reset state.
             frame.src = 'about:blank';
         }
     </script>
-    </div>
 
     <!-- Print-friendly PDF Report -->
     <div class="hidden print-only">
@@ -459,8 +456,14 @@
         <!-- Recent Activity Feed (Limited to 5) -->
         <div class="glass-card rounded-2xl p-6">
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Recent Activity</h3>
-                <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">Last 5 activities</span>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Recent Activity</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Track platform changes</p>
+                </div>
+                <a href="{{ route('admin.activities.index') }}" class="px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 text-xs font-bold uppercase tracking-wide transition-colors flex items-center gap-2">
+                    See All Activities
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
             </div>
             <div class="space-y-4">
                 @forelse($recent_activities->take(5) as $activity)
