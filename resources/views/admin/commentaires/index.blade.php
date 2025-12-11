@@ -81,17 +81,33 @@
                     timeout = setTimeout(fetchResults, 300);
                 });
 
-                // Event delegation for View buttons using PremiumModal
-                tableContainer.addEventListener('click', function(e) {
+                // ROBUST GLOBAL EVENT DELEGATION
+                document.addEventListener('click', function(e) {
                     const btn = e.target.closest('.view-btn');
-                    if (btn && btn.dataset.commentaire) {
+                    if (!btn) return;
+                    
+                    // Specific to this page's data
+                    if (btn.dataset.commentaire) {
                         e.preventDefault();
+                        e.stopPropagation(); // Prevent conflicts
+                        
+                        // Ensure Modal System is ready
+                        if (!window.premiumModal) {
+                            if (typeof PremiumModal !== 'undefined') {
+                                window.premiumModal = new PremiumModal();
+                            } else {
+                                console.error('PremiumModal class not found');
+                                return;
+                            }
+                        }
+
                         try {
                             const commentaire = JSON.parse(btn.dataset.commentaire);
-                            // Only first two arguments needed as we removed Alpine dependency
                             window.premiumModal.open(commentaire, 'comment');
                         } catch (error) {
-                            console.error('Error:', error);
+                            console.error('Modal Error:', error);
+                            // Fallback for debugging issues
+                            alert('Unable to open details. Please refresh the page.');
                         }
                     }
                 });

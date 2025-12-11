@@ -97,16 +97,26 @@
                      timeout = setTimeout(fetchResults, 300);
                 });
 
-                // Event delegation for View buttons
-                tableContainer.addEventListener('click', function(e) {
+                // ROBUST GLOBAL EVENT DELEGATION
+                document.addEventListener('click', function(e) {
                     const btn = e.target.closest('.view-btn');
-                    if (btn && btn.dataset.volontaire) {
+                    if (!btn) return;
+
+                    if (btn.dataset.volontaire) {
                         e.preventDefault();
+                        e.stopPropagation();
+
+                        if (!window.premiumModal) {
+                            if (typeof PremiumModal !== 'undefined') window.premiumModal = new PremiumModal();
+                            else return;
+                        }
+
                         try {
                             const volontaire = JSON.parse(btn.dataset.volontaire);
                             window.premiumModal.open(volontaire, 'volunteer');
                         } catch (error) {
-                            console.error('Error:', error);
+                            console.error('Modal Error:', error);
+                            alert('Unable to open volunteer details.');
                         }
                     }
                 });

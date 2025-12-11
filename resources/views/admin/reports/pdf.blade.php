@@ -90,30 +90,14 @@
         }
 
         /* Logo Styles */
-        .logo-container {
-            margin-bottom: 30px;
-        }
-        .logo-box {
-            display: inline-block;
-            width: 80px;
-            height: 80px;
-            background-color: #8B0000;
-            color: white;
-            font-size: 50px;
+        /* Logo Styles */
+        .logo-brut {
+            font-family: 'Helvetica', 'Arial', sans-serif;
             font-weight: bold;
-            line-height: 80px;
-            text-align: center;
-            border-radius: 15px;
-            margin-bottom: 15px;
+            color: #000000;
+            letter-spacing: 1px;
         }
-        .logo-text {
-            font-size: 24pt;
-            font-weight: bold;
-            color: #444444;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .logo-text span {
+        .logo-brut span {
             color: #8B0000;
         }
 
@@ -252,8 +236,8 @@
     <header>
         <div class="header-content">
             <div class="header-left">
-                <div class="mini-logo-box">M</div>
-                <div class="mini-logo-text">MOROCCO<span style="color: #8B0000 !important;">2030</span></div>
+                <div class="logo-brut" style="font-size: 24pt;"><span>M</span>orocco.</div>
+                <div style="font-size: 8pt; color: #8B0000; font-weight: bold; letter-spacing: 3px; margin-top: -5px; padding-left: 2px;">2030</div>
             </div>
             <div class="header-right">
                 OFFICIAL REPORT
@@ -281,9 +265,9 @@
     <div class="cover-page">
         <div class="cover-content">
             <!-- Branding Logo -->
-            <div class="logo-container">
-                <div class="logo-box">M</div>
-                <div class="logo-text">MOROCCO<span>2030</span></div>
+            <div style="margin-bottom: 40px;">
+                <div class="logo-brut" style="font-size: 60pt;"><span>M</span>orocco.</div>
+                <div style="font-size: 14pt; color: #8B0000; font-weight: bold; letter-spacing: 8px; margin-top: -10px; padding-left: 5px;">2030</div>
             </div>
 
             <h1 class="cover-title">Rapport Officiel</h1>

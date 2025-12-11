@@ -168,16 +168,26 @@
                 }, 300);
             });
 
-            // Event delegation for View buttons
-            tableContainer.addEventListener('click', function(e) {
+            // ROBUST GLOBAL EVENT DELEGATION
+            document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.view-btn');
-                if (btn && btn.dataset.destination) {
+                if (!btn) return;
+
+                if (btn.dataset.destination) {
                     e.preventDefault();
+                    e.stopPropagation();
+
+                    if (!window.premiumModal) {
+                        if (typeof PremiumModal !== 'undefined') window.premiumModal = new PremiumModal();
+                        else return;
+                    }
+
                     try {
                         const destination = JSON.parse(btn.dataset.destination);
                         window.premiumModal.open(destination, 'destination', 'selectedDestination', 'showModal');
                     } catch (error) {
-                        console.error('Error:', error);
+                        console.error('Modal Error:', error);
+                        alert('Unable to open destination details.');
                     }
                 }
             });

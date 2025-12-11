@@ -90,16 +90,26 @@
                 timeout = setTimeout(fetchResults, 300);
             });
 
-            // Event delegation for View buttons
-            tableContainer.addEventListener('click', function(e) {
+            // ROBUST GLOBAL EVENT DELEGATION
+            document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.view-btn');
-                if (btn && btn.dataset.paragraph) {
+                if (!btn) return;
+                
+                if (btn.dataset.paragraph) {
                     e.preventDefault();
+                    e.stopPropagation();
+
+                    if (!window.premiumModal) {
+                        if (typeof PremiumModal !== 'undefined') window.premiumModal = new PremiumModal();
+                        else return;
+                    }
+
                     try {
                         const paragraph = JSON.parse(btn.dataset.paragraph);
                         window.premiumModal.open(paragraph, 'cityParagraph', 'selectedParagraph', 'showModal');
                     } catch (error) {
-                        console.error('Error:', error);
+                        console.error('Modal Error:', error);
+                        alert('Unable to open content details.');
                     }
                 }
             });

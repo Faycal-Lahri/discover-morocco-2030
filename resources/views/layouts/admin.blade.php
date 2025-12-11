@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -273,6 +273,57 @@
             /* Expand content */
             .max-w-7xl { max-width: none !important; }
         }
+
+        /* Bombing Dot Animation */
+        @keyframes bombRun {
+            0% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); } /* Start on M */
+            7% { transform: translate(15px, -25px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); } /* Peak */
+            14% { transform: translate(30px, 0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); } /* Hit o */
+            21% { transform: translate(45px, -25px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+            28% { transform: translate(60px, 0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); } /* Hit r */
+            35% { transform: translate(75px, -25px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+            42% { transform: translate(90px, 0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); } /* Hit o */
+            49% { transform: translate(105px, -25px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+            57% { transform: translate(120px, 0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); } /* Hit c */
+            64% { transform: translate(135px, -25px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+            71% { transform: translate(150px, 0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); } /* Hit c */
+            78% { transform: translate(165px, -25px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+            85% { transform: translate(180px, 0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); } /* Hit o */
+            92% { transform: translate(190px, -15px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+            100% { transform: translate(200px, 20px); opacity: 0; } /* Drop down to dot/floor */
+        }
+        
+        .letter-react {
+            display: inline-block;
+            transform-origin: bottom center;
+        }
+        .run-bomb-anim {
+            animation: bombRun 3s linear forwards;
+            position: absolute;
+            left: 5px;
+            top: 2px; /* Top of letters */
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #8B0000;
+            z-index: 10;
+        }
+        .dark .run-bomb-anim { background-color: #ef4444; }
+        
+        @keyframes letterShock {
+            0% { transform: scale(0.8) translateY(4px); color: #8B0000; text-shadow: 0 0 10px rgba(139, 0, 0, 0.5); } /* Instant squash & red */
+            60% { transform: scale(1.1) translateY(-1px); color: #8B0000; } /* Rebound */
+            100% { transform: scale(1); color: inherit; }
+        }
+        
+        .zellige-pattern {
+            background-image: url('/img/zellige-pattern.png');
+            background-repeat: repeat;
+            background-size: 300px auto; /* Adjust scale */
+        }
+        .dark .zellige-pattern {
+            filter: invert(1) opacity(0.5); /* Make it white in dark mode */
+        }
     </style>
 </head>
 <body class="h-full font-sans antialiased text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-black selection:bg-primary-500 selection:text-white select-none" x-data="{ sidebarOpen: false, darkMode: localStorage.getItem('darkMode') === 'true' }" :class="{ 'dark': darkMode }">
@@ -356,19 +407,25 @@
         <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/80 z-40 lg:hidden glass no-print" @click="sidebarOpen = false"></div>
 
         <!-- Sidebar -->
-        <div :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="sidebar fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-transform duration-300 ease-in-out lg:translate-x-0 no-print flex flex-col">
-            <div class="flex items-center justify-center h-24 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 flex-shrink-0">
-                <div class="flex items-center gap-3">
-                    <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary-500/30">
-                        M
+        <div :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="sidebar fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-gray-900 transition-transform duration-300 ease-in-out lg:translate-x-0 no-print flex flex-col">
+            <div class="relative flex items-center justify-center h-24 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 flex-shrink-0 overflow-hidden">
+                <!-- Sidebar Header Zellige Background -->
+                <div class="absolute inset-0 zellige-pattern opacity-[0.03] dark:opacity-[0.08] pointer-events-none"></div>
+                
+                <div class="relative z-10 flex flex-col items-end justify-center px-4">
+                    <div class="relative">
+                        <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-wide leading-none" style="font-family: 'Inter', sans-serif;">
+                            <span class="letter-react text-[#8B0000] dark:text-red-500">M</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 0.42s">o</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 0.84s">r</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 1.26s">o</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 1.71s">c</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 2.13s">c</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 2.55s">o</span><span class="letter-react text-[#8B0000] dark:text-red-500 opacity-0" style="animation: fadeIn 0.1s linear 3s forwards">.</span>
+                        </h1>
+                        <div class="run-bomb-anim"></div>
                     </div>
-                    <h1 class="text-xl font-display font-bold text-gray-900 dark:text-white tracking-wide">
-                        MOROCCO<span class="text-primary-600">2030</span>
-                    </h1>
+                    <div class="text-[10px] font-bold text-[#8B0000] dark:text-red-500 tracking-[0.5em] uppercase pl-1 opacity-0" style="animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3.2s forwards, pulse 3s cubic-bezier(0.4, 0, 0.6, 1) 4s infinite;">
+                        2030
+                    </div>
                 </div>
             </div>
 
-            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1.5" style="scrollbar-width: thin;">
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1.5 border-r border-gray-200 dark:border-gray-800" style="scrollbar-width: thin;">
                 <a href="{{ route('admin.dashboard') }}" class="group flex items-center px-4 py-3.5 text-sm font-medium rounded-2xl transition-all duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400 shadow-sm ring-1 ring-primary-200 dark:ring-primary-800' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-white' }}">
                     <svg class="mr-3 h-5 w-5 flex-shrink-0 {{ request()->routeIs('admin.dashboard') ? 'text-primary-600 dark:text-primary-500' : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -472,8 +529,10 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col overflow-hidden lg:ml-72">
             <!-- Fixed Header -->
-            <header class="fixed top-0 right-0 left-0 lg:left-72 z-30 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 md:px-8 h-24 flex items-center justify-between no-print">
-                <div class="flex items-center">
+            <header class="fixed top-0 w-full lg:pl-72 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 pl-3 pr-10 h-24 flex items-center justify-between no-print relative">
+                <!-- Header Zellige Background -->
+                <div class="absolute inset-0 zellige-pattern opacity-[0.03] dark:opacity-[0.08] pointer-events-none"></div>
+                <div class="flex items-center relative z-10">
                     <button @click="sidebarOpen = true" class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none mr-4">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -481,7 +540,7 @@
                     </button>
                     
                     <!-- Breadcrumbs -->
-                    <div class="hidden md:flex items-center text-sm font-medium text-gray-500 dark:text-gray-400">
+                    <div class="hidden md:flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 lg:-ml-48 relative z-50">
                         <span class="hover:text-gray-900 dark:hover:text-white transition-colors cursor-default">Admin</span>
                         <svg class="h-4 w-4 mx-2 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -490,7 +549,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-4 relative z-50">
                     <!-- Notifications (Activity Feed) -->
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="p-2.5 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors relative focus:outline-none">
@@ -548,7 +607,7 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 mt-24" style="scrollbar-width: thin;">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 pt-24" style="scrollbar-width: thin;">
                 <div class="max-w-7xl mx-auto animate-fade-in">
                     @yield('content')
                 </div>

@@ -275,7 +275,7 @@ class PremiumModal {
                         <h3 class="text-lg font-semibold mb-6">${title}</h3>
 
                         <div class="${s.label}">${data.city ? 'Content' : 'Description'}</div>
-                        <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-2xl border border-gray-100 dark:border-gray-800 max-h-[400px] overflow-y-auto">
+                        <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-2xl border border-gray-100 dark:border-gray-800 max-h-[400px] min-h-[150px] overflow-y-auto">
                             <p class="text-sm leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'} whitespace-pre-line">${content || 'No content provided.'}</p>
                         </div>
                     </div>
@@ -302,38 +302,48 @@ class PremiumModal {
 
         return `
             <div class="relative">
-                 <button onclick="window.premiumModal.close()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${s.muted}">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                 <button onclick="window.premiumModal.close()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${s.muted} z-10">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+
+                <div class="p-8">
+                    <div class="flex items-start gap-5 mb-8">
+                         <div class="shrink-0 w-12 h-12 rounded-xl ${s.headerIcon} flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
-                        <div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-0.5">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-1">
                                 ${data.destination ? 'Destination Content' : 'Destination Profile'}
                             </span>
-                            <h2 class="text-xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}">
+                            <h2 class="text-2xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'} break-words leading-tight">
                                 ${data.destination ? data.destination.nom : data.nom}
                             </h2>
                         </div>
                     </div>
 
-                    <div class="mb-6">
-                        <div class="${s.label}">${data.destination ? 'Section Title' : 'Name'}</div>
-                        <h3 class="text-lg font-semibold mb-6">${title}</h3>
+                    <div class="mb-8 space-y-6">
+                        <div>
+                            <div class="${s.label}">Title</div>
+                            <h3 class="text-lg font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}">${title || 'Untitled'}</h3>
+                        </div>
 
-                        <div class="${s.label}">${data.destination ? 'Content' : 'Description'}</div>
-                        <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-2xl border border-gray-100 dark:border-gray-800 max-h-[400px] overflow-y-auto">
-                            <p class="text-sm leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'} whitespace-pre-line">${content || 'No content provided.'}</p>
+                        <div>
+                            <div class="${s.label} mb-2">${data.destination ? 'Content' : 'Description'}</div>
+                            <div class="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-2xl border border-gray-100 dark:border-gray-800 max-h-[400px] min-h-[150px] overflow-y-auto">
+                                <p class="text-sm leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'} whitespace-pre-line">${content || 'No content provided.'}</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex justify-end pt-4 border-t ${s.border}">
-                         <a href="${editUrl}" class="${s.btnPrimary} px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                    <div class="flex justify-end pt-6 border-t ${s.border}">
+                         <a href="${editUrl}" class="${s.btnPrimary} px-4 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2 shadow-lg">
                              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                             Edit Data
                         </a>
                     </div>
                 </div>
             </div>
-        `;
+            `;
     }
 
     getCommentContent(c, isDark) {
@@ -382,8 +392,8 @@ class PremiumModal {
                         </a>
                     </div>
                 </div>
-            </div>
-        `;
+            </div >
+            `;
     }
 }
 
