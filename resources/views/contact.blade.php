@@ -2,28 +2,58 @@
 
 @section('content')
     <!-- WRAPPER FOR SCROLL ANIMATION -->
-    <div class="relative w-full bg-stone-50 pb-24">
+    <div class="relative w-full bg-stone-50 pb-0">
         
         <!-- HERO SECTION (Starts Full Width, Shrinks on Scroll) -->
+        <style>
+            /* Custom Keyframes from About Page */
+            @keyframes fadeUpStagger {
+                from { opacity: 0; transform: translateY(40px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-title-word {
+                display: inline-block;
+                opacity: 0;
+                animation: fadeUpStagger 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            }
+            @keyframes scrollDrop {
+                0% { top: -50%; opacity: 0; }
+                50% { opacity: 1; }
+                100% { top: 100%; opacity: 0; }
+            }
+            .animate-scroll-drop {
+                animation: scrollDrop 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+            }
+        </style>
+
+        <!-- 1. HERO SECTION (Video Background) -->
         <div id="hero-container" class="relative w-full h-[110vh] overflow-hidden bg-black mx-auto">
-             <img src="{{ asset('assets/images/morocco_hero_cinematic.png') }}" class="absolute inset-0 w-full h-full object-cover opacity-70 scale-105 animate-slow-zoom">
+             <!-- Video Background -->
+            <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-60 scale-105">
+                <source src="{{ asset('videos/contact.mp4') }}" type="video/mp4">
+            </video>
+            
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80"></div>
             
             <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 z-10 pt-20">
-                <span class="inline-block py-1 px-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-6 opacity-0 translate-y-4 animate-fade-up delay-300">
-                    Get in Touch
-                </span>
-                <h1 class="text-6xl md:text-8xl lg:text-9xl font-playfair font-black mb-6 leading-none tracking-tighter drop-shadow-2xl opacity-0 translate-y-4 animate-fade-up delay-500">
-                    We're Here <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#d4af37] italic pr-4">For You</span>
+                <!-- Animated Title -->
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-playfair font-black text-white leading-[0.9] drop-shadow-2xl">
+                    <span class="animate-title-word" style="animation-delay: 0.2s;">We're</span>
+                    <span class="animate-title-word" style="animation-delay: 0.4s;">Here</span><br>
+                    <span class="animate-title-word text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#d4af37]" style="animation-delay: 0.6s;">For You</span>
                 </h1>
-                <p class="text-lg md:text-xl font-light max-w-2xl text-stone-200 mb-10 leading-relaxed drop-shadow-lg opacity-0 translate-y-4 animate-fade-up delay-700">
+                
+                <p class="mt-8 text-xl md:text-2xl font-light text-stone-200 max-w-2xl mx-auto leading-relaxed opacity-0 animate-[fadeIn_1s_ease-out_1.2s_forwards]">
                     Have questions or want to collaborate? Reach out to the Kingdom of Light.
                 </p>
             </div>
             
-             <!-- Scroll Indicator -->
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white animate-bounce z-20 opacity-0 animate-fade-in delay-1000">
-                <i class="fas fa-chevron-down text-2xl opacity-70"></i>
+             <!-- Scroll Indicator (Premium Drop Line) -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20">
+                <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 animate-pulse font-outfit">Scroll</span>
+                <div class="w-[1px] h-16 bg-gradient-to-b from-white/10 to-transparent relative overflow-hidden rounded-full">
+                    <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white animate-scroll-drop"></div>
+                </div>
             </div>
         </div>
 
@@ -36,11 +66,7 @@
                     <h3 class="text-4xl font-playfair font-black text-stone-900 mb-2">Send a Message</h3>
                     <p class="text-stone-500 mb-10">Fill out the form below and we'll get back to you shortly.</p>
                     
-                    @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                            <span class="block sm:inline">{{ session('success') }}</span>
-                        </div>
-                    @endif
+
 
                     <form action="{{ route('contact.store') }}" method="POST" class="space-y-8">
                         @csrf
@@ -160,24 +186,4 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        // HERO SCROLL ANIMATION (Corners Move)
-        gsap.to("#hero-container", {
-            scrollTrigger: {
-                trigger: "body",
-                start: "top top",
-                end: "+=500",
-                scrub: 1, // Smoothly animate on scroll
-            },
-            width: "90%",
-            borderRadius: "3rem",
-            y: 50,
-            duration: 1
-        });
-        // Navbar scroll logic is handled in the layout for global consistency
-    </script>
 @endsection

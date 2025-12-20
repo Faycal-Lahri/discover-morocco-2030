@@ -37,7 +37,7 @@
                             View Full
                         </button>
                     </div>
-                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">{{ $media->mediable->nom }}</div>
+                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">{{ $media->mediable?->nom ?? 'Unknown City' }}</div>
                     <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}
                     </div>
@@ -94,7 +94,7 @@
                             Play Full
                         </button>
                     </div>
-                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">{{ $media->mediable->nom }}</div>
+                    <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">{{ $media->mediable?->nom ?? 'Unknown City' }}</div>
                     <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}
                     </div>
@@ -146,7 +146,7 @@
                         </button>
                     </div>
                     <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">
-                        {{ $media->mediable->city->nom }} <span class="text-white/60 mx-0.5">/</span> {{ $media->mediable->nom }}
+                        {{ $media->mediable?->city?->nom ?? 'Unknown' }} <span class="text-white/60 mx-0.5">/</span> {{ $media->mediable?->nom ?? 'Unknown' }}
                     </div>
                     <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}
@@ -205,7 +205,7 @@
                         </button>
                     </div>
                     <div class="mb-0.5 text-sm text-white font-bold truncate text-shadow-sm">
-                        {{ $media->mediable->city->nom }} <span class="text-white/60 mx-0.5">/</span> {{ $media->mediable->nom }}
+                        {{ $media->mediable?->city?->nom ?? 'Unknown' }} <span class="text-white/60 mx-0.5">/</span> {{ $media->mediable?->nom ?? 'Unknown' }}
                     </div>
                     <div class="text-xs text-white/70 font-medium truncate">
                         {{ $media->created_at->format('M d, Y') }}

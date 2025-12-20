@@ -15,6 +15,6 @@ class NewsletterController extends Controller
 
         Newsletter::create($validated);
 
-        return back()->with('success', 'You have successfully subscribed to our newsletter!');
+        return back()->with('success', 'Subscribed Successfully');
     }
 }

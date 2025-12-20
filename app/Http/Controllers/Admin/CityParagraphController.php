@@ -67,6 +67,17 @@ class CityParagraphController extends Controller
             'contenu' => 'required|string',
         ]);
 
+        $city = City::find($validated['city_id']);
+        $count = $city->paragraphs()->count();
+
+        if ($city->size === 'small' && $count >= 3) {
+             return back()->with('error', 'Small cities can only have a maximum of 3 content blocks.')->withInput();
+        }
+
+        if ($city->size === 'big' && $count >= 5) {
+             return back()->with('error', 'Big cities can only have a maximum of 5 content blocks.')->withInput();
+        }
+
         CityParagraph::create($validated);
 
         return redirect()->route('admin.city-paragraphs.index')

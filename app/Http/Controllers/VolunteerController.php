@@ -42,6 +42,6 @@ class VolunteerController extends Controller
 
         Volontaire::create($validated);
 
-        return back()->with('success', 'Thank you for volunteering! Your application has been received.');
+        return back()->with('success', 'Application Received! We will contact you soon.');
     }
 }

@@ -79,6 +79,12 @@ class CommentaireController extends Controller
 
     public function destroy(Commentaire $commentaire)
     {
+        // Prevent deletion if 7 or fewer comments remain to maintain homepage layout
+        if (Commentaire::count() <= 7) {
+            return redirect()->route('admin.commentaires.index')
+                ->with('error', 'Cannot delete. A minimum of 7 comments is preserved for the homepage design.');
+        }
+
         $commentaire->delete();
         return redirect()->route('admin.commentaires.index')
             ->with('success', 'Comment deleted successfully.');

@@ -72,6 +72,11 @@ class DestinationParagraphController extends Controller
             'contenu' => 'required|string',
         ]);
 
+        $destination = Destination::find($validated['destination_id']);
+        if ($destination->paragraphs()->count() >= 1) {
+             return back()->with('error', 'Destinations can only have 1 content block.')->withInput();
+        }
+
         DestinationParagraph::create($validated);
 
         return redirect()->route('admin.destination-paragraphs.index')

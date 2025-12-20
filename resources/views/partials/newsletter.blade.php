@@ -1,4 +1,4 @@
-<section class="py-12 bg-stone-50 pb-32 mt-6">
+<section class="py-6 bg-stone-50 pb-10 -mt-6 relative z-30">
     <div class="container mx-auto px-6 md:px-12 max-w-7xl">
         <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 md:p-10 gap-8 border border-stone-100">
             <div class="absolute left-0 top-0 bottom-0 w-3 md:w-4 bg-[#006233]">
@@ -22,9 +22,7 @@
                         Subscribe
                     </button>
                 </form>
-                @if(session('success'))
-                    <p class="text-green-600 text-xs mt-2 pl-4">{{ session('success') }}</p>
-                @endif
+
             </div>
         </div>
     </div>

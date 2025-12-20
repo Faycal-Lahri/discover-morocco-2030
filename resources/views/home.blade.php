@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- 1. HERO VIDEO -->
-    <div class="relative w-full h-[110vh] overflow-hidden bg-black group">
+    <div class="relative w-full h-screen overflow-hidden bg-black group">
         <!-- Video Container -->
         <div class="relative w-full h-full">
             <video 
@@ -12,7 +12,7 @@
                 playsinline 
                 class="w-full h-full object-cover"
                 id="hero-video">
-                <source src="{{ asset('videos/hero-video.mp4') }}" type="video/mp4">
+                <source src="{{ asset('videos/home page - Made with Clipchamp.mp4') }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             
@@ -21,9 +21,7 @@
             
             <!-- Text Overlay -->
             <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 pt-20 z-10">
-                <span class="hero-content inline-block py-1 px-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-widest mb-6 opacity-0 translate-y-4 transition-all duration-700 delay-300">
-                    Kingdom of Light
-                </span>
+
                 <h1 class="hero-content text-6xl md:text-8xl lg:text-9xl font-playfair font-black mb-6 leading-none tracking-tighter drop-shadow-2xl opacity-0 translate-y-4 transition-all duration-700 delay-500">
                     Unlock <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#d4af37] italic pr-4">Morocco</span>
                 </h1>
@@ -34,40 +32,18 @@
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white animate-bounce z-20">
-            <i class="fas fa-chevron-down text-2xl opacity-70"></i>
-        </div>
-    </div>
-
-
-
-    <!-- 3. INFINITE SCROLLING BAR -->
-    <div class="relative overflow-hidden py-6 bg-black mt-16">
-        <!-- Scrolling Content -->
-        <div class="relative marquee-container">
-            <div class="marquee-content flex items-center gap-16 whitespace-nowrap">
-                <!-- First Set -->
-                <span class="text-white text-xl md:text-2xl font-outfit font-bold">
-                    Morocco: Where ancient traditions meet modern dreams
-                </span>
-                <span class="text-yellow-400 text-3xl font-bold" style="color: #FFD700;">✦</span>
-                <span class="text-white text-xl md:text-2xl font-outfit font-bold">
-                    Experience the warmth of Moroccan hospitality
-                </span>
-                <span class="text-yellow-400 text-3xl font-bold" style="color: #FFD700;">✦</span>
-                
-                <!-- Duplicate for seamless loop -->
-                <span class="text-white text-xl md:text-2xl font-outfit font-bold">
-                    Morocco: Where ancient traditions meet modern dreams
-                </span>
-                <span class="text-yellow-400 text-3xl font-bold" style="color: #FFD700;">✦</span>
-                <span class="text-white text-xl md:text-2xl font-outfit font-bold">
-                    Experience the warmth of Moroccan hospitality
-                </span>
-                <span class="text-yellow-400 text-3xl font-bold" style="color: #FFD700;">✦</span>
+        <!-- Scroll Indicator (Premium Drop Line) -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20">
+            <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 animate-pulse font-outfit">Scroll</span>
+            <div class="w-[1px] h-16 bg-gradient-to-b from-white/10 to-transparent relative overflow-hidden rounded-full">
+                <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white animate-scroll-drop"></div>
             </div>
         </div>
     </div>
+
+
+
+
 
     <style>
         .marquee-container {
@@ -93,10 +69,20 @@
         .marquee-content:hover {
             animation-play-state: paused;
         }
+
+        /* Scroll Drop Animation */
+        @keyframes scrollDrop {
+            0% { top: -50%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .animate-scroll-drop {
+            animation: scrollDrop 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+        }
     </style>
 
     <!-- 4. INTRO (MARHABA) -->
-    <section class="py-24 bg-white">
+    <section class="py-24 bg-stone-50">
         <div class="container mx-auto px-6 md:px-12 max-w-4xl text-center">
             <span class="text-[#C8102E] font-bold uppercase tracking-widest text-sm mb-4 block">Marhaba</span>
             <h2 class="text-4xl md:text-5xl font-playfair font-black text-stone-900 mb-8 leading-tight">
@@ -304,7 +290,7 @@
                 align-items: center;
                 justify-content: center;
                 margin: 0 auto;
-                perspective: 1000px; /* Enable 3D perspective */
+                perspective: 1000px;
             }
 
             .stack-card {
@@ -316,14 +302,19 @@
                 border-radius: 2rem;
                 padding: 3rem 2rem;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-                transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+                
+                /* HIGH PERFORMANCE ANIMATION */
+                /* Split transitions for better control and no lag */
+                transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+                will-change: transform, opacity;
                 transform-origin: 50% 100%;
+                transform-style: preserve-3d;
+
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 z-index: 0;
                 overflow: hidden;
-                /* Ensure content is strictly visible */
                 opacity: 0; 
                 visibility: hidden;
             }
@@ -345,10 +336,11 @@
 
             
             /* Active Card (Front) */
+            /* Using translate3d for GPU acceleration */
             .stack-card.active {
                 opacity: 1;
                 visibility: visible;
-                transform: translateX(0) scale(1) rotate(0);
+                transform: translate3d(0, 0, 0) scale(1) rotate(0);
                 z-index: 30;
                 pointer-events: auto;
             }
@@ -357,42 +349,43 @@
             .stack-card.next {
                 opacity: 1; 
                 visibility: visible;
-                transform: translateX(50px) scale(0.95) rotate(5deg);
+                transform: translate3d(40px, 0, -40px) scale(0.95) rotate(4deg);
                 z-index: 20;
-                filter: brightness(0.97); 
+                /* Removed filter: brightness to prevent lag */
             }
             
             /* Next 2 (Far Right) */
             .stack-card.next-2 {
                 opacity: 1;
                 visibility: visible;
-                transform: translateX(90px) scale(0.9) rotate(10deg);
+                transform: translate3d(80px, 0, -80px) scale(0.9) rotate(8deg);
                 z-index: 10;
-                filter: brightness(0.95);
             }
 
-            /* Leaving Card */
+            /* Leaving Card - The "Better Animation" */
              .stack-card.leaving {
                 opacity: 0;
                 visibility: visible;
-                transform: translateX(-150px) rotate(-20deg) scale(0.9);
+                /* Smooth "Throw Away" Gesture to the left */
+                transform: translate3d(-180px, 20px, 0) rotate(-15deg); 
+                transition: transform 0.5s ease-in, opacity 0.3s ease-in; /* Faster exit */
                 z-index: 40; 
             }
             
-            /* Navigation Arrow Styles */
+            /* Navigation Arrows - Minimalist & Small */
             .stack-nav-btn {
-                width: 4.5rem; /* Larger */
-                height: 4.5rem;
+                width: 2.5rem; /* 40px - Standard small size */
+                height: 2.5rem;
                 border-radius: 50%;
-                background: #ffffff; 
+                background: white; 
                 color: #006233;
-                border: 2px solid #006233;
+                border: 1px solid #006233; /* Thinner border */
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 10px 20px rgba(0,98,51,0.2);
-                transition: all 0.2s ease;
-                z-index: 100; /* Highest */
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Lighter shadow */
+                transition: transform 0.2s ease, background 0.2s;
+                z-index: 100;
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
@@ -401,18 +394,44 @@
             .stack-nav-btn:hover {
                 background: #006233; 
                 color: white;
-                transform: translateY(-50%) scale(1.1);
-                box-shadow: 0 15px 30px rgba(0,98,51,0.3);
+                transform: translateY(-50%) scale(1.05);
             }
-            .stack-nav-btn i { font-size: 1.8rem; }
+            .stack-nav-btn i { font-size: 0.9rem; } /* Tiny icon */
             
-            .stack-prev { left: -4rem; }
-            .stack-next { right: -4rem; }
+            .stack-prev { left: -0.5rem; }
+            .stack-next { right: -0.5rem; }
 
             @media (max-width: 768px) {
-                .stack-nav-btn { width: 3.5rem; height: 3.5rem; }
-                .stack-prev { left: -1.5rem; }
-                .stack-next { right: -1.5rem; }
+                /* Even smaller buttons on mobile */
+                .stack-nav-btn { width: 2.25rem; height: 2.25rem; }
+                .stack-prev { left: 0; }
+                .stack-next { right: 0; }
+
+                /* Fix Right Edge Overflow: Scale down cards */
+                .card-stack-container {
+                    perspective: 600px; /* Reduce perspective depth */
+                    height: 450px; /* Compact height */
+                }
+                .stack-card { 
+                    width: 270px; /* Ensure it fits on 320px screens with padding/stack */
+                    height: 400px;
+                    padding: 1.5rem 1.5rem;
+                }
+
+                /* Tighter Stacking Offsets for Mobile to keep within screen */
+                .stack-card.next {
+                    transform: translate3d(12px, 0, -20px) scale(0.96) rotate(3deg);
+                }
+                /* Hide the 3rd card on mobile to absolutely prevent right-overflow */
+                .stack-card.next-2 {
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translate3d(0,0,0); 
+                }
+                
+                .stack-card.leaving {
+                     transform: translate3d(-200px, 0, 0) rotate(-10deg);
+                }
             }
         </style>
 
@@ -818,73 +837,102 @@
     </section>
 
     <!-- 8. TRAVELER REVIEWS (Premium Slider) -->
-    <section class="py-24 bg-stone-900 relative overflow-hidden text-white">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" 
+    <!-- 8. TRAVELER REVIEWS (The "Fluid Minimalist Stream") -->
+    <section class="py-32 bg-stone-900 relative overflow-hidden text-white">
+        <!-- Background Pattern (Subtle) -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" 
              style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 300px;">
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-stone-900"></div>
+        <!-- Vignette -->
+        <div class="absolute inset-0 block bg-[radial-gradient(circle_at_center,_transparent_0%,_#1c1917_100%)] pointer-events-none z-10"></div>
 
-        <div class="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
-             <!-- Section Header -->
-             <div class="text-center mb-16">
-                <span class="text-[#d4af37] font-bold uppercase tracking-[0.2em] text-xs mb-3 block">Testimonials</span>
-                <h2 class="text-3xl md:text-5xl font-playfair font-black text-white mb-6">
-                    What Our Travelers Say
+        <div class="container mx-auto px-6 md:px-12 max-w-7xl relative z-20 mb-16">
+             <!-- Minimalist Header -->
+             <div class="text-center">
+                <span class="text-[#d4af37] font-bold uppercase tracking-[0.3em] text-[10px] mb-4 block animate-pulse-slow">Testimonials</span>
+                <h2 class="text-4xl md:text-6xl font-playfair font-black text-white leading-tight">
+                    Voices of <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-white via-stone-200 to-stone-500">Discovery</span>
                 </h2>
-                <div class="h-1 w-24 bg-[#d4af37] mx-auto rounded-full"></div>
             </div>
+        </div>
 
-            <!-- Reviews Swiper -->
-            <div class="swiper reviews-swiper w-full px-4 pt-10 pb-20">
-                <div class="swiper-wrapper">
-                    @forelse($comments as $comment)
-                    <!-- Review Card -->
-                    <div class="swiper-slide h-full">
-                        <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 h-full flex flex-col relative group hover:bg-white/10 transition-colors duration-300">
-                             <!-- Quote Icon -->
-                            <div class="absolute -top-6 left-8 w-12 h-12 bg-[#C8102E] rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                                <i class="fas fa-quote-left"></i>
-                            </div>
+        <!-- FLUID INFINITE STREAM CONTAINER -->
+        <div class="relative w-full overflow-hidden z-20 mask-gradient-sides"> 
+            
+            <!-- Marquee Wrapper -->
+            <!-- We duplicate the content to ensure seamless loop -->
+            <div class="flex gap-8 w-max animate-marquee hover:pause-animation py-10">
+                
+                @foreach($comments->merge($comments) as $comment)
+                <!-- Glass Card -->
+                <div class="w-[350px] md:w-[450px] shrink-0 relative group">
+                    <!-- Glass Panel -->
+                    <div class="bg-white/[0.03] backdrop-blur-sm border border-white/[0.05] rounded-[2rem] p-10 h-full transition-all duration-500 group-hover:bg-white/[0.06] group-hover:border-white/10 group-hover:-translate-y-2 group-hover:shadow-2xl hover:shadow-white/5">
+                        
+                        <!-- Giant Watermark Quote -->
+                        <div class="absolute -top-4 -left-4 text-[120px] font-playfair text-white/[0.03] leading-none select-none group-hover:text-white/[0.05] transition-colors">
+                            &ldquo;
+                        </div>
+
+                        <!-- Content -->
+                        <div class="relative z-10 flex flex-col h-full">
                             
-                            <div class="mt-6 mb-6 flex-1">
-                                <div class="flex gap-1 text-[#d4af37] text-xs mb-4">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                </div>
-                                <p class="text-stone-300 font-outfit leading-relaxed italic">
-                                    "{{ $comment->commentaire }}"
-                                </p>
+                            <!-- Stars (Minimal Dots) -->
+                            <div class="flex gap-1.5 mb-6">
+                                @for($i=0; $i<5; $i++)
+                                    <div class="w-1.5 h-1.5 rounded-full bg-[#d4af37] opacity-80 shadow-[0_0_8px_rgba(212,175,55,0.4)]"></div>
+                                @endfor
                             </div>
-                            
-                            <div class="flex items-center gap-4 mt-auto border-t border-white/10 pt-6">
+
+                            <!-- Text -->
+                            <p class="text-lg md:text-xl font-outfit font-light text-stone-200 leading-relaxed italic mb-8 flex-1">
+                                "{{ Str::limit($comment->commentaire, 150) }}"
+                            </p>
+
+                            <!-- Author -->
+                            <div class="flex items-center gap-4 mt-auto border-t border-white/5 pt-6">
                                 @if($comment->photo)
-                                    <img src="{{ asset('storage/' . $comment->photo) }}" class="w-10 h-10 rounded-full object-cover border-2 border-[#C8102E]">
+                                    <img src="{{ asset('storage/' . $comment->photo) }}" class="w-12 h-12 rounded-full object-cover border border-white/10 ring-2 ring-white/5 group-hover:ring-[#d4af37]/50 transition-all">
                                 @else
-                                    <div class="w-10 h-10 rounded-full bg-stone-700 flex items-center justify-center text-stone-300 font-bold border-2 border-stone-600">
-                                        {{ strtoupper(substr($comment->nom, 0, 1)) }}{{ strtoupper(substr($comment->prenom, 0, 1)) }}
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-stone-800 to-stone-900 border border-white/10 flex items-center justify-center text-stone-400 font-bold font-playfair shadow-inner">
+                                        {{ strtoupper(substr($comment->prenom, 0, 1)) }}
                                     </div>
                                 @endif
+                                
                                 <div>
-                                    <h4 class="text-white font-bold font-playfair">{{ $comment->prenom }} {{ $comment->nom }}</h4>
-                                    <span class="text-stone-400 text-xs uppercase tracking-wide">{{ $comment->created_at->format('F Y') }}</span>
+                                    <h4 class="text-white font-bold font-playfair text-lg tracking-wide group-hover:text-[#d4af37] transition-colors">{{ $comment->prenom }} {{ $comment->nom }}</h4>
+                                    <span class="text-stone-500 text-xs uppercase tracking-widest">{{ $comment->created_at->format('M Y') }} &bull; Traveler</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @empty
-                    <!-- Fallback if no comments (Optional: Keep one static or show message) -->
-                    <div class="swiper-slide h-auto">
-                        <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 h-full flex flex-col relative">
-                             <p class="text-stone-300 italic">No reviews yet. Be the first to leave a comment!</p>
-                        </div>
-                    </div>
-                    @endforelse
                 </div>
-                <!-- Pagination -->
-                <div class="swiper-pagination !bottom-0"></div>
+                @endforeach
+
             </div>
         </div>
     </section>
+
+    <style>
+        /* SMOOTH INFINITE MARQUEE */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 60s linear infinite; /* Very slow, mesmerizing speed */
+            will-change: transform;
+        }
+        .hover\:pause-animation:hover {
+            animation-play-state: paused;
+        }
+
+        /* SIDE FADE MASKS */
+        .mask-gradient-sides {
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+    </style>
 
     <style>
         .things-swiper {

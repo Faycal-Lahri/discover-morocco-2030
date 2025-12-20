@@ -21,11 +21,18 @@ Route::get('/', function () {
 
 Route::get('/contact', function () {
     return view('contact');
-});
+})->name('contact');
 
 Route::get('/faqs', function () {
-    return view('faqs');
-});
+    $categories = \App\Models\Faq::where('is_active', true)
+        ->get()
+        ->groupBy('category');
+        
+    // Get unique category names for the sidebar navigation
+    $categoryList = $categories->keys();
+    
+    return view('faqs', compact('categories', 'categoryList'));
+})->name('faqs');
 
 Route::get('/volunteer', function () {
     return view('volunteer');
@@ -34,6 +41,14 @@ Route::get('/volunteer', function () {
 Route::get('/about', function () {
     return view('about');
 });
+
+Route::get('/cities', function () {
+    $cities = \App\Models\City::all();
+    return view('cities', compact('cities'));
+})->name('cities');
+
+Route::get('/partners/content-hub', [App\Http\Controllers\PartnerController::class, 'contentHub'])->name('partners.hub');
+Route::get('/partners/tools', [App\Http\Controllers\PartnerController::class, 'tools'])->name('partners.tools');
 
 // Public Form Routes
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
@@ -58,6 +73,7 @@ Route::prefix('admin_morocco_2030')->name('admin.')->group(function () {
     Route::resource('volontaires', App\Http\Controllers\Admin\VolontaireController::class);
     Route::resource('commentaires', App\Http\Controllers\Admin\CommentaireController::class);
     Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class);
+    Route::resource('faqs', App\Http\Controllers\Admin\FaqController::class);
     Route::get('newsletters/export', [App\Http\Controllers\Admin\NewsletterController::class, 'exportCsv'])->name('newsletters.export');
     Route::resource('newsletters', App\Http\Controllers\Admin\NewsletterController::class);
     Route::get('report/generate', [App\Http\Controllers\Admin\ReportController::class, 'generate'])->name('report.generate');

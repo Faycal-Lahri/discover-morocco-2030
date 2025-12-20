@@ -57,6 +57,9 @@ class PremiumModal {
             case 'destinationParagraph':
                 content = this.getDestinationContent(data, isDark);
                 break;
+            case 'cv_preview':
+                content = this.getCvContent(data, isDark);
+                break;
             default:
                 content = `<div class="p-8 text-center text-gray-500">Content not available</div>`;
         }
@@ -79,6 +82,69 @@ class PremiumModal {
                 @keyframes scaleIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
             </style>
         `;
+    }
+
+    // --- New CV Method ---
+    openCvModal(cvUrl) {
+        this.showDynamicModal({ cvUrl: cvUrl }, 'cv_preview');
+    }
+
+    getCvContent(data, isDark) {
+        const s = this.getStyles(isDark);
+        return `
+            <div class="relative flex flex-col h-[85vh]">
+                <!-- Header -->
+                <div class="px-6 py-4 border-b ${s.border} flex items-center justify-between shrink-0">
+                    <h2 class="text-lg font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}">CV Preview</h2>
+                    <button onclick="window.premiumModal.close()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${s.muted}">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <!-- Document Content -->
+                <div class="flex-1 bg-gray-100 dark:bg-gray-900 overflow-hidden relative">
+                    ${this.getEmbedCode(data.cvUrl)}
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="px-6 py-4 border-t ${s.border} flex items-center justify-end gap-3 shrink-0 bg-white dark:bg-gray-800">
+                    <button onclick="window.premiumModal.close()" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-bold text-xs uppercase tracking-wider hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        Close
+                    </button>
+                    
+                    <a href="${data.cvUrl}" download class="${s.btnPrimary} px-6 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0L8 8m4-4v12" /></svg>
+                        Download
+                    </a>
+                </div>
+           </div>
+         `;
+    }
+
+    getEmbedCode(url) {
+        // Simple extension check
+        const cleanUrl = url.split('?')[0].toLowerCase();
+        const isWord = cleanUrl.endsWith('.doc') || cleanUrl.endsWith('.docx');
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        if (isWord) {
+            if (isLocalhost) {
+                return `
+                    <div class="flex flex-col items-center justify-center h-full p-8 text-center text-gray-500">
+                        <svg class="w-16 h-16 mb-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z M14 9V3.5L18.5 8H14z" /></svg>
+                        <p class="font-bold mb-2">Word Document Detected</p>
+                        <p class="text-xs mb-4">Preview not available on localhost (Google Docs Viewer requires public URL).</p>
+                        <p class="text-xs">Please use the Download button below.</p>
+                    </div>
+                `;
+            }
+            // Use Google Docs Viewer for public Word docs
+            const encodedUrl = encodeURIComponent(window.location.origin + url);
+            return `<iframe src="https://docs.google.com/gview?url=${encodedUrl}&embedded=true" class="w-full h-full border-0" title="CV Document"></iframe>`;
+        }
+
+        // Default for PDF/Image
+        return `<iframe src="${url}" class="w-full h-full border-0" title="CV Document"></iframe>`;
     }
 
     // --- Helper for consistent styling ---
@@ -172,10 +238,10 @@ class PremiumModal {
                         </button>
                         
                         ${v.cv ? `
-                        <a href="/storage/${v.cv}" target="_blank" class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center gap-2">
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <button onclick="window.premiumModal.openCvModal('/storage/${v.cv}')" class="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             View CV
-                        </a>` : ''}
+                        </button>` : ''}
 
                         <a href="/admin_morocco_2030/volontaires/${v.id}/edit" class="${s.btnPrimary} px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>

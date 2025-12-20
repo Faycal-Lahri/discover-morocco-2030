@@ -81,7 +81,7 @@ class MediaController extends Controller
         }
 
         // 4. Dashboard View (Standard Overview)
-        $query = Media::with('mediable')->latest();
+        $query = Media::with('mediable')->has('mediable')->latest();
 
         if ($cityId) {
             // Get media for the city AND its destinations

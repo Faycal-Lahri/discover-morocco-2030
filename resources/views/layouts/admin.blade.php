@@ -11,7 +11,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -79,33 +80,21 @@
     <style>
         [x-cloak] { display: none !important; }
         
-        /* Custom Thin Scrollbar */
+        /* HIDE SCROLLBAR GLOBALLY */
         ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
+            width: 0px;
             background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d1d5db;
-            border-radius: 2px;
-        }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #374151;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af;
+            display: none;
         }
         
-        /* Firefox thin scrollbar */
+        /* HIDE SCROLLBAR BUT ALLOW SCROLLING */
         * {
-            scrollbar-width: thin;
-            scrollbar-color: #d1d5db transparent;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
-        .dark * {
-            scrollbar-color: #374151 transparent;
-        }
+
+        
+
 
         /* Glassmorphism */
         .glass {
@@ -414,10 +403,17 @@
                 
                 <div class="relative z-10 flex flex-col items-end justify-center px-4">
                     <div class="relative">
-                        <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-wide leading-none" style="font-family: 'Inter', sans-serif;">
-                            <span class="letter-react text-[#8B0000] dark:text-red-500">M</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 0.42s">o</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 0.84s">r</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 1.26s">o</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 1.71s">c</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 2.13s">c</span><span class="letter-react" style="animation: letterShock 0.3s ease-out 2.55s">o</span><span class="letter-react text-[#8B0000] dark:text-red-500 opacity-0" style="animation: fadeIn 0.1s linear 3s forwards">.</span>
+                        <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-widest uppercase flex items-baseline relative" style="font-family: 'Outfit', sans-serif;">
+                            <div class="run-bomb-anim"></div>
+                            <span class="letter-react text-[#C8102E] dark:text-red-500">M</span><!--
+                            --><span class="letter-react" style="animation: letterShock 0.3s ease-out 0.42s">O</span><!--
+                            --><span class="letter-react" style="animation: letterShock 0.3s ease-out 0.84s">R</span><!--
+                            --><span class="letter-react" style="animation: letterShock 0.3s ease-out 1.26s">O</span><!--
+                            --><span class="letter-react" style="animation: letterShock 0.3s ease-out 1.71s">C</span><!--
+                            --><span class="letter-react" style="animation: letterShock 0.3s ease-out 2.13s">C</span><!--
+                            --><span class="letter-react" style="animation: letterShock 0.3s ease-out 2.55s">O</span><!--
+                            --><span class="letter-react text-[#C8102E] dark:text-red-500 opacity-0" style="animation: fadeIn 0.1s linear 3s forwards">.</span>
                         </h1>
-                        <div class="run-bomb-anim"></div>
                     </div>
                     <div class="text-[10px] font-bold text-[#8B0000] dark:text-red-500 tracking-[0.5em] uppercase pl-1 opacity-0" style="animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3.2s forwards, pulse 3s cubic-bezier(0.4, 0, 0.6, 1) 4s infinite;">
                         2030
@@ -475,6 +471,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     Destination Content
+                </a>
+
+                <a href="{{ route('admin.faqs.index') }}" class="group flex items-center px-4 py-3.5 text-sm font-medium rounded-2xl transition-all duration-200 {{ request()->routeIs('admin.faqs.*') ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400 shadow-sm ring-1 ring-primary-200 dark:ring-primary-800' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-white' }}">
+                    <svg class="mr-3 h-5 w-5 flex-shrink-0 {{ request()->routeIs('admin.faqs.*') ? 'text-primary-600 dark:text-primary-500' : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    FAQs
                 </a>
 
                 <div class="pt-6 pb-3">
@@ -727,20 +730,26 @@
     <script>
         function confirmDelete(formId) {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
+                title: 'Confirm delete',
+                html: 'Are you sure you want to delete this item?',
+                showCloseButton: true,
                 showCancelButton: true,
-                confirmButtonColor: '#b91c1c',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Yes, delete it!',
-                background: localStorage.getItem('darkMode') === 'true' ? '#111827' : '#fff',
-                color: localStorage.getItem('darkMode') === 'true' ? '#fff' : '#000',
+                focusConfirm: false,
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'No, keep it',
+                confirmButtonColor: '#ef4444',
+                background: localStorage.getItem('darkMode') === 'true' ? '#1f2937' : '#ffffff',
+                width: '450px',
+                padding: '2rem',
                 customClass: {
-                    popup: 'rounded-2xl border border-gray-200 dark:border-gray-800',
-                    confirmButton: 'rounded-xl px-4 py-2',
-                    cancelButton: 'rounded-xl px-4 py-2'
-                }
+                    popup: 'rounded-xl shadow-xl border-0',
+                    title: 'text-2xl font-normal text-left text-gray-800 dark:text-white p-0 mb-4',
+                    htmlContainer: 'text-left text-gray-500 dark:text-gray-400 text-base p-0 mb-8',
+                    actions: 'flex items-center justify-start gap-4 p-0 mt-2 w-full',
+                    confirmButton: 'bg-red-500 hover:bg-red-600 text-white rounded-full px-6 py-2.5 text-sm font-medium shadow-none m-0',
+                    cancelButton: 'bg-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-sm font-medium m-0 hover:bg-transparent shadow-none border-0 px-2'
+                },
+                buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById(formId).submit();
@@ -749,22 +758,63 @@
             return false;
         }
     </script>
+
+    <!-- Success Toast Notification -->
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: false,
+                background: 'transparent', // We handle background in the html container
+                customClass: {
+                    popup: '!bg-transparent !shadow-none !p-0 !border-0 !overflow-visible !w-auto',
+                },
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            });
+
+            Toast.fire({
+                html: `
+                    <div class="flex items-center gap-4 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 px-6 py-4 mx-auto mt-4" style="min-width: 300px; max-width: 400px;">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-green-50 dark:bg-green-900/20">
+                            <svg class="w-6 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <p class="text-sm font-bold text-gray-900 dark:text-white leading-tight">{{ session('success') }}</p>
+                        </div>
+                    </div>
+                `
+            });
+        });
+    </script>
+    @endif
+    <!-- End Success Toast -->
     <!-- ========================================== -->
-    <!--       SNAKE TRAIL CURSOR (3 CIRCLES)       -->
+    <!--       THEME-AWARE ARROW CURSOR             -->
     <!-- ========================================== -->
 
-    <!-- The Snake Segments -->
-    <!-- 1. Head (Big) -->
-    <div class="cursor-dot fixed top-0 left-0 w-8 h-8 bg-red-600 rounded-full pointer-events-none z-[2147483647] transform -translate-x-1/2 -translate-y-1/2 hidden sm:block will-change-[transform,left,top] shadow-sm"></div>
-    
-    <!-- 2. Body (Medium) -->
-    <div class="cursor-dot fixed top-0 left-0 w-5 h-5 bg-red-500/80 rounded-full pointer-events-none z-[2147483647] transform -translate-x-1/2 -translate-y-1/2 hidden sm:block will-change-[transform,left,top]"></div>
-    
-    <!-- 3. Tail (Small) -->
-    <div class="cursor-dot fixed top-0 left-0 w-3 h-3 bg-red-400/60 rounded-full pointer-events-none z-[2147483647] transform -translate-x-1/2 -translate-y-1/2 hidden sm:block will-change-[transform,left,top]"></div>
+    <!-- The angled arrow container -->
+    <div id="arrow-cursor" class="fixed top-0 left-0 pointer-events-none z-[99999] opacity-0 transition-opacity duration-300 hidden sm:block will-change-transform">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 transform -rotate-12 origin-top-left drop-shadow-md">
+            <!-- Outline for contrast -->
+            <path d="M5.5 3.2L16.2 8.3L8.7 10L7 17.5L5.5 3.2Z" class="stroke-white dark:stroke-black stroke-[2px] fill-transparent" stroke-linejoin="round"/>
+            <!-- Main Color Body -->
+            <path d="M5.5 3.2L16.2 8.3L8.7 10L7 17.5L5.5 3.2Z" class="transition-colors duration-300 ease-out fill-[#8B0000] dark:fill-white" />
+        </svg>
+    </div>
 
     <style>
-        /* Hide Default Cursor Globally */
+        /* Hide Default Cursor */
         @media (min-width: 640px) {
             body, a, button, input, textarea, select, label, .btn, .btn-primary, .btn-secondary, [role="button"], .cursor-pointer {
                 cursor: none !important;
@@ -772,11 +822,23 @@
             *:hover { cursor: none !important; }
         }
 
-        /* Hover Interaction */
-        body.is-hovering .cursor-dot:nth-child(1) {
-            transform: translate(-50%, -50%) scale(1.3);
-            background-color: #ef4444; /* Bright Red */
-            mix-blend-mode: normal;
+        /* Cursor Movement */
+        #arrow-cursor {
+            /* Start centered for the effect, but pointers usually have hotspot at top-left (0,0) of the SVG */
+            /* We translate -2px -2px to align the tip perfectly */
+            transform: translate(-2px, -2px); 
+        }
+
+        /* Hover State: Slight Bounce/Scale */
+        body.is-hovering #arrow-cursor svg {
+            transform: rotate(-12deg) scale(1.2);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Click State: Tap */
+        body.is-clicking #arrow-cursor svg {
+            transform: rotate(-12deg) scale(0.9);
+            transition: transform 0.1s;
         }
     </style>
 
@@ -784,47 +846,34 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth < 640) return;
 
-            const dots = Array.from(document.querySelectorAll('.cursor-dot'));
-            
-            // Start centered to avoid top-left glitch
+            const cursor = document.getElementById('arrow-cursor');
             let mouseX = window.innerWidth / 2;
             let mouseY = window.innerHeight / 2;
             
-            const positions = dots.map(() => ({ x: mouseX, y: mouseY }));
+            // Physics variables
+            let cursorX = mouseX;
+            let cursorY = mouseY;
             
-            // Speeds (Head fast, Tail slow)
-            const speeds = [0.4, 0.25, 0.15]; 
-
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
+                cursor.style.opacity = '1';
             });
 
             function animate() {
-                let targetX = mouseX;
-                let targetY = mouseY;
-
-                dots.forEach((dot, index) => {
-                    let pos = positions[index];
-                    
-                    // Lerp towards target
-                    pos.x += (targetX - pos.x) * speeds[index];
-                    pos.y += (targetY - pos.y) * speeds[index];
-                    
-                    dot.style.left = `${pos.x}px`;
-                    dot.style.top = `${pos.y}px`;
-
-                    // Next dot follows this one
-                    targetX = pos.x;
-                    targetY = pos.y;
-                });
+                // Smooth Lag Coefficient (0.2 is snappy but smooth)
+                cursorX += (mouseX - cursorX) * 0.2;
+                cursorY += (mouseY - cursorY) * 0.2;
+                
+                cursor.style.left = `${cursorX}px`;
+                cursor.style.top = `${cursorY}px`;
                 
                 requestAnimationFrame(animate);
             }
             animate();
 
             // Interactions
-            const selectors = 'a, button, input, textarea, select, [role="button"], .btn, .btn-primary, .cursor-pointer, .hover-trigger, label, tr';
+            const selectors = 'a, button, input, textarea, select, [role="button"], .btn, .cursor-pointer, label, tr, .hover-trigger, .swal2-confirm, .swal2-cancel, .swal2-close';
             
             function attachListeners() {
                 document.querySelectorAll(selectors).forEach(el => {
@@ -834,16 +883,15 @@
                     el.dataset.cursorAttached = "true";
                 });
             }
+            
             attachListeners();
             new MutationObserver(() => attachListeners()).observe(document.body, { childList: true, subtree: true });
 
-            document.addEventListener('mousedown', () => {
-                dots.forEach(d => d.style.transform = "translate(-50%, -50%) scale(0.8)");
-            });
-            document.addEventListener('mouseup', () => {
-                dots.forEach(d => d.style.transform = "translate(-50%, -50%) scale(1)");
-            });
+            document.addEventListener('mousedown', () => document.body.classList.add('is-clicking'));
+            document.addEventListener('mouseup', () => document.body.classList.remove('is-clicking'));
         });
     </script>
+</body>
+</html>
 </body>
 </html>

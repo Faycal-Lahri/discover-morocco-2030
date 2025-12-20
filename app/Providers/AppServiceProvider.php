@@ -40,6 +40,20 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        // Share Cities for Mega Menu (App Layout)
+        View::composer('layouts.app', function ($view) {
+            try {
+                // Eager load destinations for the "Top Experiences" section
+                $cities = City::with(['destinations' => function($query) {
+                    $query->take(3); // Take top 3 destinations for the menu display if needed
+                }])->take(8)->get();
+                
+                $view->with('megaMenuCities', $cities);
+            } catch (\Exception $e) {
+                $view->with('megaMenuCities', collect());
+            }
+        });
+
         // Register Observers for Activity Logging
         City::observe(\App\Observers\ActivityObserver::class);
         Destination::observe(\App\Observers\ActivityObserver::class);
