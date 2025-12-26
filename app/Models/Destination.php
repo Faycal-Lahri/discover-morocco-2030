@@ -31,4 +31,9 @@ class Destination extends Model
     {
         return $this->hasMany(DestinationParagraph::class);
     }
+
+    public function destinationImages()
+    {
+        return $this->hasMany(DestinationImage::class);
+    }
 }

@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\DashboardController;
 Route::get('/', function () {
     $comments = \App\Models\Commentaire::latest()->take(7)->get();
     return view('home', compact('comments'));
-});
+})->name('home');
 
 Route::get('/contact', function () {
     return view('contact');
@@ -27,10 +27,10 @@ Route::get('/faqs', function () {
     $categories = \App\Models\Faq::where('is_active', true)
         ->get()
         ->groupBy('category');
-        
+
     // Get unique category names for the sidebar navigation
     $categoryList = $categories->keys();
-    
+
     return view('faqs', compact('categories', 'categoryList'));
 })->name('faqs');
 
@@ -42,10 +42,9 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/cities', function () {
-    $cities = \App\Models\City::all();
-    return view('cities', compact('cities'));
-})->name('cities');
+Route::get('/cities', [App\Http\Controllers\CityController::class, 'index'])->name('cities');
+
+Route::get('/cities/{city}', [App\Http\Controllers\CityController::class, 'show'])->name('cities.show');
 
 Route::get('/partners/content-hub', [App\Http\Controllers\PartnerController::class, 'contentHub'])->name('partners.hub');
 Route::get('/partners/tools', [App\Http\Controllers\PartnerController::class, 'tools'])->name('partners.tools');
@@ -59,7 +58,7 @@ Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store'
 // Admin routes
 Route::prefix('admin_morocco_2030')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     // Media Routes
     Route::get('media', [App\Http\Controllers\Admin\MediaController::class, 'index'])->name('media.index');
     Route::post('media', [App\Http\Controllers\Admin\MediaController::class, 'store'])->name('media.store');
@@ -77,7 +76,10 @@ Route::prefix('admin_morocco_2030')->name('admin.')->group(function () {
     Route::get('newsletters/export', [App\Http\Controllers\Admin\NewsletterController::class, 'exportCsv'])->name('newsletters.export');
     Route::resource('newsletters', App\Http\Controllers\Admin\NewsletterController::class);
     Route::get('report/generate', [App\Http\Controllers\Admin\ReportController::class, 'generate'])->name('report.generate');
-    
+
+    // Destination Images
+    Route::delete('destination-images/{destinationImage}', [App\Http\Controllers\Admin\DestinationImageController::class, 'destroy'])->name('destination-images.destroy');
+
     // Activities
     Route::get('activities', [App\Http\Controllers\Admin\ActivityController::class, 'index'])->name('activities.index');
 });

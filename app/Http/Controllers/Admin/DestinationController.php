@@ -18,10 +18,10 @@ class DestinationController extends Controller
         // Search
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('nom', 'like', "%{$search}%")
-                  ->orWhere('titre', 'like', "%{$search}%")
-                  ->orWhere('label', 'like', "%{$search}%");
+                    ->orWhere('titre', 'like', "%{$search}%")
+                    ->orWhere('label', 'like', "%{$search}%");
             });
         }
 
@@ -72,7 +72,12 @@ class DestinationController extends Controller
     {
         $cities = City::orderBy('nom')->get();
         $available_categories = [
-            'touristique', 'côtière', 'montagneuse', 'historique', 'culturelle', 'désertique'
+            'touristique',
+            'côtière',
+            'montagneuse',
+            'historique',
+            'culturelle',
+            'désertique'
         ];
         return view('admin.destinations.create', compact('cities', 'available_categories'));
     }
@@ -113,6 +118,18 @@ class DestinationController extends Controller
             }
         }
 
+        // Handle gallery images upload
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $image) {
+                $path = $image->store('destinations/gallery', 'public');
+                \App\Models\DestinationImage::create([
+                    'destination_id' => $destination->id,
+                    'image' => $path,
+                    'caption' => $destination->nom . ' - Gallery Image'
+                ]);
+            }
+        }
+
         return redirect()->route('admin.destinations.index')
             ->with('success', 'Destination created successfully.');
     }
@@ -125,9 +142,17 @@ class DestinationController extends Controller
 
     public function edit(Destination $destination)
     {
+        // Load the destination images relationship
+        $destination->load('destinationImages');
+
         $cities = City::orderBy('nom')->get();
         $available_categories = [
-            'touristique', 'côtière', 'montagneuse', 'historique', 'culturelle', 'désertique'
+            'touristique',
+            'côtière',
+            'montagneuse',
+            'historique',
+            'culturelle',
+            'désertique'
         ];
         $current_categories = $destination->categories->pluck('categorie')->toArray();
 
@@ -150,12 +175,14 @@ class DestinationController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($destination->image) Storage::disk('public')->delete($destination->image);
+            if ($destination->image)
+                Storage::disk('public')->delete($destination->image);
             $validated['image'] = $request->file('image')->store('destinations/images', 'public');
         }
 
         if ($request->hasFile('video')) {
-            if ($destination->video) Storage::disk('public')->delete($destination->video);
+            if ($destination->video)
+                Storage::disk('public')->delete($destination->video);
             $validated['video'] = $request->file('video')->store('destinations/videos', 'public');
         }
 
@@ -172,14 +199,28 @@ class DestinationController extends Controller
             }
         }
 
+        // Handle gallery images upload
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $image) {
+                $path = $image->store('destinations/gallery', 'public');
+                \App\Models\DestinationImage::create([
+                    'destination_id' => $destination->id,
+                    'image' => $path,
+                    'caption' => $destination->nom . ' - Gallery Image'
+                ]);
+            }
+        }
+
         return redirect()->route('admin.destinations.index')
             ->with('success', 'Destination updated successfully.');
     }
 
     public function destroy(Destination $destination)
     {
-        if ($destination->image) Storage::disk('public')->delete($destination->image);
-        if ($destination->video) Storage::disk('public')->delete($destination->video);
+        if ($destination->image)
+            Storage::disk('public')->delete($destination->image);
+        if ($destination->video)
+            Storage::disk('public')->delete($destination->video);
         $destination->delete();
 
         return redirect()->route('admin.destinations.index')
