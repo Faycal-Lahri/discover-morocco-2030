@@ -179,64 +179,88 @@
 
         <!-- Location Map Section -->
         <section class="py-24 bg-stone-50 relative overflow-hidden">
-            <div class="container mx-auto px-6 md:px-12">
+            <!-- Zellige Pattern Background -->
+            <div class="absolute inset-0 pointer-events-none opacity-[0.04] z-0"
+                style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 400px;">
+            </div>
+            
+            <div class="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16">
-                    <span class="text-[#006233] font-bold uppercase tracking-widest text-xs block mb-3">Location</span>
-                    <h2 class="text-4xl md:text-6xl font-playfair font-bold text-[#1A1A1A] mb-4">
+                    <h2 class="text-5xl md:text-6xl font-playfair font-bold text-[#1A1A1A] mb-4">
                         Find {{ $city->nom }}
                     </h2>
-                    <p class="text-stone-600 text-lg max-w-2xl mx-auto">
+                    <p class="text-stone-600 text-base max-w-2xl mx-auto">
                         Discover where {{ $city->nom }} is located in the Kingdom of Morocco
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                     <!-- Map Container -->
                     <div class="order-2 lg:order-1">
-                        <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-white p-2">
-                            <div id="city-map" class="w-full h-[500px] rounded-2xl"></div>
+                        <div class="relative rounded-2xl overflow-hidden shadow-xl bg-white border-4 border-stone-100">
+                            <div id="city-map" class="w-full h-[500px]"></div>
                         </div>
                     </div>
 
-                    <!-- City Info -->
+                    <!-- City Info Cards -->
                     <div class="order-1 lg:order-2 space-y-6">
-                        <div class="bg-white rounded-3xl p-8 shadow-lg">
-                            <div class="flex items-center gap-3 mb-4">
+                        <!-- Geographic Position Card -->
+                        <div class="bg-white rounded-2xl p-8 shadow-lg border border-stone-100">
+                            <div class="flex items-center gap-3 mb-6">
                                 <div class="w-12 h-12 bg-[#C8102E] rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                                    <i class="fas fa-map-marker-alt text-white text-lg"></i>
                                 </div>
-                                <h3 class="text-2xl font-playfair font-bold text-[#1A1A1A]">Geographic Position</h3>
+                                <h3 class="text-xl font-bold text-[#1A1A1A]">Geographic Position</h3>
                             </div>
-                            <div class="space-y-3 text-stone-600">
-                                <div class="flex items-center gap-3">
-                                    <i class="fas fa-compass text-[#006233]"></i>
-                                    <span><strong>Latitude:</strong> {{ $city->latitude ?? 'N/A' }}°</span>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-[#006233] mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-stone-500">Latitude:</p>
+                                        <p class="text-lg font-bold text-stone-900">{{ $city->latitude ?? 'N/A' }}°</p>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-3">
-                                    <i class="fas fa-compass text-[#006233]"></i>
-                                    <span><strong>Longitude:</strong> {{ $city->longitude ?? 'N/A' }}°</span>
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-[#006233] mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-stone-500">Longitude:</p>
+                                        <p class="text-lg font-bold text-stone-900">{{ $city->longitude ?? 'N/A' }}°</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-gradient-to-br from-[#C8102E] to-[#006233] rounded-3xl p-8 text-white shadow-lg">
-                            <h3 class="text-2xl font-playfair font-bold mb-4">About {{ $city->nom }}</h3>
-                            <p class="text-white/90 leading-relaxed">
-                                {{ $city->description }}
-                            </p>
+                        <!-- About Card with Gradient -->
+                        <div
+                            class="bg-gradient-to-br from-[#C8102E] via-[#a00d25] to-[#006233] rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
+                            <!-- Decorative Pattern -->
+                            <div class="absolute inset-0 opacity-10"
+                                style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 200px;">
+                            </div>
+
+                            <div class="relative z-10">
+                                <h3 class="text-2xl font-playfair font-bold mb-4 flex items-center gap-2">
+                                    <i class="fas fa-info-circle text-xl"></i>
+                                    About {{ $city->nom }}
+                                </h3>
+                                <p class="text-white/95 leading-relaxed text-base">
+                                    {{ $city->description }}
+                                </p>
+                            </div>
                         </div>
 
+                        <!-- Attractions Card -->
                         @if($city->destinations && $city->destinations->count() > 0)
-                            <div class="bg-white rounded-3xl p-8 shadow-lg">
+                            <div class="bg-white rounded-2xl p-8 shadow-lg border border-stone-100">
                                 <div class="flex items-center gap-3 mb-4">
                                     <div class="w-12 h-12 bg-[#006233] rounded-full flex items-center justify-center">
-                                        <i class="fas fa-landmark text-white text-xl"></i>
+                                        <i class="fas fa-landmark text-white text-lg"></i>
                                     </div>
-                                    <h3 class="text-2xl font-playfair font-bold text-[#1A1A1A]">Attractions</h3>
+                                    <h3 class="text-xl font-bold text-[#1A1A1A]">Attractions</h3>
                                 </div>
-                                <p class="text-stone-600">
-                                    Discover <strong class="text-[#C8102E]">{{ $city->destinations->count() }} amazing
+                                <p class="text-stone-600 leading-relaxed">
+                                    Discover <strong class="text-[#C8102E] text-lg">{{ $city->destinations->count() }} amazing
                                         destinations</strong> in {{ $city->nom }}, from historic landmarks to cultural
                                     experiences.
                                 </p>
@@ -352,19 +376,17 @@
                     maxZoom: 19,
                 }).addTo(map);
 
-                // Custom marker icon (Moroccan flag colors)
+                // Simple red marker pin
                 const customIcon = L.divIcon({
                     className: 'custom-marker',
                     html: `
-                                                                <div style="position: relative;">
-                                                                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #C8102E 0%, #006233 100%); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></div>
-                                                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); color: white; font-size: 18px;">
-                                                                        <i class="fas fa-star"></i>
-                                                                    </div>
-                                                                </div>
-                                                            `,
-                    iconSize: [40, 40],
-                    iconAnchor: [20, 40],
+                        <div style="position: relative; width: 30px; height: 40px;">
+                            <div style="width: 30px; height: 30px; background: #C8102E; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>
+                            <div style="position: absolute; top: 8px; left: 8px; width: 8px; height: 8px; background: white; border-radius: 50%;"></div>
+                        </div>
+                    `,
+                    iconSize: [30, 40],
+                    iconAnchor: [15, 40],
                     popupAnchor: [0, -40]
                 });
 
@@ -375,14 +397,14 @@
 
                 // Add popup to marker
                 marker.bindPopup(`
-                                                            <div style="text-align: center; padding: 10px;">
-                                                                <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; color: #C8102E;">{{ $city->nom }}</h3>
-                                                                <p style="margin: 0; font-size: 14px; color: #666;">{{ $city->titre }}</p>
-                                                                <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd;">
-                                                                    <small style="color: #999;">📍 {{ $city->latitude }}°, {{ $city->longitude }}°</small>
-                                                                </div>
-                                                            </div>
-                                                        `).openPopup();
+                                                                    <div style="text-align: center; padding: 10px;">
+                                                                        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; color: #C8102E;">{{ $city->nom }}</h3>
+                                                                        <p style="margin: 0; font-size: 14px; color: #666;">{{ $city->titre }}</p>
+                                                                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd;">
+                                                                            <small style="color: #999;">📍 {{ $city->latitude }}°, {{ $city->longitude }}°</small>
+                                                                        </div>
+                                                                    </div>
+                                                                `).openPopup();
 
                 // Add Morocco boundary (approximate)
                 const moroccoBounds = [
@@ -400,15 +422,15 @@
             @else
                 // Fallback if no coordinates
                 document.getElementById('city-map').innerHTML = `
-                                                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f5f5f5; border-radius: 1rem;">
-                                                                <div style="text-align: center; color: #999;">
-                                                                    <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 16px;"></i>
-                                                                    <p>Map coordinates not available</p>
-                                                                </div>
-                                                            </div>
-                                                        `;
+                                                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f5f5f5; border-radius: 1rem;">
+                                                                        <div style="text-align: center; color: #999;">
+                                                                            <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 16px;"></i>
+                                                                            <p>Map coordinates not available</p>
+                                                                        </div>
+                                                                    </div>
+                                                                `;
             @endif
-                            });
+                                });
 
         // Initialize carousels for each destination
         @foreach($city->destinations as $index => $destination)
@@ -421,7 +443,6 @@
                 }
                 $totalImages = $allImagesCount->count();
             @endphp
-
             document.addEventListener('alpine:init', () => {
                 Alpine.data('carousel{{ $index }}', () => ({
                     current: 0,
@@ -433,7 +454,7 @@
                         this.current = (this.current - 1 + this.total) % this.total;
                     }
                 }));
-            });
+                });
         @endforeach
-    </script>
+        </script>
 @endsection
