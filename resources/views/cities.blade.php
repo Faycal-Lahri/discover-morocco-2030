@@ -2,40 +2,40 @@
 
 @section('content')
     <div x-data="{ 
-                filter: 'all', 
-                search: '',
-                items: [
-                    @foreach($cities as $city)
-                        {
-                            id: 'city-{{ $city->id }}',
-                            type: 'city',
-                            name: '{{ addslashes($city->nom) }}',
-                            image: '{{ asset($city->image) }}',
-                            desc: '{{ addslashes(Str::limit($city->description, 100)) }}',
-                            link: '{{ route('cities.show', $city->id) }}',
-                            tag: '{{ $city->label ?? 'City' }}'
-                        },
-                    @endforeach
-                    @foreach($destinations as $destination)
-                        {
-                            id: 'dest-{{ $destination->id }}',
-                            type: 'destination',
-                            name: '{{ addslashes($destination->nom) }}',
-                            image: '{{ $destination->image ? (Str::startsWith($destination->image, 'http') ? $destination->image : asset($destination->image)) : asset('assets/images/morocco_hero_new.png') }}',
-                            desc: '{{ addslashes(Str::limit($destination->description, 100)) }}',
-                            link: '{{ route('cities.show', $destination->city_id) }}#experiences',
-                            tag: '{{ addslashes($destination->city->nom ?? 'Destination') }}'
-                        },
-                    @endforeach
-                ],
-                get filteredItems() {
-                    return this.items.filter(item => {
-                        const matchesFilter = this.filter === 'all' || item.type === this.filter;
-                        const matchesSearch = item.name.toLowerCase().includes(this.search.toLowerCase()) || item.tag.toLowerCase().includes(this.search.toLowerCase());
-                        return matchesFilter && matchesSearch;
-                    });
-                }
-            }">
+                        filter: 'all', 
+                        search: '',
+                        items: [
+                            @foreach($cities as $city)
+                                {
+                                    id: 'city-{{ $city->id }}',
+                                    type: 'city',
+                                    name: '{{ addslashes($city->nom) }}',
+                                    image: '{{ asset($city->image) }}',
+                                    desc: '{{ addslashes(Str::limit($city->description, 100)) }}',
+                                    link: '{{ route('cities.show', $city->id) }}',
+                                    tag: '{{ $city->label ?? 'City' }}'
+                                },
+                            @endforeach
+                            @foreach($destinations as $destination)
+                                {
+                                    id: 'dest-{{ $destination->id }}',
+                                    type: 'destination',
+                                    name: '{{ addslashes($destination->nom) }}',
+                                    image: '{{ $destination->image ? (Str::startsWith($destination->image, 'http') ? $destination->image : (Str::startsWith($destination->image, 'images/') ? asset($destination->image) : asset('storage/' . $destination->image))) : asset('assets/images/morocco_hero_new.png') }}',
+                                    desc: '{{ addslashes(Str::limit($destination->description, 100)) }}',
+                                    link: '{{ route('cities.show', $destination->city_id) }}#experiences',
+                                    tag: '{{ addslashes($destination->city->nom ?? 'Destination') }}'
+                                },
+                            @endforeach
+                        ],
+                        get filteredItems() {
+                            return this.items.filter(item => {
+                                const matchesFilter = this.filter === 'all' || item.type === this.filter;
+                                const matchesSearch = item.name.toLowerCase().includes(this.search.toLowerCase()) || item.tag.toLowerCase().includes(this.search.toLowerCase());
+                                return matchesFilter && matchesSearch;
+                            });
+                        }
+                    }">
 
         <!-- HERO SECTION -->
         <div class="relative h-[60vh] min-h-[500px] overflow-hidden">

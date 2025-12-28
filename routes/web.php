@@ -80,6 +80,9 @@ Route::prefix('admin_morocco_2030')->name('admin.')->group(function () {
     // Destination Images
     Route::delete('destination-images/{destinationImage}', [App\Http\Controllers\Admin\DestinationImageController::class, 'destroy'])->name('destination-images.destroy');
 
+    // Destination Videos
+    Route::delete('destinations/{destination}/video', [App\Http\Controllers\Admin\DestinationController::class, 'deleteVideo'])->name('destinations.video.delete');
+
     // Activities
     Route::get('activities', [App\Http\Controllers\Admin\ActivityController::class, 'index'])->name('activities.index');
 });

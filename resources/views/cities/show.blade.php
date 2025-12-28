@@ -72,21 +72,33 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
                     @foreach($city->destinations as $destination)
                         <div class="group cursor-pointer">
-                            <!-- Image Carousel Container -->
+                            <!-- Media Carousel Container (Video + Images) -->
                             <div class="aspect-[3/4] overflow-hidden rounded-[2rem] relative mb-6 bg-gray-100"
                                 x-data="carousel{{ $loop->index }}">
                                 @php
-                                    // Collect all images: cover image + gallery images
-                                    $allImages = collect();
+                                    // Collect all media: video first (if exists) + images
+                                    $allMedia = collect();
+                                    $hasVideo = false;
 
-                                    // Add cover image first if exists
+                                    // Add video first if exists
+                                    if ($destination->video) {
+                                        $videoPath = str_starts_with($destination->video, 'http')
+                                            ? $destination->video
+                                            : (str_starts_with($destination->video, 'destinations/') || str_starts_with($destination->video, 'cities/')
+                                                ? asset('storage/' . $destination->video)
+                                                : asset('storage/' . $destination->video));
+                                        $allMedia->push(['type' => 'video', 'path' => $videoPath]);
+                                        $hasVideo = true;
+                                    }
+
+                                    // Add cover image if exists
                                     if ($destination->image) {
                                         $coverPath = str_starts_with($destination->image, 'http')
                                             ? $destination->image
                                             : (str_starts_with($destination->image, 'destinations/') || str_starts_with($destination->image, 'cities/')
                                                 ? asset('storage/' . $destination->image)
                                                 : asset($destination->image));
-                                        $allImages->push($coverPath);
+                                        $allMedia->push(['type' => 'image', 'path' => $coverPath]);
                                     }
 
                                     // Add gallery images
@@ -97,24 +109,46 @@
                                                 : (str_starts_with($galleryImg->image, 'destinations/') || str_starts_with($galleryImg->image, 'cities/')
                                                     ? asset('storage/' . $galleryImg->image)
                                                     : asset($galleryImg->image));
-                                            $allImages->push($imgPath);
+                                            $allMedia->push(['type' => 'image', 'path' => $imgPath]);
                                         }
                                     }
                                 @endphp
 
-                                @if($allImages->count() > 0)
-                                    <!-- Images -->
-                                    @foreach($allImages as $imgIndex => $imagePath)
-                                        <div x-show="current === {{ $imgIndex }}" x-transition:enter="transition ease-out duration-300"
+                                @if($allMedia->count() > 0)
+                                    <!-- Media Items (Videos + Images) -->
+                                    @foreach($allMedia as $mediaIndex => $media)
+                                        <div x-show="current === {{ $mediaIndex }}" x-transition:enter="transition ease-out duration-300"
                                             x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                                             class="absolute inset-0">
-                                            <img src="{{ $imagePath }}"
-                                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                            @if($media['type'] === 'video')
+                                                <video 
+                                                    class="w-full h-full object-cover"
+                                                    playsinline
+                                                    preload="metadata"
+                                                    loop
+                                                    muted
+                                                    @mouseenter="$el.play()"
+                                                    @mouseleave="$el.pause(); $el.currentTime = 0;">
+                                                    <source src="{{ $media['path'] }}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                <!-- Video Icon Badge -->
+                                                <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-2 z-20">
+                                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                                                    </svg>
+                                                    <span class="text-white text-[10px] font-bold uppercase tracking-wider">Promo Video</span>
+                                                </div>
+                                            @else
+                                                <img src="{{ $media['path'] }}"
+                                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    alt="{{ $destination->nom }}">
+                                            @endif
                                         </div>
                                     @endforeach
 
-                                    <!-- Navigation Arrows (only show if multiple images) -->
-                                    @if($allImages->count() > 1)
+                                    <!-- Navigation Arrows (only show if multiple media items) -->
+                                    @if($allMedia->count() > 1)
                                         <button @click.stop="prev()"
                                             class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
                                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -130,10 +164,11 @@
 
                                         <!-- Dots Indicator -->
                                         <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                                            @foreach($allImages as $dotIndex => $img)
+                                            @foreach($allMedia as $dotIndex => $item)
                                                 <button @click.stop="current = {{ $dotIndex }}"
                                                     :class="current === {{ $dotIndex }} ? 'bg-white w-8' : 'bg-white/50 w-2'"
-                                                    class="h-2 rounded-full transition-all duration-300">
+                                                    class="h-2 rounded-full transition-all duration-300"
+                                                    title="{{ $item['type'] === 'video' ? 'Video' : 'Image' }}">
                                                 </button>
                                             @endforeach
                                         </div>
@@ -435,18 +470,27 @@
         // Initialize carousels for each destination
         @foreach($city->destinations as $index => $destination)
             @php
-                $allImagesCount = collect();
-                if ($destination->image)
-                    $allImagesCount->push(1);
-                if ($destination->destinationImages) {
-                    $allImagesCount = $allImagesCount->merge($destination->destinationImages);
+                $allMediaCount = 0;
+                
+                // Count video
+                if ($destination->video) {
+                    $allMediaCount++;
                 }
-                $totalImages = $allImagesCount->count();
+                
+                // Count cover image
+                if ($destination->image) {
+                    $allMediaCount++;
+                }
+                
+                // Count gallery images
+                if ($destination->destinationImages) {
+                    $allMediaCount += $destination->destinationImages->count();
+                }
             @endphp
             document.addEventListener('alpine:init', () => {
                 Alpine.data('carousel{{ $index }}', () => ({
                     current: 0,
-                    total: {{ $totalImages }},
+                    total: {{ $allMediaCount }},
                     next() {
                         this.current = (this.current + 1) % this.total;
                     },

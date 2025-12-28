@@ -226,4 +226,16 @@ class DestinationController extends Controller
         return redirect()->route('admin.destinations.index')
             ->with('success', 'Destination deleted successfully.');
     }
+
+    public function deleteVideo(Destination $destination)
+    {
+        if ($destination->video) {
+            Storage::disk('public')->delete($destination->video);
+            $destination->update(['video' => null]);
+
+            return response()->json(['success' => true, 'message' => 'Video deleted successfully.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No video found.'], 404);
+    }
 }

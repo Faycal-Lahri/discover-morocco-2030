@@ -21,19 +21,19 @@
                 <!-- City -->
                 <!-- City -->
                 <div class="md:col-span-2" x-data="{
-                            selected: '{{ old('city_id', $destination->city_id) }}',
-                            open: false,
-                            items: [
-                                { value: '', label: 'Select a City' },
-                                @foreach($cities as $city)
-                                    { value: '{{ $city->id }}', label: '{{ addslashes($city->nom) }}' },
-                                @endforeach
-                            ],
-                            get label() {
-                                const item = this.items.find(i => i.value == this.selected);
-                                return item ? item.label : 'Select a City';
-                            }
-                        }">
+                                    selected: '{{ old('city_id', $destination->city_id) }}',
+                                    open: false,
+                                    items: [
+                                        { value: '', label: 'Select a City' },
+                                        @foreach($cities as $city)
+                                            { value: '{{ $city->id }}', label: '{{ addslashes($city->nom) }}' },
+                                        @endforeach
+                                    ],
+                                    get label() {
+                                        const item = this.items.find(i => i.value == this.selected);
+                                        return item ? item.label : 'Select a City';
+                                    }
+                                }">
                     <label for="city_id" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">City <span
                             class="text-red-500">*</span></label>
                     <div class="relative">
@@ -256,13 +256,46 @@
                 </div>
 
                 <!-- Video Upload -->
-                <div x-data="{ videoName: '{{ $destination->video ? basename($destination->video) : '' }}' }">
+                <div x-data="{ 
+                            videoName: '{{ $destination->video ? basename($destination->video) : '' }}',
+                            hasVideo: {{ $destination->video ? 'true' : 'false' }}
+                        }">
                     <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Promotional Video</label>
+
+                    <!-- Current Video Display -->
+                    <div x-show="hasVideo && !videoName.includes('new_')" x-cloak
+                        class="mb-4 p-4 bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 border border-primary-200 dark:border-primary-800 rounded-xl">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="p-2 bg-primary-100 dark:bg-primary-900/50 rounded-lg">
+                                    <svg class="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900 dark:text-white">Current Video</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400 break-all" x-text="videoName"></p>
+                                </div>
+                            </div>
+                            <button type="button" @click="deleteVideo()"
+                                class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 shadow-md hover:shadow-lg">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                <span>Delete Video</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Upload New Video -->
                     <div
                         class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-700 border-dashed rounded-2xl hover:border-primary-500 dark:hover:border-primary-500 transition-colors relative overflow-hidden bg-gray-50 dark:bg-gray-900/50 group cursor-pointer">
                         <input type="file" name="video" id="video" accept="video/mp4,video/avi,video/mpeg"
                             class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                            @change="videoName = $event.target.files[0].name">
+                            @change="videoName = 'new_' + $event.target.files[0].name">
 
                         <div class="space-y-2 text-center">
                             <div class="mx-auto h-16 w-16 text-gray-400 group-hover:text-primary-500 transition-colors">
@@ -274,15 +307,21 @@
                             <div class="flex text-sm text-gray-600 dark:text-gray-400 justify-center">
                                 <span
                                     class="relative bg-transparent rounded-md font-bold text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
-                                    Upload a video
+                                    <span x-text="hasVideo ? 'Upload a new video' : 'Upload a video'"></span>
                                 </span>
                                 <p class="pl-1">or drag and drop</p>
                             </div>
-                            <p class="text-xs text-gray-500 dark:text-gray-500" x-show="!videoName">
+                            <p class="text-xs text-gray-500 dark:text-gray-500" x-show="!videoName.includes('new_')">
                                 MP4, AVI, MPEG up to 50MB
                             </p>
-                            <p class="text-sm font-bold text-primary-600 dark:text-primary-400 mt-2" x-text="videoName"
-                                x-show="videoName"></p>
+                            <p class="text-sm font-bold text-green-600 dark:text-green-400 mt-2 flex items-center justify-center space-x-2"
+                                x-show="videoName.includes('new_')">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span x-text="videoName.replace('new_', '')"></span>
+                            </p>
                         </div>
                     </div>
                     @error('video') <p class="mt-2 text-sm text-red-500 font-medium flex items-center"><svg
@@ -402,6 +441,34 @@
                 .catch(error => {
                     console.error('Error:', error);
                     alert('Error deleting image');
+                });
+        }
+
+        function deleteVideo() {
+            if (!confirm('Are you sure you want to delete this video? This action cannot be undone.')) {
+                return;
+            }
+
+            const destinationId = '{{ $destination->id }}';
+
+            fetch(`/admin_morocco_2030/destinations/${destinationId}/video`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error deleting video: ' + (data.message || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error deleting video');
                 });
         }
     </script>

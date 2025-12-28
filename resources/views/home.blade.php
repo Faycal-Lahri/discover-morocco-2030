@@ -94,8 +94,21 @@
     </style>
 
     <!-- 4. INTRO (MARHABA) -->
-    <section class="py-24 bg-stone-50">
-        <div class="container mx-auto px-6 md:px-12 max-w-4xl text-center">
+    <section class="py-24 bg-stone-50 relative overflow-hidden">
+        <!-- Moroccan Zellige Background Pattern -->
+        <div class="absolute inset-0 opacity-[0.08] pointer-events-none" style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); 
+                       background-size: 300px; 
+                       background-repeat: repeat;
+                       background-position: center;">
+        </div>
+
+        <!-- Gradient Overlays for Depth -->
+        <div class="absolute inset-0 bg-gradient-to-b from-stone-50/80 via-transparent to-stone-50/80 pointer-events-none">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#C8102E]/5 via-transparent to-[#006233]/5 pointer-events-none">
+        </div>
+
+        <div class="container mx-auto px-6 md:px-12 max-w-4xl text-center relative z-10">
             <span class="text-[#C8102E] font-bold uppercase tracking-widest text-sm mb-4 block">Marhaba</span>
             <h2 class="text-4xl md:text-5xl font-playfair font-black text-stone-900 mb-8 leading-tight">
                 Welcome to the detailed guide <br> for <span class="italic text-[#C8102E]">discovering Morocco</span>
@@ -104,7 +117,37 @@
                 Immerse yourself in a land of contrasts. From the imperial cities of Fez and Marrakech to the vast expanse
                 of the Sahara Desert and the blue streets of Chefchaouen. Morocco offers a sensory journey like no other.
             </p>
-            <img src="{{ asset('assets/images/zellige_pattern.png') }}" class="h-8 mx-auto opacity-30" alt="Divider">
+
+            <!-- Beautiful CTA Button -->
+            <div class="flex flex-col items-center gap-6">
+                <a href="{{ route('cities') }}"
+                    class="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#C8102E] via-[#a00d25] to-[#006233] text-white rounded-full font-bold uppercase tracking-widest text-xs hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden">
+                    <!-- Animated Shine Effect -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000">
+                    </div>
+
+                    <!-- Icon -->
+                    <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                    </svg>
+
+                    <span class="relative z-10">Start Exploring Morocco</span>
+
+                    <!-- Arrow Icon -->
+                    <svg class="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+
+                <!-- Decorative Zellige Pattern -->
+                <img src="{{ asset('assets/images/zellige_pattern.png') }}" class="h-8 mx-auto opacity-20 animate-pulse"
+                    alt="Divider">
+            </div>
         </div>
     </section>
 
@@ -329,8 +372,8 @@
 
         <!-- Rich Zellige Background -->
         <div class="absolute inset-0 opacity-10" style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); 
-                        background-size: 150px; 
-                        background-repeat: repeat;">
+                                background-size: 150px; 
+                                background-repeat: repeat;">
         </div>
 
         <!-- Gradient Overlay for Depth -->
@@ -1077,7 +1120,8 @@
                                     <div>
                                         <h4
                                             class="text-white font-bold font-playfair text-lg tracking-wide group-hover:text-[#d4af37] transition-colors">
-                                            {{ $comment->prenom }} {{ $comment->nom }}</h4>
+                                            {{ $comment->prenom }} {{ $comment->nom }}
+                                        </h4>
                                         <span
                                             class="text-stone-500 text-xs uppercase tracking-widest">{{ $comment->created_at->format('M Y') }}
                                             &bull; Traveler</span>
@@ -1134,66 +1178,67 @@
     </style>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var swiper = new Swiper(".things-swiper", {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                centeredSlides: true,
-                loop: true, /* Try keeping loop but with breakpoints */
-                speed: 800,
-                grabCursor: true,
-                autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false,
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 1.5, /* Show part of next slide */
-                        spaceBetween: 20
+            document.addEventListener('DOMContentLoaded', f        
+                unction () {
+                var swiper = new Swiper(".things-swiper", {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    centeredSlides: true,
+                    loop: true, /* Try keeping loop but with breakpoints */
+                    speed: 800,
+                    grabCursor: true,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
                     },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 30
-                    }
-                },
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-            });
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 1.5, /* Show part of next slide */
+                            spaceBetween: 20
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 30
+                        }
+                    },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                });
 
-            // REVIEWS SWIPER
-            var reviewsSwiper = new Swiper(".reviews-swiper", {
-                slidesPerView: 1,
-                spaceBetween: 30,
-                loop: true,
-                speed: 1000,
-                grabCursor: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20
+                // REVIEWS SWIPER
+                var reviewsSwiper = new Swiper(".reviews-swiper", {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    loop: true,
+                    speed: 1000,
+                    grabCursor: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
                     },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 30
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 2,
+                            spaceBetween: 20
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 30
+                        },
+                        1280: {
+                            slidesPerView: 4,
+                            spaceBetween: 30
+                        }
                     },
-                    1280: {
-                        slidesPerView: 4,
-                        spaceBetween: 30
-                    }
-                },
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                });
             });
-        });
-    </script>
+        </script>
 @endsection
 
 @section('scripts')
