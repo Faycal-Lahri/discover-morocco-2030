@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ContactController extends Controller
 {
@@ -68,7 +69,7 @@ class ContactController extends Controller
     public function update(Request $request, Contact $contact)
     {
         $validated = $request->validate([
-            'statut' => 'required|in:non_lu,en_cours,traite',
+            'statut' => 'required|in:non_lu,en_cours,traite,non_valide',
         ]);
 
         $contact->update($validated);
@@ -82,5 +83,36 @@ class ContactController extends Controller
         $contact->delete();
         return redirect()->route('admin.contacts.index')
             ->with('success', 'Message deleted successfully.');
+    }
+
+    public function sendToWorkflow(Contact $contact)
+    {
+        $data = [
+            'id' => $contact->id,
+            'nom_prenom' => $contact->nom_prenom,
+            'email' => $contact->email,
+            'telephone' => $contact->telephone,
+            'objet' => $contact->objet,
+            'message' => $contact->message,
+            'statut' => $contact->statut,
+        ];
+
+        $webhookUrl = config('services.n8n.webhook_url');
+
+        if (!$webhookUrl) {
+            return back()->with('error', 'Workflow Webhook URL is not configured (N8N_WORKFLOW_WEBHOOK_URL).');
+        }
+
+        try {
+            $response = Http::post($webhookUrl, $data);
+
+            if ($response->successful()) {
+                return back()->with('success', 'Contact sent to workflow successfully.');
+            } else {
+                return back()->with('error', 'Failed to send to workflow. Status: ' . $response->status());
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error sending to workflow: ' . $e->getMessage());
+        }
     }
 }

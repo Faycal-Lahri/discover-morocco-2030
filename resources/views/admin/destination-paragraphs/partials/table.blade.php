@@ -21,10 +21,10 @@
                     </span>
                 </td>
                 <td class="px-6 py-4">
-                    <div class="text-gray-900 dark:text-white">{{ $paragraph->titre ?? 'No title' }}</div>
+                    <div class="text-gray-900 dark:text-white max-w-[200px] truncate">{{ $paragraph->titre ?? 'No title' }}</div>
                 </td>
                 <td class="px-6 py-4">
-                    <div class="text-gray-600 dark:text-gray-400 max-w-md truncate">{{ Str::limit($paragraph->contenu, 100) }}</div>
+                    <div class="text-gray-600 dark:text-gray-400 max-w-[300px] truncate">{{ Str::limit($paragraph->contenu, 100) }}</div>
                 </td>
                 <td class="px-6 py-4 text-right text-sm font-medium">
                     <div class="flex items-center justify-end space-x-3">

@@ -93,63 +93,80 @@
         }
     </style>
 
-    <!-- 4. INTRO (MARHABA) -->
-    <section class="py-24 bg-stone-50 relative overflow-hidden">
-        <!-- Moroccan Zellige Background Pattern -->
-        <div class="absolute inset-0 opacity-[0.08] pointer-events-none" style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); 
-                       background-size: 300px; 
-                       background-repeat: repeat;
-                       background-position: center;">
+    <!-- 4. INTRO (MARHABA) - PREMIUM CINEMATIC REDESIGN -->
+    <!-- 4. INTRO (MARHABA) - WARM EDITORIAL REDESIGN -->
+    <section class="min-h-screen relative overflow-hidden flex items-center justify-center bg-[#FDFCF8] text-[#292524]">
+        
+        <!-- Subtle Paper Texture -->
+        <div class="absolute inset-0 opacity-[0.4]" 
+             style="background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); mix-blend-mode: multiply;">
         </div>
 
-        <!-- Gradient Overlays for Depth -->
-        <div class="absolute inset-0 bg-gradient-to-b from-stone-50/80 via-transparent to-stone-50/80 pointer-events-none">
+        <!-- Huge Background Watermark 'MARHABA' -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none overflow-hidden select-none">
+            <span class="text-[20vw] font-playfair font-black text-[#C8102E]/[0.03] leading-none tracking-tighter whitespace-nowrap animate-pulse-slow">
+                MARHABA
+            </span>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-r from-[#C8102E]/5 via-transparent to-[#006233]/5 pointer-events-none">
-        </div>
 
-        <div class="container mx-auto px-6 md:px-12 max-w-4xl text-center relative z-10">
-            <span class="text-[#C8102E] font-bold uppercase tracking-widest text-sm mb-4 block">Marhaba</span>
-            <h2 class="text-4xl md:text-5xl font-playfair font-black text-stone-900 mb-8 leading-tight">
-                Welcome to the detailed guide <br> for <span class="italic text-[#C8102E]">discovering Morocco</span>
-            </h2>
-            <p class="text-lg text-stone-600 leading-relaxed mb-10">
-                Immerse yourself in a land of contrasts. From the imperial cities of Fez and Marrakech to the vast expanse
-                of the Sahara Desert and the blue streets of Chefchaouen. Morocco offers a sensory journey like no other.
-            </p>
-
-            <!-- Beautiful CTA Button -->
-            <div class="flex flex-col items-center gap-6">
-                <a href="{{ route('cities') }}"
-                    class="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#C8102E] via-[#a00d25] to-[#006233] text-white rounded-full font-bold uppercase tracking-widest text-xs hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden">
-                    <!-- Animated Shine Effect -->
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000">
-                    </div>
-
-                    <!-- Icon -->
-                    <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-                    </svg>
-
-                    <span class="relative z-10">Start Exploring Morocco</span>
-
-                    <!-- Arrow Icon -->
-                    <svg class="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
-
-                <!-- Decorative Zellige Pattern -->
-                <img src="{{ asset('assets/images/zellige_pattern.png') }}" class="h-8 mx-auto opacity-20 animate-pulse"
-                    alt="Divider">
+        <div class="container mx-auto px-6 md:px-12 max-w-6xl relative z-10 flex flex-col items-center">
+            
+            <!-- Top Label -->
+            <div class="mb-10 flex flex-col items-center gap-4 animate-fade-in-up">
+                <div class="w-px h-16 bg-[#C8102E]"></div>
+                <span class="font-outfit text-xs font-bold tracking-[0.4em] uppercase text-[#C8102E]">The Kingdom</span>
             </div>
+
+            <!-- Main Title: Editorial Style -->
+            <h2 class="text-7xl md:text-9xl font-playfair font-black text-center text-[#292524] leading-[0.85] tracking-tight mb-16 relative animate-fade-in-up delay-100 mix-blend-multiply">
+                TIMELESS <br> 
+                <span class="italic font-serif text-[#C8102E]">MOROCCAN</span> SOUL
+            </h2>
+
+            <!-- Paragraph with Side Lines -->
+            <div class="relative max-w-2xl text-center mb-20 animate-fade-in-up delay-200">
+                <span class="absolute top-0 left-0 -ml-12 text-6xl text-[#C8102E]/20 font-serif">“</span>
+                <p class="text-2xl md:text-3xl font-light font-outfit text-[#57534e] leading-snug">
+                    A land where ancient history meets modern luxury. Let the winds of the Sahara guide your next adventure.
+                </p>
+                <span class="absolute bottom-0 right-0 -mr-12 text-6xl text-[#C8102E]/20 font-serif translate-y-8">”</span>
+            </div>
+
+            <!-- New "Something Else": Animated Signature / Calligraphy -->
+            <div class="relative w-64 h-32 flex items-center justify-center animate-fade-in-up delay-300 group cursor-pointer" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})">
+                <!-- SVG Signature Animation -->
+                <svg width="250" height="100" viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                     <!-- A stylized 'Morocco' path -->
+                     <path d="M40 80 C 60 50, 80 120, 100 80 S 140 40, 160 80 S 220 120, 260 60" 
+                           stroke="#C8102E" stroke-width="4" stroke-linecap="round" stroke-dasharray="400" stroke-dashoffset="400"
+                           class="animate-draw-signature group-hover:stroke-[#8B0000] transition-colors" />
+                     <circle cx="260" cy="60" r="3" fill="#C8102E" class="animate-bounce-delay" />
+                </svg>
+                
+                <span class="absolute bottom-0 text-[10px] font-bold uppercase tracking-[0.3em] text-[#a8a29e] group-hover:text-[#C8102E] transition-colors">
+                    Start Journey
+                </span>
+            </div>
+
         </div>
+
     </section>
+
+
+
+    <style>
+        .animate-draw-signature {
+            animation: drawSignature 3s cubic-bezier(0.77, 0, 0.175, 1) forwards infinite;
+        }
+        @keyframes drawSignature {
+            0% { stroke-dashoffset: 400; opacity: 0; }
+            10% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        .animate-bounce-delay {
+            animation: bounce 1s infinite 2.5s; /* Delays until line is drawn */
+        }
+    </style>
 
     <!-- WINTER OFFERS -->
     <section class="relative py-24 overflow-hidden text-white" style="background-color: #C8102E;">
@@ -178,81 +195,79 @@
                 </div>
             </div>
 
-            <!-- Right: Cards -->
-            <div class="w-full lg:w-2/3 flex flex-col md:flex-row gap-6">
-                <!-- Card 1 -->
-                <div
-                    class="bg-white rounded-2xl overflow-hidden text-stone-900 w-full md:w-1/2 group cursor-pointer shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                    <!-- Image Area -->
-                    <div class="h-80 relative font-outfit">
-                        <img src="{{ asset('assets/images/morocco_hero_real.png') }}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-80"></div>
-
-                        <!-- Badge -->
-                        <span
-                            class="absolute top-4 right-4 bg-stone-900/90 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1.5 rounded uppercase tracking-wide">30%
-                            OFF</span>
-
-                        <!-- Bottom Text on Image -->
-                        <span class="absolute bottom-6 right-6 text-white text-xs font-bold uppercase tracking-widest">Visit
-                            Sahara</span>
+            <!-- Right: Immersive Cards -->
+            <div class="w-full lg:w-2/3 flex flex-col md:flex-row gap-8">
+                
+                <!-- Card 1: Sahara (Immersive) -->
+                <a href="{{ route('offers.sahara') }}" class="group relative w-full md:w-1/2 h-[500px] rounded-[2.5rem] overflow-hidden cursor-pointer shadow-2xl block">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0">
+                        <img src="{{ asset('assets/images/morocco_hero_real.png') }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-80"></div>
                     </div>
+
+                    <!-- Floating Badge -->
+                    <div class="absolute top-6 right-6 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold px-4 py-2 rounded-full uppercase tracking-widest z-20">
+                        30% Off
+                    </div>
+
                     <!-- Content -->
-                    <div class="p-8">
-                        <h3 class="font-bold text-xl mb-3 text-stone-900 font-outfit">The Sahara Destination</h3>
-                        <p class="text-xs text-stone-500 mb-8 leading-relaxed font-medium">Book 6 nights or more and enjoy
-                            30% off at Desert Rock and Shebara Resort!</p>
-                        <span
-                            class="text-[#700548] text-xs font-bold uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
-                            View Offer <i class="fas fa-external-link-alt"></i>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div
-                    class="bg-white rounded-2xl overflow-hidden text-stone-900 w-full md:w-1/2 group cursor-pointer shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                    <!-- Image Area -->
-                    <div class="h-80 relative font-outfit">
-                        <!-- Using a shield/protection metaphor image if available or generic scenic -->
-                        <img src="{{ asset('assets/images/casablanca_cityscape.png') }}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-blue-900/40 mix-blend-multiply"></div>
-
-                        <!-- Badge -->
-                        <span
-                            class="absolute top-4 right-4 bg-blue-900/90 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1.5 rounded uppercase tracking-wide">Special
-                            Offer</span>
-
-                        <!-- Center Icon for Insurance -->
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="fas fa-shield-alt text-6xl text-white/80 drop-shadow-lg"></i>
+                    <div class="absolute bottom-0 left-0 w-full p-8 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <span class="block text-[#d4af37] font-playfair italic text-lg mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Limited Time</span>
+                        <h3 class="text-3xl md:text-4xl font-playfair font-black text-white mb-2 leading-none">Sahara<br>Retreats</h3>
+                        <p class="text-stone-300 font-outfit text-sm leading-relaxed max-w-xs opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-500 delay-200">
+                            Book 6 nights at Desert Rock and experience the silence of the dunes.
+                        </p>
+                        
+                        <!-- Action Arrow -->
+                        <div class="mt-6 flex items-center gap-3 text-white/50 group-hover:text-white transition-colors">
+                            <span class="text-[10px] uppercase tracking-[0.3em]">Explore</span>
+                            <i class="fas fa-arrow-right transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300"></i>
                         </div>
+                    </div>
+                </a>
 
-                        <span class="absolute bottom-6 right-6 text-white text-xs font-bold uppercase tracking-widest">Royal
-                            Air Maroc</span>
+                <!-- Card 2: RAM (Immersive) -->
+                <a href="{{ route('offers.flight') }}" class="group relative w-full md:w-1/2 h-[500px] rounded-[2.5rem] overflow-hidden cursor-pointer shadow-2xl block">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0">
+                        <img src="{{ asset('assets/images/casablanca_cityscape.png') }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-blue-900/30 mix-blend-multiply transition-colors duration-500 group-hover:bg-blue-900/50"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
                     </div>
+
+                    <!-- Floating Badge -->
+                    <div class="absolute top-6 right-6 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold px-4 py-2 rounded-full uppercase tracking-widest z-20">
+                        Partner
+                    </div>
+
+                    <!-- Center Icon for visual drama -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-0 transition-opacity duration-500 scale-150 transform">
+                         <i class="fas fa-plane-departure text-white text-9xl"></i>
+                    </div>
+
                     <!-- Content -->
-                    <div class="p-8">
-                        <span class="block text-[10px] text-stone-400 font-bold uppercase mb-2 tracking-wide">Valid From 03
-                            Sep 2025</span>
-                        <h3 class="font-bold text-xl mb-3 text-stone-900 font-outfit">Travel Insurance Plus</h3>
-                        <p class="text-xs text-stone-500 mb-8 leading-relaxed font-medium">Travel worry-free with Insurance
-                            covering medical emergencies, lost baggage & theft.</p>
-                        <span
-                            class="text-[#700548] text-xs font-bold uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
-                            View Offer <i class="fas fa-external-link-alt"></i>
-                        </span>
+                    <div class="absolute bottom-0 left-0 w-full p-8 z-20">
+                         <span class="block text-white/60 font-outfit font-bold uppercase tracking-widest text-[10px] mb-2 group-hover:text-[#d4af37] transition-colors">Royal Air Maroc</span>
+                        <h3 class="text-3xl md:text-4xl font-playfair font-black text-white mb-2 leading-none">Fly &<br>Protect</h3>
+                        <p class="text-stone-300 font-outfit text-sm leading-relaxed max-w-xs mt-4 group-hover:text-white transition-colors">
+                            Complimentary travel insurance included with all international flights.
+                        </p>
+                         <!-- Action Line -->
+                        <div class="w-full h-px bg-white/20 mt-6 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                        </div>
                     </div>
-                </div>
+                </a>
+
             </div>
         </div>
     </section>
 
     <!-- 5. KNOW THE DESTINATIONS (MAP) -->
     <section class="py-24 bg-stone-50 relative">
-        <!-- Background Separator -->
-        <div class="absolute bottom-0 left-0 w-full h-4 bg-gradient-to-r from-[#C8102E] via-[#006233] to-[#d4af37]"></div>
-
+        <!-- Background Separator REMOVED -->
+        
         <div class="container mx-auto px-6 md:px-12">
             <!-- Decorated Title -->
             <div class="mb-12 text-center">
@@ -276,7 +291,7 @@
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span
                                 class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full"><i
-                                    class="fas fa-cloud-sun"></i> 28°C</span>
+                                    class="fas fa-cloud-sun"></i> 28Â°C</span>
                         </div>
                         <p class="text-[10px] font-bold uppercase tracking-widest text-[#C8102E] mb-1">Culture, History &
                             Lifestyle</p>
@@ -291,7 +306,7 @@
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span
                                 class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full"><i
-                                    class="fas fa-sun"></i> 24°C</span>
+                                    class="fas fa-sun"></i> 24Â°C</span>
                         </div>
                         <p class="text-[10px] font-bold uppercase tracking-widest text-[#C8102E] mb-1">Nature, Photography
                         </p>
@@ -306,7 +321,7 @@
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span
                                 class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full"><i
-                                    class="fas fa-wind"></i> 22°C</span>
+                                    class="fas fa-wind"></i> 22Â°C</span>
                         </div>
                         <p class="text-[10px] font-bold uppercase tracking-widest text-[#C8102E] mb-1">Business,
                             Architecture</p>
@@ -321,7 +336,7 @@
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span
                                 class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full"><i
-                                    class="fas fa-sun"></i> 32°C</span>
+                                    class="fas fa-sun"></i> 32Â°C</span>
                         </div>
                         <p class="text-[10px] font-bold uppercase tracking-widest text-[#C8102E] mb-1">Desert, Adventure</p>
                         <h3 class="text-2xl font-playfair font-bold text-stone-900">Merzouga</h3>
@@ -335,7 +350,7 @@
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span
                                 class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full"><i
-                                    class="fas fa-water"></i> 23°C</span>
+                                    class="fas fa-water"></i> 23Â°C</span>
                         </div>
                         <p class="text-[10px] font-bold uppercase tracking-widest text-[#C8102E] mb-1">Coastal, History</p>
                         <h3 class="text-2xl font-playfair font-bold text-stone-900">Tangier</h3>
@@ -349,7 +364,7 @@
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span
                                 class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full"><i
-                                    class="fas fa-landmark"></i> 30°C</span>
+                                    class="fas fa-landmark"></i> 30Â°C</span>
                         </div>
                         <p class="text-[10px] font-bold uppercase tracking-widest text-[#C8102E] mb-1">Spiritual, Crafts</p>
                         <h3 class="text-2xl font-playfair font-bold text-stone-900">Fez</h3>
@@ -367,308 +382,181 @@
         </div>
     </section>
 
-    <!-- 6. DID YOU KNOW (Card Stack Slider) -->
-    <section class="py-24 relative overflow-hidden" style="background-color: #f0fdf4;"> <!-- Very light green tint base -->
-
-        <!-- Rich Zellige Background -->
-        <div class="absolute inset-0 opacity-10" style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); 
-                                background-size: 150px; 
-                                background-repeat: repeat;">
+    <!-- 6. DID YOU KNOW (Cinematic Living Background) -->
+    <section class="py-32 relative overflow-hidden bg-[#FFF8F0]">
+        
+        <!-- LIVING BACKGROUND -->
+        <!-- 1. Warm Golden Gradient Base -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#FFF8F0] via-[#F5E6D3] to-[#E3D5C5]"></div>
+        
+        <!-- 2. ANIMATED: Giant Rotating Mandala (The "Clock" of History) -->
+        <div class="absolute -left-[20%] top-[10%] w-[1000px] h-[1000px] opacity-[0.08] pointer-events-none animate-spin-slow">
+            <img src="{{ asset('assets/images/zellige_pattern.png') }}" class="w-full h-full object-cover rounded-full mix-blend-multiply mask-radial-fade">
+        </div>
+        
+        <!-- 3. ANIMATED: Floating Dust Particles (Gold) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="particle p1"></div>
+            <div class="particle p2"></div>
+            <div class="particle p3"></div>
+            <div class="particle p4"></div>
+            <div class="particle p5"></div>
         </div>
 
-        <!-- Gradient Overlay for Depth -->
-        <div class="absolute inset-0 bg-gradient-to-r from-[#006233]/10 to-transparent pointer-events-none"></div>
+        <!-- 4. Static Vignettes -->
+        <div class="absolute -top-[200px] right-0 w-[800px] h-[800px] bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.8),_transparent_70%)] blur-[80px] opacity-60 mix-blend-soft-light pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#d4af37] opacity-[0.05] blur-[150px] rounded-full pointer-events-none"></div>
 
-        <style>
-            /* Card Stack Styles */
-            .card-stack-container {
-                position: relative;
-                width: 100%;
-                max-width: 450px;
-                height: 500px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto;
-                perspective: 1000px;
-            }
+        <div class="container mx-auto px-6 md:px-12 relative z-10 perspective-container">
+            <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-32">
+                
+                <!-- LEFT: Content -->
+                <div class="w-full lg:w-5/12 relative">
+                    <!-- Background Splash for Text -->
+                    <div class="absolute -left-20 -top-20 w-[140%] h-[140%] bg-[radial-gradient(closest-side,_rgba(255,255,255,0.8),_transparent)] blur-xl -z-10"></div>
 
-            .stack-card {
-                position: absolute;
-                width: 340px;
-                height: 480px;
-                background: white;
-                border: 1px solid rgba(0, 0, 0, 0.05);
-                border-radius: 2rem;
-                padding: 3rem 2rem;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-
-                /* HIGH PERFORMANCE ANIMATION */
-                /* Split transitions for better control and no lag */
-                transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
-                will-change: transform, opacity;
-                transform-origin: 50% 100%;
-                transform-style: preserve-3d;
-
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                z-index: 0;
-                overflow: hidden;
-                opacity: 0;
-                visibility: hidden;
-            }
-
-            /* Decorative Left Border */
-            .stack-card::after {
-                content: '';
-                position: absolute;
-                top: 2rem;
-                bottom: 2rem;
-                left: 0;
-                width: 4px;
-                background: #e5e5e5;
-                border-radius: 0 4px 4px 0;
-            }
-
-            .stack-card[data-index="0"]::after {
-                background: #006233;
-            }
-
-            .stack-card[data-index="1"]::after {
-                background: #d4af37;
-            }
-
-            .stack-card[data-index="2"]::after {
-                background: #C8102E;
-            }
-
-
-            /* Active Card (Front) */
-            /* Using translate3d for GPU acceleration */
-            .stack-card.active {
-                opacity: 1;
-                visibility: visible;
-                transform: translate3d(0, 0, 0) scale(1) rotate(0);
-                z-index: 30;
-                pointer-events: auto;
-            }
-
-            /* Next Card (Right) */
-            .stack-card.next {
-                opacity: 1;
-                visibility: visible;
-                transform: translate3d(40px, 0, -40px) scale(0.95) rotate(4deg);
-                z-index: 20;
-                /* Removed filter: brightness to prevent lag */
-            }
-
-            /* Next 2 (Far Right) */
-            .stack-card.next-2 {
-                opacity: 1;
-                visibility: visible;
-                transform: translate3d(80px, 0, -80px) scale(0.9) rotate(8deg);
-                z-index: 10;
-            }
-
-            /* Leaving Card - The "Better Animation" */
-            .stack-card.leaving {
-                opacity: 0;
-                visibility: visible;
-                /* Smooth "Throw Away" Gesture to the left */
-                transform: translate3d(-180px, 20px, 0) rotate(-15deg);
-                transition: transform 0.5s ease-in, opacity 0.3s ease-in;
-                /* Faster exit */
-                z-index: 40;
-            }
-
-            /* Navigation Arrows - Minimalist & Small */
-            .stack-nav-btn {
-                width: 2.5rem;
-                /* 40px - Standard small size */
-                height: 2.5rem;
-                border-radius: 50%;
-                background: white;
-                color: #006233;
-                border: 1px solid #006233;
-                /* Thinner border */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-                /* Lighter shadow */
-                transition: transform 0.2s ease, background 0.2s;
-                z-index: 100;
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                cursor: pointer !important;
-            }
-
-            .stack-nav-btn:hover {
-                background: #006233;
-                color: white;
-                transform: translateY(-50%) scale(1.05);
-            }
-
-            .stack-nav-btn i {
-                font-size: 0.9rem;
-            }
-
-            /* Tiny icon */
-
-            .stack-prev {
-                left: -0.5rem;
-            }
-
-            .stack-next {
-                right: -0.5rem;
-            }
-
-            @media (max-width: 768px) {
-
-                /* Even smaller buttons on mobile */
-                .stack-nav-btn {
-                    width: 2.25rem;
-                    height: 2.25rem;
-                }
-
-                .stack-prev {
-                    left: 0;
-                }
-
-                .stack-next {
-                    right: 0;
-                }
-
-                /* Fix Right Edge Overflow: Scale down cards */
-                .card-stack-container {
-                    perspective: 600px;
-                    /* Reduce perspective depth */
-                    height: 450px;
-                    /* Compact height */
-                }
-
-                .stack-card {
-                    width: 270px;
-                    /* Ensure it fits on 320px screens with padding/stack */
-                    height: 400px;
-                    padding: 1.5rem 1.5rem;
-                }
-
-                /* Tighter Stacking Offsets for Mobile to keep within screen */
-                .stack-card.next {
-                    transform: translate3d(12px, 0, -20px) scale(0.96) rotate(3deg);
-                }
-
-                /* Hide the 3rd card on mobile to absolutely prevent right-overflow */
-                .stack-card.next-2 {
-                    opacity: 0;
-                    visibility: hidden;
-                    transform: translate3d(0, 0, 0);
-                }
-
-                .stack-card.leaving {
-                    transform: translate3d(-200px, 0, 0) rotate(-10deg);
-                }
-            }
-        </style>
-
-        <div
-            class="container mx-auto px-6 md:px-12 relative z-10 h-full flex flex-col lg:flex-row items-center cursor-default">
-
-            <!-- LEFT: Content -->
-            <div class="w-full lg:w-1/2 mb-16 lg:mb-0 pt-12 lg:pt-0 z-20">
-                <div class="animate-fade-in-up">
-                    <span
-                        class="inline-block py-2 px-4 bg-[#006233]/10 border border-[#006233]/20 rounded-full text-[#006233] text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
-                        Discover Truths
-                    </span>
-                    <h2
-                        class="text-6xl md:text-8xl font-playfair font-black text-[#006233] mb-8 leading-[0.9] drop-shadow-sm scale-y-110 origin-left">
-                        Did you <br> know?
+                    <div class="inline-flex items-center gap-4 mb-8">
+                        <div class="w-16 h-[2px] bg-[#C8102E]"></div>
+                        <span class="text-xs font-bold uppercase tracking-[0.4em] text-[#C8102E]">Moroccan <span class="text-stone-400">Secrets</span></span>
+                    </div>
+                    
+                    <h2 class="text-6xl md:text-8xl font-playfair font-black text-[#292524] mb-8 leading-[0.9] drop-shadow-sm">
+                        Hidden <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#C8102E] to-[#8B0000] italic pr-4">Truths.</span>
                     </h2>
-                    <p class="text-xl text-stone-600 max-w-lg leading-relaxed mb-10 font-light">
-                        Morocco is full of surprises, quirky facts, hidden gems, and stories you might not expect. Flick
-                        through the cards to discover something new.
+                    
+                    <p class="text-2xl text-[#57534e] leading-relaxed mb-12 font-playfair italic max-w-md">
+                        "Morocco is a tree whose roots lie in Africa but whose leaves breathe in Europe."
                     </p>
+
+                    <p class="text-sm font-outfit uppercase tracking-widest text-[#78716c] mb-8 border-l border-[#C8102E] pl-4">
+                        Swipe to discover the legends
+                    </p>
+
+                    <div class="flex gap-6">
+                        <button id="deck-prev" class="group relative w-16 h-16 flex items-center justify-center rounded-full border-2 border-[#E7E5E4] hover:border-[#C8102E] transition-all bg-[#FAF9F6] shadow-md hover:shadow-xl hover:shadow-[#C8102E]/10 hover:-translate-y-1">
+                            <i class="fas fa-arrow-left text-[#78716c] group-hover:text-[#C8102E] transition-colors text-lg"></i>
+                        </button>
+                        <button id="deck-next" class="group relative w-16 h-16 flex items-center justify-center rounded-full border-2 border-[#E7E5E4] hover:border-[#C8102E] transition-all bg-[#FAF9F6] shadow-md hover:shadow-xl hover:shadow-[#C8102E]/10 hover:-translate-y-1">
+                            <i class="fas fa-arrow-right text-[#78716c] group-hover:text-[#C8102E] transition-colors text-lg"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <!-- RIGHT: Card Stack Interaction -->
-            <div class="w-full lg:w-1/2 flex justify-center lg:justify-end relative">
-
-                <div class="card-stack-container group/stack">
-
-                    <!-- Navigation Arrows -->
-                    <button id="stack-prev" class="stack-nav-btn stack-prev" aria-label="Previous Card">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button id="stack-next" class="stack-nav-btn stack-next" aria-label="Next Card">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-
-                    <!-- THE CARDS -->
-                    <div class="card-stack relative w-full h-full flex items-center justify-center">
-
-                        <!-- Card 1 -->
-                        <div class="stack-card active" data-index="0">
-                            <div class="relative z-10 pointer-events-none">
-                                <div
-                                    class="w-16 h-16 bg-green-50 text-[#006233] rounded-2xl flex items-center justify-center text-3xl mb-8">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-black text-stone-900 mb-4 leading-tight">
-                                    The Oldest University
-                                </h3>
-                                <p class="text-base text-stone-600 leading-relaxed font-outfit font-medium">
-                                    Al Quaraouiyine in Fez is the oldest existing, continually operating educational
-                                    institution in the world.
-                                </p>
+                <!-- RIGHT: 3D Deck -->
+                <div class="w-full lg:w-7/12 h-[650px] relative deck-container flex items-center justify-center perspective-[2500px]">
+                    
+                    <!-- The Deck -->
+                    <div id="card-deck" class="relative w-full max-w-[340px] md:max-w-[440px] h-[500px] md:h-[600px] preserve-3d transition-transform duration-500 cubic-bezier(0.2, 1, 0.4, 1)">
+                        
+                        <!-- CARD 1: University (Porcelain Style) -->
+                        <div class="deck-card absolute inset-0 bg-[#FFFFFF] rounded-[2.5rem] shadow-[0_30px_80px_-20px_rgba(50,40,30,0.2),0_0_0_1px_rgba(0,0,0,0.03)] overflow-hidden" style="transform: translateZ(0px);">
+                            <!-- Image Watermark (Subtle Back layer) -->
+                            <div class="absolute top-0 right-0 w-full h-[60%] opacity-[0.08] mix-blend-multiply pointer-events-none">
+                                <img src="{{ asset('assets/images/morocco_hero_new.png') }}" class="w-full h-full object-cover mask-gradient-bottom">
                             </div>
-                            <div class="mt-auto relative z-10">
-                                <span class="text-[#006233] font-bold text-sm border-b-2 border-[#006233] pb-1">Founded 859
-                                    AD</span>
+                            
+                            <!-- Content Container -->
+                            <div class="relative h-full w-full p-10 flex flex-col justify-between">
+                                <!-- Top Seal -->
+                                <div class="flex justify-between items-start">
+                                    <div class="w-16 h-16 rounded-full border-[3px] border-[#F5F5F4] bg-white flex items-center justify-center shadow-inner text-[#006233]">
+                                        <i class="fas fa-university text-2xl"></i>
+                                    </div>
+                                    <span class="text-9xl font-playfair font-black text-[#F5F5F4] absolute -top-4 -right-4 -z-10 select-none">01</span>
+                                </div>
+
+                                <!-- Middle -->
+                                <div class="mt-4">
+                                     <span class="text-[#006233] font-bold uppercase tracking-[0.2em] text-xs mb-3 block">Education & History</span>
+                                     <h3 class="text-5xl font-playfair font-black text-[#292524] mb-6 leading-[0.9]">
+                                        World's First <br>
+                                        <span class="text-[#006233] italic decorative-underline">Institute</span>
+                                     </h3>
+                                     <p class="text-[#57534e] font-outfit text-lg leading-relaxed">
+                                        Established 859 AD. <strong class="text-[#292524]">Al Quaraouiyine</strong> in Fez predates Oxford by centuries, founded by a visionary woman.
+                                     </p>
+                                </div>
+
+                                <!-- Bottom -->
+                                <div class="pt-8 border-t border-[#F5F5F4] flex justify-between items-center">
+                                    <span class="text-4xl font-playfair font-black text-[#E7E5E4]">859</span>
+                                    <div class="px-4 py-2 bg-[#F5F5F4] rounded-full text-[10px] font-bold uppercase tracking-widest text-[#57534e]">
+                                        Unesco Site
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Card 2 -->
-                        <div class="stack-card next" data-index="1">
-                            <div class="relative z-10 pointer-events-none">
-                                <div
-                                    class="w-16 h-16 bg-yellow-50 text-[#d4af37] rounded-2xl flex items-center justify-center text-3xl mb-8">
-                                    <i class="fas fa-film"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-black text-stone-900 mb-4 leading-tight">
-                                    Hollywood of Africa
-                                </h3>
-                                <p class="text-base text-stone-600 leading-relaxed font-outfit font-medium">
-                                    Ouarzazate's studios have hosted Gladiator, Game of Thrones, and many more blockbusters.
-                                </p>
+                        <!-- CARD 2: Cinema (Porcelain Style) -->
+                        <div class="deck-card absolute inset-0 bg-[#FFFFFF] rounded-[2.5rem] shadow-[0_30px_80px_-20px_rgba(50,40,30,0.2),0_0_0_1px_rgba(0,0,0,0.03)] overflow-hidden" 
+                             style="transform: translateZ(-60px) translateY(40px) translateX(25px); opacity: 0; pointer-events: none;">
+                             <!-- Image Watermark -->
+                            <div class="absolute top-0 right-0 w-full h-[60%] opacity-[0.08] mix-blend-multiply pointer-events-none">
+                                <img src="{{ asset('assets/images/morocco_hero_real.png') }}" class="w-full h-full object-cover mask-gradient-bottom">
                             </div>
-                            <div class="mt-auto relative z-10">
-                                <span class="text-[#d4af37] font-bold text-sm border-b-2 border-[#d4af37] pb-1">Atlas
-                                    Studios</span>
+
+                             <div class="relative h-full w-full p-10 flex flex-col justify-between">
+                                <div class="flex justify-between items-start">
+                                    <div class="w-16 h-16 rounded-full border-[3px] border-[#F5F5F4] bg-white flex items-center justify-center shadow-inner text-[#d4af37]">
+                                        <i class="fas fa-film text-2xl"></i>
+                                    </div>
+                                    <span class="text-9xl font-playfair font-black text-[#F5F5F4] absolute -top-4 -right-4 -z-10 select-none">02</span>
+                                </div>
+
+                                <div class="mt-4">
+                                     <span class="text-[#d4af37] font-bold uppercase tracking-[0.2em] text-xs mb-3 block">Cinema & Arts</span>
+                                     <h3 class="text-5xl font-playfair font-black text-[#292524] mb-6 leading-[0.9]">
+                                        Hollywood's <br>
+                                        <span class="text-[#d4af37] italic decorative-underline">Canvas</span>
+                                     </h3>
+                                     <p class="text-[#57534e] font-outfit text-lg leading-relaxed">
+                                        The Atlas Studios in Ouarzazate are the silent stars of <strong class="text-[#292524]">Gladiator</strong>, <strong class="text-[#292524]">The Mummy</strong>, and epic tales.
+                                     </p>
+                                </div>
+
+                                <div class="pt-8 border-t border-[#F5F5F4] flex justify-between items-center">
+                                    <span class="text-4xl font-playfair font-black text-[#E7E5E4]">CLA</span>
+                                    <div class="px-4 py-2 bg-[#F5F5F4] rounded-full text-[10px] font-bold uppercase tracking-widest text-[#57534e]">
+                                        Ouarzazate
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Card 3 -->
-                        <div class="stack-card next-2" data-index="2">
-                            <div class="relative z-10 pointer-events-none">
-                                <div
-                                    class="w-16 h-16 bg-red-50 text-[#C8102E] rounded-2xl flex items-center justify-center text-3xl mb-8">
-                                    <i class="fas fa-mug-hot"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-black text-stone-900 mb-4 leading-tight">
-                                    The Tea Ritual
-                                </h3>
-                                <p class="text-base text-stone-600 leading-relaxed font-outfit font-medium">
-                                    Moroccan mint tea isn't just a drink; it's a sign of hospitality, friendship, and
-                                    tradition.
-                                </p>
+                        <!-- CARD 3: Tea (Porcelain Style) -->
+                        <div class="deck-card absolute inset-0 bg-[#FFFFFF] rounded-[2.5rem] shadow-[0_30px_80px_-20px_rgba(50,40,30,0.2),0_0_0_1px_rgba(0,0,0,0.03)] overflow-hidden" 
+                             style="transform: translateZ(-120px) translateY(80px) translateX(50px); opacity: 0; pointer-events: none;">
+                             <!-- Image Watermark -->
+                            <div class="absolute top-0 right-0 w-full h-[60%] opacity-[0.08] mix-blend-multiply pointer-events-none">
+                                <img src="{{ asset('assets/images/zellige_pattern.png') }}" class="w-full h-full object-cover mask-gradient-bottom">
                             </div>
-                            <div class="mt-auto relative z-10">
-                                <span class="text-[#C8102E] font-bold text-sm border-b-2 border-[#C8102E] pb-1">Atai</span>
+
+                             <div class="relative h-full w-full p-10 flex flex-col justify-between">
+                                <div class="flex justify-between items-start">
+                                    <div class="w-16 h-16 rounded-full border-[3px] border-[#F5F5F4] bg-white flex items-center justify-center shadow-inner text-[#C8102E]">
+                                        <i class="fas fa-mug-hot text-2xl"></i>
+                                    </div>
+                                    <span class="text-9xl font-playfair font-black text-[#F5F5F4] absolute -top-4 -right-4 -z-10 select-none">03</span>
+                                </div>
+
+                                <div class="mt-4">
+                                     <span class="text-[#C8102E] font-bold uppercase tracking-[0.2em] text-xs mb-3 block">Culture & Hospitality</span>
+                                     <h3 class="text-5xl font-playfair font-black text-[#292524] mb-6 leading-[0.9]">
+                                        The Sacred <br>
+                                        <span class="text-[#C8102E] italic decorative-underline">Pour</span>
+                                     </h3>
+                                     <p class="text-[#57534e] font-outfit text-lg leading-relaxed">
+                                        The "High Pour" aerates the tea creates the <strong class="text-[#292524]">"Rezza"</strong> foam. A symbol of welcome you cannot refuse.
+                                     </p>
+                                </div>
+
+                                <div class="pt-8 border-t border-[#F5F5F4] flex justify-between items-center">
+                                    <span class="text-4xl font-playfair font-black text-[#E7E5E4]">Tea</span>
+                                    <div class="px-4 py-2 bg-[#F5F5F4] rounded-full text-[10px] font-bold uppercase tracking-widest text-[#57534e]">
+                                        Maghreb
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -676,47 +564,91 @@
                 </div>
             </div>
         </div>
+        
+        <style>
+            .decorative-underline { text-decoration: underline; text-decoration-color: currentColor; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+            .mask-gradient-bottom { mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); }
+            
+            /* Rotating Mandala Animation */
+            @keyframes spin-slow {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            .animate-spin-slow {
+                animation: spin-slow 120s linear infinite; /* Very slow rotation */
+            }
+
+            /* Floating Particles */
+            .particle {
+                position: absolute;
+                border-radius: 50%;
+                background: linear-gradient(to bottom, #d4af37, transparent);
+                opacity: 0;
+                pointer-events: none;
+            }
+            .p1 { width: 4px; height: 4px; top: 20%; left: 10%; animation: float 15s infinite; animation-delay: 0s; }
+            .p2 { width: 6px; height: 6px; top: 60%; left: 80%; animation: float 20s infinite; animation-delay: 2s; }
+            .p3 { width: 3px; height: 3px; top: 40%; left: 40%; animation: float 12s infinite; animation-delay: 4s; }
+            .p4 { width: 5px; height: 5px; top: 80%; left: 20%; animation: float 18s infinite; animation-delay: 1s; }
+            .p5 { width: 4px; height: 4px; top: 10%; left: 70%; animation: float 16s infinite; animation-delay: 3s; }
+
+            @keyframes float {
+                0% { transform: translateY(0) translateX(0); opacity: 0; }
+                10% { opacity: 0.6; }
+                50% { transform: translateY(-50px) translateX(20px); opacity: 0.4; }
+                90% { opacity: 0.6; }
+                100% { transform: translateY(-100px) translateX(40px); opacity: 0; }
+            }
+
+            .mask-radial-fade {
+                mask-image: radial-gradient(circle, black 40%, transparent 70%);
+                -webkit-mask-image: radial-gradient(circle, black 40%, transparent 70%);
+            }
+
+            .preserve-3d { transform-style: preserve-3d; }
+            .deck-card { transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        </style>
     </section>
 
-    <!-- 7. MOROCCO IN NUMBERS (Visit Saudi Style) -->
-    <section class="py-24 bg-stone-50">
-        <div class="container mx-auto px-6 md:px-12 max-w-7xl">
+    <!-- 7. MOROCCO IN NUMBERS (Clean & Minimal) -->
+    <section class="py-24 md:py-32 bg-[#F9F9F7] relative overflow-hidden">
+        <!-- Background Pattern (Subtle) -->
+         <div class="absolute top-0 right-0 w-1/3 h-full opacity-[0.03] bg-repeat pointer-events-none" 
+              style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 200px;">
+        </div>
+
+        <div class="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
             <!-- Decorated Title -->
-            <div class="mb-16 px-4 text-center">
-                <span class="text-[#C8102E] font-bold uppercase tracking-widest text-sm mb-4 block">Statistics</span>
-                <h2 class="text-4xl md:text-5xl font-playfair font-black text-stone-900 leading-tight">
-                    Visit Morocco <span class="italic text-[#C8102E]">in Numbers</span>
+            <div class="mb-16 md:mb-24 px-4 text-center">
+                <span class="text-[#C8102E] font-medium uppercase tracking-[0.4em] text-[10px] mb-6 block">Our Scale</span>
+                <h2 class="text-4xl md:text-7xl font-playfair font-black text-[#292524] leading-none tracking-tight">
+                    Morocco <span class="italic text-[#C8102E] font-serif">by the Numbers</span>
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-                <!-- LEFT COLUMN -->
-                <div class="lg:col-span-2 flex flex-col gap-6">
+                <!-- LEFT COLUMN Cards (Span 7) -->
+                <div class="lg:col-span-7 flex flex-col gap-6">
 
                     <!-- Top Wide Card: 500+ Attractions -->
-                    <div
-                        class="bg-white rounded-3xl relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow h-[240px]">
-                        <!-- Colorful Left Border Strip - RED -->
-                        <div
-                            class="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-[#C8102E] via-[#a00d25] to-[#8B0000] z-20">
-                        </div>
-
-                        <!-- Background Image with mask -->
+                    <div class="bg-white p-0 relative overflow-hidden group transition-all duration-500 h-[320px] border border-stone-100 hover:border-stone-200">
                         <div class="absolute inset-0">
                             <img src="{{ asset('assets/images/morocco_hero_real.png') }}"
-                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent"></div>
+                                class="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 filter grayscale transition-all duration-700 group-hover:grayscale-0">
+                            <!-- Gradient -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-stone-900/90 via-stone-900/40 to-transparent mix-blend-multiply"></div>
                         </div>
 
                         <!-- Content -->
-                        <div class="relative z-10 h-full flex flex-col justify-center p-10 pl-12 max-w-xl">
-                            <div class="flex items-baseline gap-2 mb-3">
-                                <span class="text-7xl font-playfair font-black text-stone-900 leading-none">500</span>
-                                <span class="text-5xl font-playfair font-black text-[#C8102E] leading-none">+</span>
+                        <div class="relative z-10 h-full flex flex-col justify-center p-12 max-w-lg">
+                            <span class="text-white/80 font-medium tracking-[0.2em] text-xs uppercase mb-2">Experiences</span>
+                            <div class="flex items-baseline gap-1 mb-4">
+                                <span class="text-6xl md:text-8xl font-playfair font-black text-white leading-none tracking-tighter">500</span>
+                                <span class="text-4xl md:text-6xl font-playfair font-normal text-[#C8102E] leading-none">+</span>
                             </div>
-                            <h3 class="text-2xl font-bold font-outfit text-stone-900 leading-tight">
-                                Attractions for You to Discover!
+                            <h3 class="text-2xl font-light font-outfit text-white/90 leading-tight max-w-md">
+                                Unique attractions waiting for your discovery.
                             </h3>
                         </div>
                     </div>
@@ -725,121 +657,77 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <!-- Card 2: 20 Destinations -->
-                        <div
-                            class="bg-white rounded-3xl p-8 pl-10 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-center h-[240px]">
-                            <!-- Colorful Left Border Strip - BLACK -->
-                            <div
-                                class="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-black via-stone-800 to-black z-20">
+                        <div class="bg-white p-10 transition-all duration-300 relative overflow-hidden flex flex-col justify-between h-[280px] group border border-stone-100 hover:border-[#C8102E]/20">
+                            <div class="absolute top-0 right-0 p-6 opacity-[0.03] font-playfair text-[10rem] text-stone-900 leading-none pointer-events-none select-none transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12">20</div>
+                            
+                            <div class="relative z-10 h-full flex flex-col justify-end">
+                                <div class="mb-2 overflow-hidden">
+                                     <span class="text-7xl font-playfair font-black text-[#292524] block transform group-hover:-translate-y-full transition-transform duration-500">20</span>
+                                     <span class="text-7xl font-playfair font-black text-[#C8102E] block absolute top-0 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">20</span>
+                                </div>
+                                <h3 class="text-sm font-bold font-outfit text-[#78716c] uppercase tracking-widest leading-relaxed border-t border-stone-100 pt-4 group-hover:border-[#C8102E] transition-colors">
+                                    Curated<br>Destinations
+                                </h3>
                             </div>
-
-                            <div class="flex items-baseline gap-1 mb-2">
-                                <span class="text-6xl font-playfair font-black text-stone-900">20</span>
-                            </div>
-                            <h3 class="text-base font-bold font-outfit text-stone-700 leading-tight">
-                                Destinations for You to Visit!
-                            </h3>
                         </div>
 
                         <!-- Card 3: 8+ UNESCO -->
-                        <div
-                            class="bg-white rounded-3xl p-8 pl-10 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-center items-start h-[240px]">
-                            <!-- Colorful Left Border Strip - RED -->
-                            <div
-                                class="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-[#8B0000] via-[#C8102E] to-[#a00d25] z-20">
-                            </div>
-
-                            <div class="mb-2">
-                                <span class="text-6xl font-playfair font-black text-stone-900">8</span>
-                                <span class="text-4xl font-playfair font-black text-[#C8102E] align-top">+</span>
-                            </div>
-                            <h3 class="text-base font-bold font-outfit text-stone-700 leading-tight">
-                                UNESCO Sites<br>Included
-                            </h3>
-                            <!-- Decorative Zellige Opacity -->
-                            <div class="absolute inset-0 opacity-5 pointer-events-none"
-                                style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 100px;">
+                        <div class="bg-[#292524] p-10 transition-all duration-300 relative overflow-hidden flex flex-col justify-between h-[280px] group">
+                            
+                            <div class="relative z-10 mt-auto">
+                                <div class="mb-4 flex items-start">
+                                    <span class="text-7xl font-playfair font-black text-white">8</span>
+                                    <span class="text-5xl font-playfair font-normal text-[#C8102E]">+</span>
+                                </div>
+                                <h3 class="text-sm font-bold font-outfit text-stone-400 uppercase tracking-widest leading-relaxed">
+                                    UNESCO World<br>Heritage Sites
+                                </h3>
                             </div>
                         </div>
 
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN: Stories -->
-                <div
-                    class="lg:col-span-1 bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col h-[486px]">
-                    <!-- Colorful Left Border Strip - BLACK -->
-                    <div class="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-black via-stone-700 to-black z-20">
-                    </div>
-
-                    <div class="p-8 pl-10 flex-1 flex flex-col h-full relative z-10">
-                        <div class="mb-8">
+                <!-- RIGHT COLUMN: Stories (Span 5) -->
+                <div class="lg:col-span-5 bg-white p-12 transition-all duration-300 relative overflow-hidden flex flex-col h-full border border-stone-100">
+                    
+                    <div class="flex-1 flex flex-col h-full relative z-10">
+                        <div class="mb-12 border-b border-stone-100 pb-8">
                             <div class="flex items-baseline gap-1 mb-2">
-                                <span class="text-6xl font-playfair font-black text-stone-900">186</span>
-                                <span class="text-4xl font-playfair font-black text-[#C8102E] align-top">+</span>
+                                <span class="text-6xl md:text-8xl font-playfair font-black text-[#292524]">186</span>
+                                <span class="text-4xl md:text-6xl font-playfair font-light text-[#C8102E] align-top">+</span>
                             </div>
-                            <h3 class="text-xl font-bold font-outfit text-stone-900 leading-tight">Stories to Inspire You!
-                            </h3>
+                            <h3 class="text-lg font-medium font-outfit text-[#57534e] leading-tight mt-4">Travel stories shared by our community.</h3>
                         </div>
 
                         <div class="mt-auto">
-                            <h4 class="text-stone-400 font-bold text-[10px] uppercase tracking-widest mb-4">Most Visited
-                                Stories pages</h4>
-                            <ul class="space-y-2">
-                                <li>
-                                    <div
-                                        class="flex items-center justify-between p-2 rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-stone-400 font-bold text-xs font-outfit">01</span>
-                                            <span class="text-stone-900 font-medium text-sm font-outfit">The Blue
-                                                Pearl</span>
+                            <h4 class="text-[#a8a29e] font-bold text-[10px] uppercase tracking-[0.2em] mb-8">Trending Topics</h4>
+                            <ul class="space-y-0 divide-y divide-stone-100">
+                                @php
+                                    $stories = [
+                                        'The Blue Pearl',
+                                        'Sahara Nights',
+                                        'Currency & Tips',
+                                        'Moroccan Cuisine',
+                                        'Atlas Mountains'
+                                    ];
+                                @endphp
+
+                                @foreach($stories as $index => $story)
+                                <li class="group/item py-6 first:pt-0 last:pb-0 border-b border-stone-100 last:border-0">
+                                    <div class="flex items-center justify-between cursor-pointer">
+                                        <div class="flex items-center gap-8">
+                                            <span class="text-[#e5e5e5] font-playfair font-bold text-2xl w-8 group-hover/item:text-[#C8102E] transition-colors duration-500">0{{ $index + 1 }}</span>
+                                            <span class="text-[#292524] font-medium text-xl font-playfair group-hover/item:translate-x-2 transition-transform duration-500">{{ $story }}</span>
                                         </div>
-                                        <i class="fas fa-chevron-right text-xs text-stone-300"></i>
+                                        
+                                        <!-- Animated Arrow -->
+                                        <div class="opacity-0 -translate-x-4 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-500 text-[#C8102E]">
+                                            <i class="fas fa-long-arrow-alt-right text-xl"></i>
+                                        </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div
-                                        class="flex items-center justify-between p-2 rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-stone-400 font-bold text-xs font-outfit">02</span>
-                                            <span class="text-stone-900 font-medium text-sm font-outfit">Sahara
-                                                Nights</span>
-                                        </div>
-                                        <i class="fas fa-chevron-right text-xs text-stone-300"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div
-                                        class="flex items-center justify-between p-2 rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-stone-400 font-bold text-xs font-outfit">03</span>
-                                            <span class="text-stone-900 font-medium text-sm font-outfit">Currency &
-                                                Tips</span>
-                                        </div>
-                                        <i class="fas fa-chevron-right text-xs text-stone-300"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div
-                                        class="flex items-center justify-between p-2 rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-stone-400 font-bold text-xs font-outfit">04</span>
-                                            <span class="text-stone-900 font-medium text-sm font-outfit">Moroccan
-                                                Cuisine</span>
-                                        </div>
-                                        <i class="fas fa-chevron-right text-xs text-stone-300"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div
-                                        class="flex items-center justify-between p-2 rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-stone-400 font-bold text-xs font-outfit">05</span>
-                                            <span class="text-stone-900 font-medium text-sm font-outfit">Atlas
-                                                Mountains</span>
-                                        </div>
-                                        <i class="fas fa-chevron-right text-xs text-stone-300"></i>
-                                    </div>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -847,15 +735,6 @@
 
             </div>
         </div>
-    </section>
-    </a>
-    </li>
-    </ul>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
     </section>
 
     <style>
@@ -870,178 +749,246 @@
         }
     </style>
 
-    <!-- 7. THINGS TO DO (Redesigned with Moroccan Theme) -->
-    <section id="experiences" class="py-10 relative overflow-hidden bg-stone-50">
-        <!-- Background Pattern (Zellige) -->
-        <div class="absolute inset-0 opacity-5 pointer-events-none"
-            style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 400px; transform: rotate(45deg);">
+    <!-- 7. THINGS TO DO (Cinematic Accordion) -->
+    <section id="experiences" class="py-24 bg-stone-900 relative overflow-hidden">
+        <!-- Background Pattern & Vignette (Matched to Testimonials) -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay" 
+             style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 300px;">
         </div>
+        <div class="absolute inset-0 block bg-[radial-gradient(circle_at_center,_transparent_0%,_#1c1917_100%)] pointer-events-none z-10"></div>
 
-        <!-- Decorative Arch Top -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-12 bg-white rounded-b-[100%] z-10 shadow-sm"></div>
-
-        <div class="container mx-auto px-6 md:px-12 max-w-7xl relative z-20 pt-4">
-            <div class="text-center mb-4">
-                <div class="inline-flex items-center gap-3 mb-4">
-                    <span class="h-px w-12 bg-[#C8102E]"></span>
-                    <span class="text-[#C8102E] font-bold uppercase tracking-widest text-xs">Unforgettable Moments</span>
-                    <span class="h-px w-12 bg-[#C8102E]"></span>
-                </div>
-                <h2 class="text-4xl md:text-5xl font-playfair font-black text-stone-900 drop-shadow-sm">
-                    Experiences <span class="italic text-[#d4af37]">&</span> Adventures
+        <div class="container mx-auto px-0 md:px-12 max-w-[1600px] relative z-20">
+            
+             <!-- Minimalist Header -->
+             <div class="text-center mb-16 px-6">
+                <span class="text-[#d4af37] font-bold uppercase tracking-[0.3em] text-[10px] mb-4 block">Curated Journeys</span>
+                <h2 class="text-4xl md:text-5xl font-playfair font-black text-white leading-tight">
+                    Choose Your <span class="italic text-stone-500">Path</span>
                 </h2>
             </div>
+            
+            <style>
+                .accordion-container {
+                    display: flex;
+                    gap: 10px;
+                    height: 500px;
+                    width: 100%;
+                }
+                .accordion-item {
+                    position: relative;
+                    flex: 1;
+                    border-radius: 40px;
+                    overflow: hidden;
+                    cursor: pointer;
+                    transition: flex 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+                    filter: grayscale(100%);
+                }
+                .accordion-item:hover, .accordion-item.active {
+                    flex: 5; /* Expand factor */
+                    filter: grayscale(0%);
+                }
+                /* Vertical Label when collapsed */
+                .accordion-label {
+                    position: absolute;
+                    bottom: 40px;
+                    left: 20px;
+                    transform: rotate(-90deg);
+                    transform-origin: 0% 100%;
+                    white-space: nowrap;
+                    opacity: 1;
+                    transition: opacity 0.3s;
+                    color: white;
+                    font-family: 'Playfair Display', serif;
+                    font-size: 1.5rem;
+                    font-weight: 900;
+                    letter-spacing: 2px;
+                }
+                .accordion-item.active .accordion-label {
+                    opacity: 0;
+                }
+                /* Full Content when expanded */
+                .accordion-content {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    padding: 3rem;
+                    background: linear-gradient(to top, rgba(0,0,0,1), transparent);
+                    opacity: 0;
+                    transform: translateY(20px);
+                    transition: all 0.5s ease 0.2s;
+                    pointer-events: none;
+                }
+                .accordion-item.active .accordion-content {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                .accordion-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 1s ease;
+                }
+                .accordion-item.active img {
+                    transform: scale(1.1);
+                }
+                
+                @media (max-width: 768px) {
+                    .accordion-container {
+                        flex-direction: column;
+                        height: 800px;
+                    }
+                    .accordion-item {
+                        flex: 1;
+                    }
+                    .accordion-item:hover, .accordion-item.active {
+                        flex: 3;
+                    }
+                    .accordion-label {
+                        transform: rotate(0);
+                        top: 20px;
+                        left: 20px;
+                        bottom: auto;
+                    }
+                }
+            </style>
 
-            <!-- Swiper Container -->
-            <div class="swiper things-swiper w-full pt-4 pb-24 px-4 overflow-visible">
-                <div class="swiper-wrapper">
-
-                    <!-- Card 1: Gastronomy -->
-                    <div class="swiper-slide w-[320px] md:w-[380px] h-[550px] relative group cursor-pointer">
-                        <div
-                            class="absolute inset-0 bg-stone-900 rounded-t-[10rem] rounded-b-2xl overflow-hidden shadow-2xl border-[6px] border-white transition-transform duration-500 group-hover:-translate-y-4">
-                            <img src="{{ asset('assets/images/morocco_hero_new.png') }}"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-
-                            <!-- Content -->
-                            <div
-                                class="absolute bottom-0 left-0 w-full p-8 text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <div
-                                    class="w-12 h-12 bg-[#C8102E] text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <i class="fas fa-utensils"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-bold text-white mb-2">Gastronomy</h3>
-                                <p
-                                    class="text-white/80 text-sm font-outfit leading-relaxed max-w-[200px] mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    Savor the rich spices and flavors of traditional Tagines.
-                                </p>
-                            </div>
-                        </div>
+            <div class="accordion-container">
+                
+                <!-- GASTROMONY -->
+                <div class="accordion-item active">
+                    <img src="{{ asset('assets/images/morocco_hero_new.png') }}" loading="lazy">
+                    <div class="accordion-label">GASTRONOMY</div>
+                    <div class="accordion-content">
+                        <div class="text-[#C8102E] tracking-widest text-xs font-bold uppercase mb-2">Taste Culture</div>
+                        <h3 class="text-4xl md:text-5xl font-playfair font-black text-white mb-4">Culinary Soul</h3>
+                        <p class="text-stone-300 font-outfit text-sm md:text-base max-w-md">Embark on a flavor odyssey through rich tagines, sweet pastries, and the aromatic spice markets of Marrakesh.</p>
                     </div>
-
-                    <!-- Card 2: Sahara -->
-                    <div class="swiper-slide w-[320px] md:w-[380px] h-[550px] relative group cursor-pointer">
-                        <div
-                            class="absolute inset-0 bg-stone-900 rounded-t-[10rem] rounded-b-2xl overflow-hidden shadow-2xl border-[6px] border-white transition-transform duration-500 group-hover:-translate-y-4">
-                            <img src="{{ asset('assets/images/morocco_hero_real.png') }}"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-
-                            <div
-                                class="absolute bottom-0 left-0 w-full p-8 text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <div
-                                    class="w-12 h-12 bg-[#d4af37] text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <i class="fas fa-wind"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-bold text-white mb-2">Sahara Magic</h3>
-                                <p
-                                    class="text-white/80 text-sm font-outfit leading-relaxed max-w-[200px] mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    Sleep under the stars in the golden dunes of Merzouga.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Blue City -->
-                    <div class="swiper-slide w-[320px] md:w-[380px] h-[550px] relative group cursor-pointer">
-                        <div
-                            class="absolute inset-0 bg-stone-900 rounded-t-[10rem] rounded-b-2xl overflow-hidden shadow-2xl border-[6px] border-white transition-transform duration-500 group-hover:-translate-y-4">
-                            <img src="{{ asset('assets/images/morocco_hype.png') }}"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-
-                            <div
-                                class="absolute bottom-0 left-0 w-full p-8 text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <div
-                                    class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <i class="fas fa-palette"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-bold text-white mb-2">Blue City</h3>
-                                <p
-                                    class="text-white/80 text-sm font-outfit leading-relaxed max-w-[200px] mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    Wander the dreamy blue streets of Chefchaouen.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Architecture (Using Casa image) -->
-                    <div class="swiper-slide w-[320px] md:w-[380px] h-[550px] relative group cursor-pointer">
-                        <div
-                            class="absolute inset-0 bg-stone-900 rounded-t-[10rem] rounded-b-2xl overflow-hidden shadow-2xl border-[6px] border-white transition-transform duration-500 group-hover:-translate-y-4">
-                            <img src="{{ asset('assets/images/casablanca_cityscape.png') }}"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-
-                            <div
-                                class="absolute bottom-0 left-0 w-full p-8 text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <div
-                                    class="w-12 h-12 bg-[#006233] text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <i class="fas fa-mosque"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-bold text-white mb-2">Heritage</h3>
-                                <p
-                                    class="text-white/80 text-sm font-outfit leading-relaxed max-w-[200px] mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    Marvel at the intricately designed mosques and palaces.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 5: Sport (Using Stadium) -->
-                    <div class="swiper-slide w-[320px] md:w-[380px] h-[550px] relative group cursor-pointer">
-                        <div
-                            class="absolute inset-0 bg-stone-900 rounded-t-[10rem] rounded-b-2xl overflow-hidden shadow-2xl border-[6px] border-white transition-transform duration-500 group-hover:-translate-y-4">
-                            <img src="{{ asset('assets/images/morocco_stadium.png') }}"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-
-                            <div
-                                class="absolute bottom-0 left-0 w-full p-8 text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <div
-                                    class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <i class="fas fa-futbol"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-bold text-white mb-2">Sport Energy</h3>
-                                <p
-                                    class="text-white/80 text-sm font-outfit leading-relaxed max-w-[200px] mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    Feel the roar of the crowd at world-class events.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 6: Art & Craft (Reusing image/placeholder concept) -->
-                    <div class="swiper-slide w-[320px] md:w-[380px] h-[550px] relative group cursor-pointer">
-                        <div
-                            class="absolute inset-0 bg-stone-900 rounded-t-[10rem] rounded-b-2xl overflow-hidden shadow-2xl border-[6px] border-white transition-transform duration-500 group-hover:-translate-y-4">
-                            <img src="{{ asset('assets/images/zellige_pattern.png') }}"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-90 bg-stone-800">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-
-                            <div
-                                class="absolute bottom-0 left-0 w-full p-8 text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <div
-                                    class="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                                    <i class="fas fa-paint-brush"></i>
-                                </div>
-                                <h3 class="text-3xl font-playfair font-bold text-white mb-2">Art & Craft</h3>
-                                <p
-                                    class="text-white/80 text-sm font-outfit leading-relaxed max-w-[200px] mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    Discover the mastery of Moroccan artisans.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-                <!-- Pagination -->
-                <div class="swiper-pagination !bottom-0"></div>
-            </div>
 
+                <!-- SAHARA -->
+                <div class="accordion-item">
+                    <img src="{{ asset('assets/images/morocco_hero_real.png') }}" loading="lazy">
+                    <div class="accordion-label">ADVENTURE</div>
+                    <div class="accordion-content">
+                        <div class="text-[#d4af37] tracking-widest text-xs font-bold uppercase mb-2">Golden Dunes</div>
+                        <h3 class="text-4xl md:text-5xl font-playfair font-black text-white mb-4">Sahara Magic</h3>
+                        <p class="text-stone-300 font-outfit text-sm md:text-base max-w-md">Sleep under a canopy of stars in Merzouga, where the silence of the desert speaks louder than words.</p>
+                    </div>
+                </div>
+
+                <!-- BLUE CITY -->
+                <div class="accordion-item">
+                    <img src="{{ asset('assets/images/morocco_hype.png') }}" loading="lazy">
+                    <div class="accordion-label">SERENITY</div>
+                    <div class="accordion-content">
+                        <div class="text-blue-400 tracking-widest text-xs font-bold uppercase mb-2">Chefchaouen</div>
+                        <h3 class="text-4xl md:text-5xl font-playfair font-black text-white mb-4">The Blue Pearl</h3>
+                        <p class="text-stone-300 font-outfit text-sm md:text-base max-w-md">Lose yourself in the endless blue maze of the Rif Mountains, a photographer's dream come true.</p>
+                    </div>
+                </div>
+
+                <!-- HERITAGE -->
+                <div class="accordion-item">
+                    <img src="{{ asset('assets/images/casablanca_cityscape.png') }}" loading="lazy">
+                    <div class="accordion-label">HISTORY</div>
+                    <div class="accordion-content">
+                        <div class="text-[#006233] tracking-widest text-xs font-bold uppercase mb-2">Imperial Cities</div>
+                        <h3 class="text-4xl md:text-5xl font-playfair font-black text-white mb-4">Timeless Heritage</h3>
+                        <p class="text-stone-300 font-outfit text-sm md:text-base max-w-md">Walk the ramparts of history in Fez, Meknes, and Rabat, where every stone tells a story of empires.</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
+
+    <!-- Init Scripts for Improved Sliders -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. CARD STACK LOGIC (Did You Know)
+            // ==================================
+            const stackCards = document.querySelectorAll('.stack-card');
+            const prevBtn = document.getElementById('stack-prev');
+            const nextBtn = document.getElementById('stack-next');
+            let activeIndex = 0;
+            const totalCards = stackCards.length;
+
+            function updateStack() {
+                stackCards.forEach((card, index) => {
+                    // Reset classes
+                    card.className = 'stack-card';
+                    card.style.transform = '';
+                    card.style.opacity = '';
+                    
+                    // Calculate relative position based on the "loop"
+                    // We want: 0 (active), 1 (next), 2 (next-2), etc.
+                    let relativeDiff = (index - activeIndex + totalCards) % totalCards;
+                    
+                    if (relativeDiff === 0) {
+                        card.classList.add('active');
+                    } else if (relativeDiff === 1) {
+                         card.classList.add('next');
+                    } else if (relativeDiff === 2) {
+                        card.classList.add('next-2');
+                    } else {
+                        // Hidden cards in the back
+                         card.style.opacity = 0;
+                         card.style.zIndex = -1;
+                         card.style.transform = 'translate3d(0, 0, -200px)';
+                    }
+                });
+            }
+
+            // Next Click
+            nextBtn.addEventListener('click', () => {
+                const currentCard = stackCards[activeIndex];
+                // Animate Throw Away
+                currentCard.classList.add('leaving');
+                
+                // Wait for animation then switch index
+                setTimeout(() => {
+                    currentCard.classList.remove('leaving');
+                    activeIndex = (activeIndex + 1) % totalCards;
+                    updateStack();
+                }, 250); // Faster reaction
+            });
+
+            // Prev Click
+            prevBtn.addEventListener('click', () => {
+                activeIndex = (activeIndex - 1 + totalCards) % totalCards;
+                updateStack();
+            });
+
+            // Init
+            updateStack();
+
+
+            // 2. SWIPER INIT (Experiences)
+            // ============================
+            // Assuming Swiper is loaded globally (from layout layout)
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.things-swiper', {
+                    slidesPerView: 'auto',
+                    spaceBetween: 24,
+                    centeredSlides: false, // Start from left
+                    grabCursor: true,
+                    loop: false,
+                    speed: 800,
+                    navigation: {
+                        nextEl: '.swiper-next-btn',
+                        prevEl: '.swiper-prev-btn',
+                    },
+                    breakpoints: {
+                        640: {
+                            spaceBetween: 32,
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 
     <!-- 8. TRAVELER REVIEWS (Premium Slider) -->
     <!-- 8. TRAVELER REVIEWS (The "Fluid Minimalist Stream") -->
@@ -1076,7 +1023,7 @@
 
                 @foreach($comments->merge($comments) as $comment)
                     <!-- Glass Card -->
-                    <div class="w-[350px] md:w-[450px] shrink-0 relative group">
+                    <div class="w-[85vw] md:w-[450px] shrink-0 relative group">
                         <!-- Glass Panel -->
                         <div
                             class="bg-white/[0.03] backdrop-blur-sm border border-white/[0.05] rounded-[2rem] p-10 h-full transition-all duration-500 group-hover:bg-white/[0.06] group-hover:border-white/10 group-hover:-translate-y-2 group-hover:shadow-2xl hover:shadow-white/5">
@@ -1178,34 +1125,8 @@
     </style>
 
     <script>
-            document.addEventListener('DOMContentLoaded', f        
-                unction () {
-                var swiper = new Swiper(".things-swiper", {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                    centeredSlides: true,
-                    loop: true, /* Try keeping loop but with breakpoints */
-                    speed: 800,
-                    grabCursor: true,
-                    autoplay: {
-                        delay: 4000,
-                        disableOnInteraction: false,
-                    },
-                    breakpoints: {
-                        640: {
-                            slidesPerView: 1.5, /* Show part of next slide */
-                            spaceBetween: 20
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                            spaceBetween: 30
-                        }
-                    },
-                    pagination: {
-                        el: ".swiper-pagination",
-                        clickable: true,
-                    },
-                });
+        document.addEventListener('DOMContentLoaded', function() {
+
 
                 // REVIEWS SWIPER
                 var reviewsSwiper = new Swiper(".reviews-swiper", {
@@ -1330,40 +1251,107 @@
             }, 100);
         });
 
-        // CARD STACK LOGIC
-        const stackCards = document.querySelectorAll('.stack-card');
-        const prevBtn = document.getElementById('stack-prev');
-        const nextBtn = document.getElementById('stack-next');
-        let stackIndex = 0;
+        // 3D GLASS DECK LOGIC (Did You Know)
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.perspective-container');
+            const deck = document.getElementById('card-deck');
+            const cards = document.querySelectorAll('.deck-card');
+            const nextBtn = document.getElementById('deck-next');
+            const prevBtn = document.getElementById('deck-prev');
+            let activeIndex = 0;
+            
+            if(cards.length > 0) {
+                const totalCards = cards.length;
 
-        function updateStack() {
-            stackCards.forEach((card, i) => {
-                card.className = 'stack-card'; // Reset
-                const diff = (i - stackIndex + stackCards.length) % stackCards.length;
+                function updateDeck() {
+                    cards.forEach((card, index) => {
+                        let diff = index - activeIndex; 
+                        // Handle wrap-around math for 3 cards logic visual
+                        // We map real index to relative visual slot: 0=front, 1=middle, 2=back
+                        // Simplified wrap calculation
+                        let relativePos = (index - activeIndex + totalCards) % totalCards;
 
-                if (diff === 0) {
-                    card.classList.add('active');
-                } else if (diff === 1) {
-                    card.classList.add('next');
-                } else if (diff === 2) {
-                    card.classList.add('next-2');
-                } else {
-                    // For more than 3 cards, or the one just left
-                    card.classList.add('leaving');
+                        card.style.opacity = '1';
+                        
+                        if (relativePos === 0) {
+                            // FRONT CARD
+                            card.style.transform = 'translateZ(0px) translateY(0px) scale(1)';
+                            card.style.zIndex = 30;
+                            card.style.opacity = 1;
+                            card.style.filter = 'none';
+                            card.style.pointerEvents = 'auto'; 
+                        } 
+                        else if (relativePos === 1) { // 2nd card
+                             card.style.transform = 'translateZ(-60px) translateY(30px) scale(0.95)';
+                             card.style.zIndex = 20;
+                             card.style.opacity = 0.6;
+                             card.style.filter = 'blur(1px) brightness(70%)';
+                             card.style.pointerEvents = 'none';
+                        } 
+                        else { // 3rd card (or others)
+                             card.style.transform = 'translateZ(-120px) translateY(60px) scale(0.9)';
+                             card.style.zIndex = 10;
+                             card.style.opacity = 0.3;
+                             card.style.filter = 'blur(3px) brightness(50%)';
+                             card.style.pointerEvents = 'none';
+                        }
+                    });
                 }
-            });
-        }
 
-        if (prevBtn && nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                stackIndex = (stackIndex + 1) % stackCards.length;
-                updateStack();
-            });
+                // Mouse Tilt Effect
+                if(container && deck) {
+                    container.addEventListener('mousemove', (e) => {
+                        const rect = container.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        // Normalize -1 to 1
+                        const xPct = (x / rect.width - 0.5) * 2; 
+                        const yPct = (y / rect.height - 0.5) * 2;
+                        
+                        // Tilt deck slightly
+                        deck.style.transform = `rotateY(${xPct * 8}deg) rotateX(${yPct * -8}deg)`;
+                    });
+                    
+                    container.addEventListener('mouseleave', () => {
+                        deck.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                    });
+                }
 
-            prevBtn.addEventListener('click', () => {
-                stackIndex = (stackIndex - 1 + stackCards.length) % stackCards.length;
-                updateStack();
+                // Navigation
+                if(nextBtn) {
+                     nextBtn.addEventListener('click', () => {
+                        activeIndex = (activeIndex + 1) % totalCards;
+                        updateDeck();
+                    });
+                }
+
+                if(prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        activeIndex = (activeIndex - 1 + totalCards) % totalCards;
+                        updateDeck();
+                    });
+                }
+
+                // Init
+                updateDeck();
+            }
+
+            // ACCORDION LOGIC (Experiences)
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    accordionItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                });
+                
+                // Touch support for mobile
+                item.addEventListener('click', () => {
+                   accordionItems.forEach(i => i.classList.remove('active'));
+                   item.classList.add('active');
+                });
             });
-        }
+        });
+
     </script>
 @endsection

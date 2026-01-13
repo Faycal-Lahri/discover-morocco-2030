@@ -23,6 +23,32 @@
             </div>
         </div>
 
+        @if($contact->response)
+        <!-- Workflow Response -->
+        <div class="lg:col-span-2 glass-card rounded-2xl p-6 mt-6 border-l-4 border-primary-500">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Workflow Response</h3>
+                <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                    {{ $contact->response->response_date ? \Carbon\Carbon::parse($contact->response->response_date)->format('F d, Y \a\t H:i') : 'Date N/A' }}
+                </span>
+            </div>
+            
+            @if($contact->response->objet)
+            <div class="mb-3">
+                <span class="text-xs uppercase tracking-wide text-gray-400 font-bold">Subject</span>
+                <p class="font-medium text-gray-800 dark:text-gray-200">{{ $contact->response->objet }}</p>
+            </div>
+            @endif
+
+            <div>
+                <span class="text-xs uppercase tracking-wide text-gray-400 font-bold">Response</span>
+                <div class="mt-2 prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl">
+                    {!! nl2br(e($contact->response->response)) !!}
+                </div>
+            </div>
+        </div>
+        @endif
+
         <!-- Sender Info & Actions -->
         <div class="space-y-6">
             <div class="glass-card rounded-2xl p-6">
@@ -51,7 +77,8 @@
                     labels: {
                         'non_lu': 'Non Lu',
                         'en_cours': 'En Cours',
-                        'traite': 'Traité'
+                        'traite': 'Traité',
+                        'non_valide': 'Non Valide'
                     }
                 }">
                     @csrf

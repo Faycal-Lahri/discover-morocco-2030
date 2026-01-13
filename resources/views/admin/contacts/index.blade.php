@@ -24,7 +24,7 @@
                 <div class="h-6 w-px bg-gray-300 dark:bg-gray-700 mx-4"></div>
 
                 <!-- Status Dropdown -->
-                <div class="relative min-w-[140px]" x-data="{ open: false, label: '{{ request('status') == 'non_lu' ? 'Non Lu' : (request('status') == 'en_cours' ? 'En Cours' : (request('status') == 'traite' ? 'Traité' : 'Status')) }}' }" @click.outside="open = false">
+                <div class="relative min-w-[140px]" x-data="{ open: false, label: '{{ request('status') == 'non_lu' ? 'Non Lu' : (request('status') == 'en_cours' ? 'En Cours' : (request('status') == 'traite' ? 'Traité' : (request('status') == 'non_valide' ? 'Non Valide' : 'Status'))) }}' }" @click.outside="open = false">
                     <button type="button" @click="open = !open" class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-gray-900 dark:text-white bg-transparent focus:outline-none group">
                         <span x-text="label">Status</span>
                         <svg class="w-4 h-4 ml-2 transition-transform duration-200 text-gray-500 dark:text-gray-400" :class="{'rotate-180': open}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -46,6 +46,7 @@
                             <div @click="document.getElementsByName('status')[0].value = 'non_lu'; label = 'Non Lu'; open = false; document.getElementById('search-form').submit()" class="px-4 py-2.5 text-sm text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 cursor-pointer font-medium">Non Lu</div>
                             <div @click="document.getElementsByName('status')[0].value = 'en_cours'; label = 'En Cours'; open = false; document.getElementById('search-form').submit()" class="px-4 py-2.5 text-sm text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer font-medium">En Cours</div>
                             <div @click="document.getElementsByName('status')[0].value = 'traite'; label = 'Traité'; open = false; document.getElementById('search-form').submit()" class="px-4 py-2.5 text-sm text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 cursor-pointer font-medium">Traité</div>
+                            <div @click="document.getElementsByName('status')[0].value = 'non_valide'; label = 'Non Valide'; open = false; document.getElementById('search-form').submit()" class="px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/20 cursor-pointer font-medium">Non Valide</div>
                         </div>
                     </div>
                 </div>

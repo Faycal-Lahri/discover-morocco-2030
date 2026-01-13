@@ -1,504 +1,292 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- HERO SECTION - Simplified & Elegant -->
-    <div class="relative h-[85vh] w-full overflow-hidden bg-black">
-        <!-- Background Image -->
-        <div class="absolute inset-0 z-0">
-            @if($city->image)
-                @php
-                    $imagePath = str_starts_with($city->image, 'http')
-                        ? $city->image
-                        : (str_starts_with($city->image, 'cities/') || str_starts_with($city->image, 'destinations/')
-                            ? asset('storage/' . $city->image)
-                            : asset($city->image));
-                @endphp
-                <img src="{{ $imagePath }}" class="w-full h-full object-cover animate-pan-slow opacity-90">
-            @else
-                <img src="{{ asset('assets/images/morocco_hero_real.png') }}" class="w-full h-full object-cover opacity-90">
-            @endif
-            <!-- Subtle Gradient for text readability - No heavy boxes -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+<!-- Cinematic Hero Section -->
+<div class="relative w-full h-screen overflow-hidden bg-black">
+    <div class="absolute inset-0">
+        @if($city->video)
+            <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-60 scale-105 animate-slow-zoom">
+                <source src="{{ Str::startsWith($city->video, 'http') ? $city->video : asset('storage/' . $city->video) }}" type="video/mp4">
+            </video>
+        @elseif($city->image)
+            <img src="{{ Str::startsWith($city->image, 'http') ? $city->image : (Str::startsWith($city->image, 'images/') ? asset($city->image) : asset('storage/' . $city->image)) }}" class="w-full h-full object-cover opacity-60 scale-105 animate-slow-zoom">
+        @else
+            <img src="{{ asset('assets/images/morocco_hero_real.png') }}" class="w-full h-full object-cover opacity-60 scale-105 animate-slow-zoom">
+        @endif
+        <!-- Multi-layer Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-stone-950"></div>
+        <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-stone-950 to-transparent"></div>
+    </div>
+
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-6">
+        <div class="overflow-hidden mb-4">
+            <span class="text-[#d4af37] font-outfit font-medium tracking-[0.5em] uppercase text-sm md:text-base block animate-reveal-up">Explore the Empire</span>
         </div>
+        
+        <h1 class="text-7xl md:text-[12rem] font-playfair font-black text-white leading-none mb-8 tracking-tighter drop-shadow-2xl animate-reveal-up-delay uppercase">
+            {{ $city->nom }}
+        </h1>
 
-        <!-- Content -->
-        <div class="relative z-10 h-full flex flex-col justify-end pb-32 items-center text-center px-4 max-w-5xl mx-auto">
-
-            <h1
-                class="text-8xl md:text-[10rem] font-bold font-playfair text-white tracking-tighter mb-6 drop-shadow-xl leading-[0.8]">
-                {{ $city->nom }}
-            </h1>
-
-            <div class="flex items-center gap-4 mb-8">
-                <div class="h-px w-12 bg-white/50"></div>
-                <span
-                    class="text-white/80 uppercase tracking-[0.3em] text-xs font-bold">{{ $city->titre ?? 'The Kingdom of Morocco' }}</span>
-                <div class="h-px w-12 bg-white/50"></div>
-            </div>
-
-            <p
-                class="text-white/90 text-lg md:text-2xl font-light font-outfit max-w-2xl leading-relaxed drop-shadow-md mb-10">
-                {{ $city->description }}
+        <div class="overflow-hidden">
+            <p class="text-lg md:text-2xl text-stone-300 font-playfair italic max-w-2xl animate-reveal-up-delay-2">
+                "{{ $city->titre ?? 'A journey through history and soul' }}"
             </p>
-
-            <button onclick="document.getElementById('experiences').scrollIntoView({behavior: 'smooth'})"
-                class="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black hover:bg-[#C8102E] hover:text-white rounded-full transition-all duration-300">
-                <span class="text-xs font-bold uppercase tracking-widest">Start Exploring</span>
-                <i class="fas fa-arrow-down transform group-hover:translate-y-1 transition-transform"></i>
-            </button>
         </div>
     </div>
 
-    <!-- MAIN CONTENT - Minimalist -->
-    <div class="bg-white relative z-10 overflow-hidden">
-        <!-- Zellige Pattern Background -->
-        <div class="absolute inset-0 pointer-events-none opacity-[0.03] z-0"
-            style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 400px;">
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 z-20">
+        <div class="w-px h-24 bg-gradient-to-b from-[#d4af37] via-[#d4af37]/50 to-transparent animate-pulse"></div>
+    </div>
+</div>
+
+<!-- Editorial Section: The Heart of the City -->
+<section class="py-40 bg-stone-950 relative overflow-hidden">
+    <!-- Texture & Depth -->
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-paper.png')] opacity-20 pointer-events-none"></div>
+    
+    <div class="container mx-auto px-6 lg:px-20 relative z-10">
+        <div class="flex flex-col items-center mb-40 animate-on-scroll">
+            <h2 class="text-5xl md:text-8xl font-playfair font-black text-white text-center leading-[0.9] mb-12">
+                The Soul of <br><span class="text-[#d4af37] italic uppercase tracking-tighter">{{ $city->nom }}</span>
+            </h2>
+            <div class="w-24 h-px bg-[#d4af37]/50 mb-12"></div>
+            <p class="text-stone-300 text-xl md:text-3xl font-outfit font-light max-w-4xl text-center leading-relaxed italic opacity-80">
+                "{{ $city->description }}"
+            </p>
         </div>
 
-        <!-- Experiences Section -->
-        <section id="experiences" class="py-24 container mx-auto px-6 md:px-12">
-            <!-- Section Header -->
-            <div class="text-center mb-20">
-                <span class="text-[#006233] font-bold uppercase tracking-widest text-xs block mb-3">Discover
-                    {{ $city->nom }}</span>
-                <h2 class="text-4xl md:text-6xl font-playfair font-bold text-[#1A1A1A]">
-                    Unforgettable Moments
-                </h2>
-                <div class="w-px h-16 bg-[#C8102E] mx-auto mt-8"></div>
-            </div>
+        <!-- Alternating Editorial Paragraphs -->
+        @if($city->paragraphs->count() > 0)
+            <div class="space-y-64">
+                @foreach($city->paragraphs as $index => $paragraph)
+                    @php
+                        // Cycle through destinations to get images
+                        $destinationImage = null;
+                        if($city->destinations->count() > 0) {
+                            $destIndex = $index % $city->destinations->count();
+                            $dest = $city->destinations->get($destIndex);
+                            $destinationImage = $dest->image ?? ($dest->destinationImages->first() ? $dest->destinationImages->first()->image : null);
+                        }
+                    @endphp
 
-            @if($city->destinations->count() > 0)
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-                    @foreach($city->destinations as $destination)
-                        <div class="group cursor-pointer">
-                            <!-- Media Carousel Container (Video + Images) -->
-                            <div class="aspect-[3/4] overflow-hidden rounded-[2rem] relative mb-6 bg-gray-100"
-                                x-data="carousel{{ $loop->index }}">
-                                @php
-                                    // Collect all media: video first (if exists) + images
-                                    $allMedia = collect();
-                                    $hasVideo = false;
+                    <div class="flex flex-col {{ $index % 2 == 0 ? 'lg:flex-row' : 'lg:flex-row-reverse' }} items-center gap-20 lg:gap-32 animate-on-scroll">
+                        <!-- Content Side -->
+                        <div class="w-full lg:w-[45%] group px-4">
+                            <div class="relative mb-10 overflow-hidden">
+                                <span class="text-[12rem] font-playfair font-black text-white/5 absolute -top-24 -left-10 select-none pointer-events-none">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                <div class="flex items-center gap-4 mb-8 relative z-10">
+                                    <div class="h-px w-12 bg-[#d4af37]"></div>
+                                    <span class="text-[#d4af37] font-bold uppercase tracking-[0.3em] text-xs">Chapter</span>
+                                </div>
+                                <h3 class="text-4xl md:text-6xl font-playfair font-bold text-white mb-10 leading-tight relative z-10">
+                                    {{ $paragraph->titre }}
+                                </h3>
+                            </div>
+                            <div class="text-stone-400 text-lg md:text-xl font-outfit font-light leading-loose space-y-8 border-l border-white/10 pl-10 group-hover:border-[#d4af37]/50 transition-colors duration-700">
+                                {!! nl2br(e($paragraph->contenu)) !!}
+                            </div>
+                        </div>
 
-                                    // Add video first if exists
-                                    if ($destination->video) {
-                                        $videoPath = str_starts_with($destination->video, 'http')
-                                            ? $destination->video
-                                            : (str_starts_with($destination->video, 'destinations/') || str_starts_with($destination->video, 'cities/')
-                                                ? asset('storage/' . $destination->video)
-                                                : asset('storage/' . $destination->video));
-                                        $allMedia->push(['type' => 'video', 'path' => $videoPath]);
-                                        $hasVideo = true;
-                                    }
-
-                                    // Add cover image if exists
-                                    if ($destination->image) {
-                                        $coverPath = str_starts_with($destination->image, 'http')
-                                            ? $destination->image
-                                            : (str_starts_with($destination->image, 'destinations/') || str_starts_with($destination->image, 'cities/')
-                                                ? asset('storage/' . $destination->image)
-                                                : asset($destination->image));
-                                        $allMedia->push(['type' => 'image', 'path' => $coverPath]);
-                                    }
-
-                                    // Add gallery images
-                                    if ($destination->destinationImages && $destination->destinationImages->count() > 0) {
-                                        foreach ($destination->destinationImages as $galleryImg) {
-                                            $imgPath = str_starts_with($galleryImg->image, 'http')
-                                                ? $galleryImg->image
-                                                : (str_starts_with($galleryImg->image, 'destinations/') || str_starts_with($galleryImg->image, 'cities/')
-                                                    ? asset('storage/' . $galleryImg->image)
-                                                    : asset($galleryImg->image));
-                                            $allMedia->push(['type' => 'image', 'path' => $imgPath]);
-                                        }
-                                    }
-                                @endphp
-
-                                @if($allMedia->count() > 0)
-                                    <!-- Media Items (Videos + Images) -->
-                                    @foreach($allMedia as $mediaIndex => $media)
-                                        <div x-show="current === {{ $mediaIndex }}" x-transition:enter="transition ease-out duration-300"
-                                            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                                            class="absolute inset-0">
-                                            @if($media['type'] === 'video')
-                                                <video 
-                                                    class="w-full h-full object-cover"
-                                                    playsinline
-                                                    preload="metadata"
-                                                    loop
-                                                    muted
-                                                    @mouseenter="$el.play()"
-                                                    @mouseleave="$el.pause(); $el.currentTime = 0;">
-                                                    <source src="{{ $media['path'] }}" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                                <!-- Video Icon Badge -->
-                                                <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-2 z-20">
-                                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
-                                                    </svg>
-                                                    <span class="text-white text-[10px] font-bold uppercase tracking-wider">Promo Video</span>
-                                                </div>
-                                            @else
-                                                <img src="{{ $media['path'] }}"
-                                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                                    alt="{{ $destination->nom }}">
-                                            @endif
-                                        </div>
-                                    @endforeach
-
-                                    <!-- Navigation Arrows (only show if multiple media items) -->
-                                    @if($allMedia->count() > 1)
-                                        <button @click.stop="prev()"
-                                            class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                                            </svg>
-                                        </button>
-                                        <button @click.stop="next()"
-                                            class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
-
-                                        <!-- Dots Indicator -->
-                                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                                            @foreach($allMedia as $dotIndex => $item)
-                                                <button @click.stop="current = {{ $dotIndex }}"
-                                                    :class="current === {{ $dotIndex }} ? 'bg-white w-8' : 'bg-white/50 w-2'"
-                                                    class="h-2 rounded-full transition-all duration-300"
-                                                    title="{{ $item['type'] === 'video' ? 'Video' : 'Image' }}">
-                                                </button>
-                                            @endforeach
-                                        </div>
-                                    @endif
+                        <!-- Image Side (Cinematic Frame) -->
+                        <div class="w-full lg:w-[55%] relative">
+                            <div class="relative rounded-[1rem] overflow-hidden aspect-[16/10] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] bg-stone-900">
+                                @if($destinationImage)
+                                    <img src="{{ Str::startsWith($destinationImage, 'http') ? $destinationImage : (Str::startsWith($destinationImage, 'images/') ? asset($destinationImage) : asset('storage/' . $destinationImage)) }}" 
+                                         class="w-full h-full object-cover scale-100 hover:scale-110 transition-transform duration-[3s] ease-out">
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center text-gray-300">
-                                        <i class="fas fa-image text-4xl"></i>
-                                    </div>
+                                    @php
+                                        $fallbackImg = $city->image ? (Str::startsWith($city->image, 'http') ? $city->image : (Str::startsWith($city->image, 'images/') ? asset($city->image) : asset('storage/' . $city->image))) : asset('assets/images/morocco_hero_real.png');
+                                    @endphp
+                                    <img src="{{ $fallbackImg }}" 
+                                         class="w-full h-full object-cover opacity-50 grayscale">
                                 @endif
+                                <!-- Frame Soft Glow -->
+                                <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 px-4 py-2 bg-black/40 backdrop-blur-md border border-white/10 rounded-full">
+                                    <span class="text-white/70 text-[10px] uppercase font-bold tracking-[0.2em]">Featured Experience</span>
+                                </div>
+                            </div>
+                            <!-- Background Decor -->
+                            <div class="absolute -bottom-10 {{ $index % 2 == 0 ? '-right-10' : '-left-10' }} w-64 h-64 bg-[#d4af37]/5 opacity-20 blur-3xl pointer-events-none"></div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</section>
 
-                                <!-- Floating Tag -->
-                                <div
-                                    class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider text-[#1A1A1A] shadow-sm z-10">
-                                    {{ $destination->label ?? 'Experience' }}
+<!-- Immersive Museum Gallery (Must-Visit Spots) -->
+@if($city->destinations->count() > 0)
+<section class="py-60 bg-white relative overflow-hidden">
+    <!-- Sophisticated Background Pattern -->
+    <div class="absolute inset-0 bg-[url('{{ asset('assets/images/zellige_pattern.png') }}')] opacity-[0.02] pointer-events-none"></div>
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-stone-200 to-transparent"></div>
+
+    <div class="container mx-auto px-6 lg:px-20 mb-32 relative z-10 flex flex-col md:flex-row items-baseline justify-between gap-10">
+        <div class="animate-on-scroll">
+            <span class="text-[#8B0000] font-black uppercase tracking-[0.8em] text-[10px] mb-8 block">The Collection</span>
+            <h2 class="text-8xl md:text-[12rem] font-playfair font-black text-stone-900 tracking-tighter leading-none">
+                Must Visit <span class="text-stone-200 italic">Spots</span>
+            </h2>
+        </div>
+        <div class="max-w-xs animate-on-scroll delay-200">
+            <p class="text-stone-400 font-outfit font-light text-sm italic leading-relaxed border-l-2 border-[#d4af37]/30 pl-8">
+                "A curated selection of landmarks that define the very soul of this imperial realm."
+            </p>
+        </div>
+    </div>
+
+    <!-- Horizontal Museum Scroll -->
+    <div class="relative w-full">
+        <div class="flex overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory gap-12 px-6 lg:px-20 pb-20">
+            @foreach($city->destinations as $index => $destination)
+                <div class="flex-none w-[90vw] md:w-[600px] snap-center animate-on-scroll" style="transition-delay: {{ $index * 150 }}ms">
+                    <a href="{{ route('destinations.show', $destination) }}" class="group block relative h-full">
+                        <div class="relative aspect-[16/10] md:aspect-[16/11] overflow-hidden rounded-[1rem] bg-stone-100 shadow-[0_60px_100px_-40px_rgba(0,0,0,0.2)] transition-all duration-1000 ease-[cubic-bezier(0.2,1,0.2,1)] group-hover:shadow-[0_80px_150px_-50px_rgba(0,0,0,0.4)] group-hover:-translate-y-4">
+                            @php
+                                $dImg = $destination->image ?? ($destination->destinationImages->first() ? $destination->destinationImages->first()->image : null);
+                                $dUrl = $dImg ? (Str::startsWith($dImg, 'http') ? $dImg : (Str::startsWith($dImg, 'images/') ? asset($dImg) : asset('storage/' . $dImg))) : asset('assets/images/morocco_hero.png');
+                            @endphp
+                            <img src="{{ $dUrl }}" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-[3s] ease-out brightness-90 group-hover:brightness-105">
+
+                            <!-- Internal Multi-layer Info -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
+                            
+                            <!-- Floating Header on Card -->
+                            <div class="absolute top-10 inset-x-10 flex justify-between items-start">
+                                <span class="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[9px] uppercase font-black tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-y-4 group-hover:translate-y-0">Vol. 0{{ $index + 1 }}</span>
+                                <div class="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-[#d4af37] group-hover:border-[#d4af37] transition-all duration-500">
+                                    <i class="fas fa-plus text-white text-[10px]"></i>
                                 </div>
                             </div>
 
-                            <!-- Content -->
-                            <div class="px-2">
-                                <h3
-                                    class="text-2xl font-playfair font-bold text-[#1A1A1A] mb-3 group-hover:text-[#C8102E] transition-colors leading-tight">
+                            <!-- Bottom Content with Mask Effect -->
+                            <div class="absolute inset-x-10 bottom-10">
+                                <h3 class="text-4xl md:text-6xl font-playfair font-black text-white leading-none tracking-tighter mb-4 transform transition-all duration-700 group-hover:scale-105 origin-left">
                                     {{ $destination->nom }}
                                 </h3>
-                                <p class="text-stone-500 font-outfit text-sm leading-relaxed mb-4 line-clamp-3">
-                                    {{ $destination->description }}
-                                </p>
-                                <div
-                                    class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#C8102E] group-hover:gap-4 transition-all">
-                                    <span>Read More</span>
-                                    <i class="fas fa-arrow-right text-[10px]"></i>
-                                </div>
+                                <div class="h-1 w-0 bg-[#d4af37] group-hover:w-full transition-all duration-[1.5s] ease-out"></div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="py-20 text-center bg-stone-50 rounded-3xl">
-                    <p class="text-stone-400 font-playfair text-xl italic">Curating experiences for you...</p>
-                </div>
-            @endif
-
-        </section>
-
-        <!-- Location Map Section -->
-        <section class="py-24 bg-stone-50 relative overflow-hidden">
-            <!-- Zellige Pattern Background -->
-            <div class="absolute inset-0 pointer-events-none opacity-[0.04] z-0"
-                style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 400px;">
-            </div>
-            
-            <div class="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
-                <!-- Section Header -->
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl md:text-6xl font-playfair font-bold text-[#1A1A1A] mb-4">
-                        Find {{ $city->nom }}
-                    </h2>
-                    <p class="text-stone-600 text-base max-w-2xl mx-auto">
-                        Discover where {{ $city->nom }} is located in the Kingdom of Morocco
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    <!-- Map Container -->
-                    <div class="order-2 lg:order-1">
-                        <div class="relative rounded-2xl overflow-hidden shadow-xl bg-white border-4 border-stone-100">
-                            <div id="city-map" class="w-full h-[500px]"></div>
-                        </div>
-                    </div>
-
-                    <!-- City Info Cards -->
-                    <div class="order-1 lg:order-2 space-y-6">
-                        <!-- Geographic Position Card -->
-                        <div class="bg-white rounded-2xl p-8 shadow-lg border border-stone-100">
-                            <div class="flex items-center gap-3 mb-6">
-                                <div class="w-12 h-12 bg-[#C8102E] rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-white text-lg"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-[#1A1A1A]">Geographic Position</h3>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="flex items-start gap-3">
-                                    <i class="fas fa-check-circle text-[#006233] mt-1"></i>
-                                    <div>
-                                        <p class="text-sm font-semibold text-stone-500">Latitude:</p>
-                                        <p class="text-lg font-bold text-stone-900">{{ $city->latitude ?? 'N/A' }}°</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start gap-3">
-                                    <i class="fas fa-check-circle text-[#006233] mt-1"></i>
-                                    <div>
-                                        <p class="text-sm font-semibold text-stone-500">Longitude:</p>
-                                        <p class="text-lg font-bold text-stone-900">{{ $city->longitude ?? 'N/A' }}°</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- About Card with Gradient -->
-                        <div
-                            class="bg-gradient-to-br from-[#C8102E] via-[#a00d25] to-[#006233] rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
-                            <!-- Decorative Pattern -->
-                            <div class="absolute inset-0 opacity-10"
-                                style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 200px;">
-                            </div>
-
-                            <div class="relative z-10">
-                                <h3 class="text-2xl font-playfair font-bold mb-4 flex items-center gap-2">
-                                    <i class="fas fa-info-circle text-xl"></i>
-                                    About {{ $city->nom }}
-                                </h3>
-                                <p class="text-white/95 leading-relaxed text-base">
-                                    {{ $city->description }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Attractions Card -->
-                        @if($city->destinations && $city->destinations->count() > 0)
-                            <div class="bg-white rounded-2xl p-8 shadow-lg border border-stone-100">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div class="w-12 h-12 bg-[#006233] rounded-full flex items-center justify-center">
-                                        <i class="fas fa-landmark text-white text-lg"></i>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-[#1A1A1A]">Attractions</h3>
-                                </div>
-                                <p class="text-stone-600 leading-relaxed">
-                                    Discover <strong class="text-[#C8102E] text-lg">{{ $city->destinations->count() }} amazing
-                                        destinations</strong> in {{ $city->nom }}, from historic landmarks to cultural
-                                    experiences.
-                                </p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Navigation Strip - Moroccan Red & Green Theme -->
-        <section class="py-24 relative overflow-hidden bg-[#C8102E] text-white border-t-8 border-[#006233]">
-            <!-- Zellige Pattern Overlay -->
-            <div class="absolute inset-0 z-0 opacity-10"
-                style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 300px;">
-            </div>
-
-            <div class="container mx-auto px-6 relative z-10">
-                <div class="flex items-center justify-between mb-16">
-                    <div>
-                        <span
-                            class="text-[#006233] bg-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 inline-block shadow-md">Explore
-                            More</span>
-                        <h3 class="text-4xl md:text-5xl font-playfair font-black text-white drops-shadow-md">Continue Your
-                            Journey</h3>
-                    </div>
-                    <a href="{{ route('cities') }}"
-                        class="group flex items-center gap-3 bg-white text-[#C8102E] px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[#006233] hover:text-white transition-all shadow-lg">
-                        <span>View Map</span>
-                        <i class="fas fa-map-marked-alt group-hover:rotate-12 transition-transform"></i>
                     </a>
                 </div>
+            @endforeach
+            <div class="flex-none w-[10vw]"></div>
+        </div>
+    </div>
+</section>
+@endif
 
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
-                    @foreach($otherCities as $nextCity)
-                        <a href="{{ route('cities.show', $nextCity->id) }}" class="group block text-center relative">
-                            <!-- Arch Shape Container -->
-                            <div
-                                class="w-full aspect-[2/3] rounded-t-full rounded-b-[2rem] overflow-hidden mb-6 border-4 border-white/20 group-hover:border-[#006233] group-hover:-translate-y-3 transition-all duration-500 relative shadow-2xl bg-black/20">
-                                @if($nextCity->image)
-                                    <img src="{{ asset($nextCity->image) }}"
-                                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
-                                @else
-                                    <div class="w-full h-full bg-stone-800 flex items-center justify-center text-white/20">
-                                        <i class="fas fa-city text-3xl"></i>
-                                    </div>
-                                @endif
+<!-- Cinematic Realm Explorer (Other Empires) -->
+<section class="py-60 bg-[#050505] overflow-hidden relative">
+    <!-- Atmospheric Lighting -->
+    <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] bg-[#d4af37]/5 rounded-full blur-[150px] pointer-events-none opacity-30"></div>
 
-                                <!-- Green Gradient Overlay on Hover -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-[#006233]/80 via-[#006233]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                </div>
-
-                                <!-- Discover Button Overlay -->
-                                <div
-                                    class="absolute bottom-0 left-0 w-full p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                                    <span
-                                        class="inline-block px-4 py-1 bg-white text-[#C8102E] text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg">Discover</span>
-                                </div>
-                            </div>
-
-                            <div class="relative transform group-hover:scale-105 transition-transform duration-300">
-                                <h4
-                                    class="font-playfair font-bold text-2xl text-white mb-2 group-hover:text-[#f3e5ab] transition-colors drop-shadow-md">
-                                    {{ $nextCity->nom }}
-                                </h4>
-                                <div
-                                    class="h-0.5 w-8 bg-[#006233] mx-auto group-hover:w-24 group-hover:bg-[#f3e5ab] transition-all duration-500 rounded-full">
-                                </div>
-                                <span
-                                    class="text-[10px] text-white/60 uppercase tracking-[0.2em] mt-2 block group-hover:text-white transition-colors">{{ $nextCity->titre ?? 'MOROCCO' }}</span>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </section>
+    <div class="container mx-auto px-6 lg:px-20 mb-32 relative z-10 text-center animate-on-scroll">
+        <span class="text-[#d4af37] font-black uppercase tracking-[1.2em] text-[10px] mb-12 block">The Grand Anthology</span>
+        <h2 class="text-7xl md:text-[14rem] font-playfair font-black text-white/10 tracking-[0.2em] leading-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none uppercase">Relics</h2>
+        <h2 class="text-6xl md:text-9xl font-playfair font-black text-white relative z-10 leading-none">
+            Choose Your <br><span class="italic text-stone-600">Legend</span>
+        </h2>
     </div>
 
-    <style>
-        @keyframes pan-slow {
-            0% {
-                transform: scale(1);
-            }
-
-            100% {
-                transform: scale(1.1);
-            }
-        }
-
-        .animate-pan-slow {
-            animation: pan-slow 20s infinite alternate linear;
-        }
-    </style>
-
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            @if($city->latitude && $city->longitude)
-                // Initialize the map centered on the city
-                const map = L.map('city-map').setView([{{ $city->latitude }}, {{ $city->longitude }}], 8);
-
-                // Add OpenStreetMap tiles
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                    maxZoom: 19,
-                }).addTo(map);
-
-                // Simple red marker pin
-                const customIcon = L.divIcon({
-                    className: 'custom-marker',
-                    html: `
-                        <div style="position: relative; width: 30px; height: 40px;">
-                            <div style="width: 30px; height: 30px; background: #C8102E; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>
-                            <div style="position: absolute; top: 8px; left: 8px; width: 8px; height: 8px; background: white; border-radius: 50%;"></div>
+    <!-- Scrollable Portal Gallery -->
+    <div class="relative w-full">
+        <div class="flex overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory gap-8 px-6 lg:px-20 pb-32">
+            @foreach($otherCities as $index => $other)
+                <div class="flex-none w-[80vw] md:w-[450px] snap-center animate-on-scroll" style="transition-delay: {{ $index * 100 }}ms">
+                    <a href="{{ route('cities.show', $other) }}" class="group relative block aspect-[4/5.5] overflow-hidden rounded-[2rem] bg-stone-900 border border-white/5 transition-all duration-1000 ease-[cubic-bezier(0.165,0.84,0.44,1)] group-hover:shadow-[0_0_80px_rgba(212,175,55,0.1)] group-hover:scale-[0.98]">
+                        @php
+                            $oUrl = $other->image ? (Str::startsWith($other->image, 'http') ? $other->image : (Str::startsWith($other->image, 'images/') ? asset($other->image) : asset('storage/' . $other->image))) : asset('assets/images/morocco_hero.png');
+                        @endphp
+                        <img src="{{ $oUrl }}" class="w-full h-full object-cover transition-all duration-[2.5s] ease-out brightness-50 group-hover:brightness-100 scale-110 group-hover:scale-100">
+                        
+                        <!-- Portal Frame Effect -->
+                        <div class="absolute inset-0 ring-[20px] ring-black/20 group-hover:ring-black/0 transition-all duration-1000 pointer-events-none"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+                        
+                        <!-- Floating City Label -->
+                        <div class="absolute inset-x-0 bottom-0 p-12 text-center">
+                            <h3 class="text-4xl md:text-5xl font-playfair font-black text-white mb-6 uppercase tracking-tighter transition-all duration-700 group-hover:text-[#d4af37] group-hover:-translate-y-4">
+                                {{ $other->nom }}
+                            </h3>
+                            <div class="w-12 h-px bg-[#d4af37] mx-auto opacity-0 group-hover:opacity-100 transition-all duration-1000 transform scale-x-0 group-hover:scale-x-[3]"></div>
+                            <span class="text-[10px] text-white/40 font-black uppercase tracking-[0.6em] mt-8 block opacity-0 group-hover:opacity-60 transition-all duration-700 delay-200">Invoke History</span>
                         </div>
-                    `,
-                    iconSize: [30, 40],
-                    iconAnchor: [15, 40],
-                    popupAnchor: [0, -40]
-                });
+                    </a>
+                </div>
+            @endforeach
+            <div class="flex-none w-[15vw]"></div>
+        </div>
+    </div>
+</section>
 
-                // Add marker for the city
-                const marker = L.marker([{{ $city->latitude }}, {{ $city->longitude }}], {
-                    icon: customIcon
-                }).addTo(map);
+<style>
+    /* Premium Logic for Scroll Experience */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Animation Enhancement */
+    .animate-on-scroll { 
+        opacity: 0; 
+        transform: translateY(40px) skewY(2deg); 
+        transition: all 1.2s cubic-bezier(0.2, 1, 0.2, 1); 
+        filter: blur(10px);
+    }
+    .animate-on-scroll.is-visible { 
+        opacity: 1; 
+        transform: translateY(0) skewY(0deg); 
+        filter: blur(0);
+    }
+</style>
 
-                // Add popup to marker
-                marker.bindPopup(`
-                                                                    <div style="text-align: center; padding: 10px;">
-                                                                        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; color: #C8102E;">{{ $city->nom }}</h3>
-                                                                        <p style="margin: 0; font-size: 14px; color: #666;">{{ $city->titre }}</p>
-                                                                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd;">
-                                                                            <small style="color: #999;">📍 {{ $city->latitude }}°, {{ $city->longitude }}°</small>
-                                                                        </div>
-                                                                    </div>
-                                                                `).openPopup();
+<style>
+    @keyframes slowZoom {
+        from { transform: scale(1.05); }
+        to { transform: scale(1.15); }
+    }
+    .animate-slow-zoom { animation: slowZoom 20s infinite alternate linear; }
 
-                // Add Morocco boundary (approximate)
-                const moroccoBounds = [
-                    [27.6, -13.2],
-                    [35.9, -1.0]
-                ];
+    @keyframes revealUp {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-reveal-up { animation: revealUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .animate-reveal-up-delay { animation: revealUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; opacity: 0; }
+    .animate-reveal-up-delay-2 { animation: revealUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; opacity: 0; }
 
-                // Optionally show Morocco outline
-                L.rectangle(moroccoBounds, {
-                    color: '#006233',
-                    weight: 2,
-                    fillOpacity: 0.05,
-                    dashArray: '5, 10'
-                }).addTo(map);
-            @else
-                // Fallback if no coordinates
-                document.getElementById('city-map').innerHTML = `
-                                                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f5f5f5; border-radius: 1rem;">
-                                                                        <div style="text-align: center; color: #999;">
-                                                                            <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 16px;"></i>
-                                                                            <p>Map coordinates not available</p>
-                                                                        </div>
-                                                                    </div>
-                                                                `;
-            @endif
-                                });
+    /* Intersection Observer Styles */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .animate-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
 
-        // Initialize carousels for each destination
-        @foreach($city->destinations as $index => $destination)
-            @php
-                $allMediaCount = 0;
-                
-                // Count video
-                if ($destination->video) {
-                    $allMediaCount++;
-                }
-                
-                // Count cover image
-                if ($destination->image) {
-                    $allMediaCount++;
-                }
-                
-                // Count gallery images
-                if ($destination->destinationImages) {
-                    $allMediaCount += $destination->destinationImages->count();
-                }
-            @endphp
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('carousel{{ $index }}', () => ({
-                    current: 0,
-                    total: {{ $allMediaCount }},
-                    next() {
-                        this.current = (this.current + 1) % this.total;
-                    },
-                    prev() {
-                        this.current = (this.current - 1 + this.total) % this.total;
-                    }
-                }));
-                });
-        @endforeach
-        </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+    });
+});
+</script>
 @endsection

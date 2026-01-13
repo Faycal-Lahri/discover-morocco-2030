@@ -122,7 +122,7 @@
                 </a>
 
                 <!-- 02 DISCOVER -->
-                <a href="/discover"
+                <a href="/cities"
                     class="group/item relative flex items-center justify-between py-5 border-b border-stone-100 transition-all duration-500 hover:px-4 hover:border-[#006233]/20 hover:bg-white rounded-xl">
                     <div class="flex items-baseline gap-5">
                         <span

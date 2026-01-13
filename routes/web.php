@@ -42,9 +42,35 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/offers/sahara-retreats', function () {
+    return view('offers.sahara');
+})->name('offers.sahara');
+
+Route::post('/offers/sahara-retreats', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'check_in' => 'required|date',
+        'full_name' => 'required|string|max:255',
+        'email' => 'required|email',
+    ]);
+    return back()->with('success', 'Your request has been received. Our concierge will contact you shortly.');
+})->name('offers.sahara.store');
+
+Route::get('/offers/fly-and-protect', function () {
+    return view('offers.flight');
+})->name('offers.flight');
+
+Route::post('/offers/fly-and-protect', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'ticket_number' => 'required|string',
+        'flight_date' => 'required|date',
+    ]);
+    return back()->with('success', 'Coverage verified! Your flight is fully insured.');
+})->name('offers.flight.verify');
+
 Route::get('/cities', [App\Http\Controllers\CityController::class, 'index'])->name('cities');
 
 Route::get('/cities/{city}', [App\Http\Controllers\CityController::class, 'show'])->name('cities.show');
+Route::get('/destinations/{destination}', [App\Http\Controllers\DestinationController::class, 'show'])->name('destinations.show');
 
 Route::get('/partners/content-hub', [App\Http\Controllers\PartnerController::class, 'contentHub'])->name('partners.hub');
 Route::get('/partners/tools', [App\Http\Controllers\PartnerController::class, 'tools'])->name('partners.tools');
@@ -54,6 +80,9 @@ Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store']
 Route::post('/volunteer', [App\Http\Controllers\VolunteerController::class, 'store'])->name('volunteer.store');
 Route::post('/newsletter', [App\Http\Controllers\NewsletterController::class, 'store'])->name('newsletter.store');
 Route::post('/comments', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
+
+// Chatbot Route
+Route::post('/chat/send', [App\Http\Controllers\ChatController::class, 'sendMessage'])->name('chat.send');
 
 // Admin routes
 Route::prefix('admin_morocco_2030')->name('admin.')->group(function () {
@@ -72,6 +101,7 @@ Route::prefix('admin_morocco_2030')->name('admin.')->group(function () {
     Route::resource('volontaires', App\Http\Controllers\Admin\VolontaireController::class);
     Route::resource('commentaires', App\Http\Controllers\Admin\CommentaireController::class);
     Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class);
+    Route::post('contacts/{contact}/send-to-workflow', [App\Http\Controllers\Admin\ContactController::class, 'sendToWorkflow'])->name('contacts.send-to-workflow');
     Route::resource('faqs', App\Http\Controllers\Admin\FaqController::class);
     Route::get('newsletters/export', [App\Http\Controllers\Admin\NewsletterController::class, 'exportCsv'])->name('newsletters.export');
     Route::resource('newsletters', App\Http\Controllers\Admin\NewsletterController::class);

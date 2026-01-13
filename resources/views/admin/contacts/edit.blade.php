@@ -28,7 +28,8 @@
                 items: [
                     { value: 'non_lu', label: 'Non Lu' },
                     { value: 'en_cours', label: 'En Cours' },
-                    { value: 'traite', label: 'Traité' }
+                    { value: 'traite', label: 'Traité' },
+                    { value: 'non_valide', label: 'Non Valide' }
                 ],
                 get label() {
                     const item = this.items.find(i => i.value == this.selected);

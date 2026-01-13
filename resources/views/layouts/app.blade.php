@@ -227,19 +227,11 @@
         }
 
         #chatbot-toggle {
-            animation: float 3s ease-in-out infinite;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
+        #chatbot-toggle:hover {
+            transform: scale(1.1);
         }
 
         #chatbot-messages::-webkit-scrollbar {
@@ -322,7 +314,7 @@
     <!-- MOROCCAN CHATBOT -->
     <!-- MOROCCAN CHATBOT -->
     <div id="chatbot-wrapper"
-        class="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-2 invisible opacity-0 transition-opacity duration-500">
+        class="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-2 transition-opacity duration-500">
         <!-- Tooltip Message (Pop Animation) -->
         <div id="chatbot-tooltip"
             class="bg-stone-900 text-white text-xs font-bold py-3 px-5 rounded-2xl shadow-xl mb-1 whitespace-nowrap origin-bottom-right opacity-0 pointer-events-none">
@@ -378,147 +370,106 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const chatbotWrapper = document.getElementById('chatbot-wrapper');
             const chatbotTooltip = document.getElementById('chatbot-tooltip');
-            let tooltipShown = false;
-
-            window.addEventListener('scroll', function () {
-                if (window.scrollY > 300) {
-                    chatbotWrapper.classList.remove('invisible', 'opacity-0');
-
-                    // Trigger tooltip animation only once when first shown
-                    if (!tooltipShown) {
-                        setTimeout(() => {
-                            chatbotTooltip.classList.add('animate-tooltip-pop');
-                        }, 500); // Small delay after button appears
-                        tooltipShown = true;
-                    }
-                } else {
-                    chatbotWrapper.classList.add('invisible', 'opacity-0');
-                }
-            });
+            
+            // Show tooltip after a short delay on page load
+            setTimeout(() => {
+                chatbotTooltip.classList.add('animate-tooltip-pop');
+            }, 3000); 
         });
     </script>
 
-    <!-- Chatbot Window (Brand Design) -->
-    <div id="chatbot-window"
-        class="fixed bottom-24 left-4 right-4 md:left-auto md:right-6 md:w-[380px] h-[600px] max-h-[75vh] bg-stone-50 rounded-2xl shadow-[0_20px_60px_-10px_rgba(0,0,0,0.3)] flex flex-col overflow-hidden border border-[#d4af37]/20 z-[99999]"
-        style="opacity: 0; transform: scale(0.95) translateY(20px); transform-origin: bottom right; pointer-events: none; display: none; transition: opacity 0.3s ease, transform 0.3s ease;">
+    <!-- Chatbot Window (Refined Premium Design) -->
+    <div id="chatbot-window" class="fixed bottom-24 left-4 right-4 md:left-auto md:right-6 md:w-[380px] h-[600px] max-h-[75vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-stone-200 z-[99999]" style="opacity: 0; transform: scale(0.95) translateY(20px); transform-origin: bottom right; pointer-events: none; display: none; transition: all 0.3s ease-out;">
+        
+        <!-- Header (Matched to Design) -->
+        <div class="px-6 py-5 bg-[#C8102E] text-white flex items-center justify-between shrink-0 shadow-md relative overflow-hidden">
+            <!-- Subtle Header Pattern/Shine -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
 
-        <!-- Header -->
-        <div class="px-5 py-4 bg-white border-b border-stone-100 flex items-center justify-between sticky top-0 z-30">
-            <div class="flex items-center gap-3">
-                <div class="relative">
-                    <div
-                        class="w-10 h-10 rounded-full bg-[#C8102E] flex items-center justify-center border border-stone-100 shadow-sm">
-                        <!-- Simple Chat Icon -->
-                        <i class="fas fa-comment-dots text-white text-lg"></i>
-                    </div>
+            <div class="flex items-center gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner">
+                     <i class="fas fa-robot text-white text-xl"></i>
                 </div>
-                <div>
-                    <h3 class="font-bold text-stone-900 text-sm">Morocco Assistant</h3>
-                    <span class="text-[10px] text-stone-400 block leading-none">Online</span>
+                <div class="flex flex-col">
+                     <h3 class="font-bold text-white text-[17px] leading-tight font-outfit tracking-wide">Morocco Assistant</h3>
+                     <div class="flex items-center gap-1.5 mt-0.5 opacity-90">
+                        <span class="w-2 h-2 rounded-full bg-[#4ADE80] shadow-[0_0_8px_rgba(74,222,128,0.6)] animate-pulse"></span> 
+                        <span class="text-[11px] font-medium tracking-wide">Online</span>
+                     </div>
                 </div>
             </div>
-            <button id="chatbot-close" onclick="toggleChatbot()"
-                class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-stone-100 text-stone-400 hover:text-[#C8102E] transition-colors">
-                <i class="fas fa-times text-sm"></i>
+            <button id="chatbot-close" onclick="toggleChatbot()" class="relative z-10 w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-all text-white/90 hover:text-white">
+                <i class="fas fa-times text-lg"></i>
             </button>
         </div>
 
-        <!-- Messages Container with Pattern (Extended to cover bottom wave) -->
-        <div class="flex-1 relative overflow-hidden bg-stone-50 flex flex-col">
-            <!-- Zellige Pattern Overlay (Transparent Background) -->
-            <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
-                style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 150px;">
-            </div>
-
-            <!-- Scrollable Content -->
-            <div id="chatbot-messages"
-                class="flex-1 overflow-y-auto p-5 space-y-4 scroll-smooth z-10 custom-scrollbar pb-8">
+        <!-- Messages Container -->
+        <div class="flex-1 relative bg-[#F9FAFB] flex flex-col min-h-0">
+             
+             <!-- Background Pattern (Zellige, Grayscale, Very Subtle) -->
+             <div class="absolute inset-0 pointer-events-none opacity-[0.03] bg-repeat mix-blend-multiply grayscale" 
+                  style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 300px;">
+             </div>
+             <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth z-10 custom-scrollbar">
+                
                 <!-- Welcome Message -->
                 <div class="flex justify-start animate-fadeIn">
-                    <div
-                        class="bg-white px-5 py-4 rounded-2xl rounded-tl-none max-w-[85%] text-sm text-stone-800 shadow-sm border border-stone-100 relative group">
-                        <div
-                            class="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-stone-50 border border-stone-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <i class="fas fa-robot text-stone-400 text-xs"></i>
-                        </div>
-                        <p class="leading-relaxed font-outfit text-[15px]">
-                            <span class="text-[#C8102E] font-bold">Marhaba!</span> How can I help you discover Morocco
-                            today?
+                    <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-gray-800 shadow-sm border border-gray-100">
+                        <p class="leading-relaxed font-outfit text-[14px]">
+                            <span class="text-[#C8102E] font-bold">Marhaba! ðŸ‡²ðŸ‡¦</span><br> I'm your guide to Morocco. How can I help you today?
                         </p>
-                        <span class="text-[10px] text-stone-300 mt-2 block font-medium">Just now</span>
+                        <span class="text-[10px] text-gray-400 mt-1 block text-right">Just now</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Wavy Separator (Top) -->
-            <div
-                class="absolute top-0 left-0 w-full transform -translate-y-full h-6 z-20 overflow-hidden pointer-events-none">
-                <!-- Wave 1 (Slow & Deep) -->
-                <svg class="absolute bottom-0 w-[200%] h-full text-[#C8102E] animate-wave-slow opacity-[0.05]"
-                    viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path
-                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                        fill="currentColor"></path>
-                </svg>
-                <!-- Wave 2 (Fast & Shallow) -->
-                <svg class="absolute bottom-0 w-[200%] h-full text-[#C8102E] animate-wave-fast opacity-[0.08]"
-                    viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path
-                        d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-                        fill="currentColor"></path>
-                </svg>
-            </div>
-
-            <form id="chatbot-form" onsubmit="sendMessage(event)" class="flex items-center gap-2 relative">
-                <div class="relative flex-1 group">
-                    <input type="text" id="chatbot-input" placeholder="Ask anything..."
-                        class="w-full bg-stone-50 border-0 rounded-full pl-5 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8102E] focus:bg-white placeholder-stone-400 text-stone-900 caret-[#C8102E] transition-all duration-300 shadow-sm group-hover:shadow-md font-outfit"
-                        autocomplete="off">
-                    <!-- Subtle inner glow on focus via parent/ring -->
+             </div>
+             
+             <!-- Input Area -->
+             <div class="p-4 bg-white border-t border-gray-100 shrink-0 z-20">
+                <form id="chatbot-form" onsubmit="sendMessage(event)" class="flex items-center gap-2">
+                    <div class="relative flex-1">
+                        <input 
+                            type="text" 
+                            id="chatbot-input" 
+                            placeholder="Type a message..." 
+                            class="w-full bg-gray-100 border-0 rounded-full pl-4 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8102E]/20 focus:bg-white transition-all text-gray-900 font-outfit placeholder-gray-500"
+                            autocomplete="off"
+                        >
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-10 h-10 rounded-full bg-[#C8102E] text-white flex items-center justify-center hover:bg-[#a00d25] transition-all shadow-md active:scale-95 shrink-0"
+                    >
+                        <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+                </form>
+                <div class="text-center mt-2">
+                     <p class="text-[10px] text-gray-400 flex items-center justify-center gap-1">
+                        AI can make mistakes.
+                    </p>
                 </div>
-                <button type="submit"
-                    class="w-10 h-10 rounded-full bg-[#C8102E] text-white flex items-center justify-center hover:bg-[#a00d25] transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-red-900/20 group">
-                    <i
-                        class="fas fa-paper-plane text-xs transform transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
-                </button>
-            </form>
-            <div class="text-center mt-2">
-                <p
-                    class="text-[10px] text-stone-300 font-light items-center justify-center gap-1.5 inline-flex opacity-80 hover:opacity-100 transition-opacity">
-                    <i class="fas fa-bolt text-[#C8102E]/60 text-[10px]"></i> <span>Powered by Morocco AI</span>
-                </p>
             </div>
         </div>
 
         <style>
-            @keyframes wave {
-                0% {
-                    transform: translateX(0);
-                }
-
-                100% {
-                    transform: translateX(-50%);
-                }
-            }
-
-            .animate-wave-slow {
-                animation: wave 15s linear infinite;
-            }
-
-            .animate-wave-fast {
-                animation: wave 8s linear infinite reverse;
-            }
-
             .custom-scrollbar::-webkit-scrollbar {
-                width: 4px;
+                width: 6px;
             }
 
             .custom-scrollbar::-webkit-scrollbar-thumb {
-                background-color: #e5e5e5;
-                border-radius: 4px;
+                background-color: #d1d5db;
+                border-radius: 10px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(5px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fadeIn {
+                animation: fadeIn 0.3s ease-out forwards;
             }
         </style>
     </div>
@@ -548,158 +499,137 @@
         </button>
 
         <!-- Main Content Grid -->
-        <div class="flex h-full relative z-10">
+        <div class="flex flex-col lg:flex-row h-full relative z-10">
 
-            <!-- Left Sidebar -->
-            <div
-                class="w-1/4 min-w-[320px] border-r border-gray-100 bg-white p-12 pt-16 flex flex-col justify-between overflow-y-auto relative shadow-[5px_0_30px_rgba(0,0,0,0.02)] z-20">
+            <!-- Left Sidebar (Navigation) -->
+            <div class="w-full lg:w-[320px] bg-white border-r border-gray-100 flex flex-col z-20 h-auto lg:h-full relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
                 
-                <div class="space-y-10 relative z-10">
-                    <div>
-                        <div class="flex items-center gap-3 mb-2">
-                            <i class="fas fa-star text-[#006233] text-xs"></i>
-                            <h3 class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#006233]">Kingdom of Morocco</h3>
-                        </div>
-                        <h2 class="text-5xl font-playfair font-black text-[#C8102E] leading-none">Cities</h2>
-                        <!-- Decorative Flag Line -->
-                        <div class="flex mt-6 h-1 w-24 rounded-full overflow-hidden">
-                            <div class="w-1/2 bg-[#C8102E]"></div>
-                            <div class="w-1/2 bg-[#006233]"></div>
-                        </div>
-                    </div>
-
-                    <nav class="space-y-1">
-                        @foreach($megaMenuCities as $index => $city)
-                            <a href="{{ route('cities.show', $city->id) }}"
-                                onmouseenter="showMegaContent('{{ $city->id }}')"
-                                class="mega-link block text-2xl font-playfair transition-all duration-300 px-6 py-4 rounded-xl flex items-center justify-between group/link {{ $index === 0 ? 'bg-[#006233] text-white shadow-lg shadow-green-900/20 active-city' : 'text-stone-400 hover:bg-[#C8102E]/5 hover:text-[#C8102E]' }}"
-                                data-target="{{ $city->id }}">
-                                <span>{{ $city->nom }}</span>
-                                <i class="fas fa-chevron-right text-xs opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all {{ $index === 0 ? 'opacity-100 translate-x-0' : '' }}"></i>
-                            </a>
-                        @endforeach
-                    </nav>
+                <!-- Header Logo/Title -->
+                <div class="px-10 pt-12 pb-8 flex-shrink-0">
+                    <h2 class="text-4xl font-playfair font-black text-stone-900 tracking-tight">Cities</h2>
+                    <div class="h-1 w-12 bg-[#D4AF37] mt-4"></div>
                 </div>
 
-                <a href="{{ route('cities') }}"
-                    class="relative z-10 w-full py-4 border-2 border-[#C8102E] text-[#C8102E] font-bold uppercase tracking-widest text-xs rounded-xl flex items-center justify-center gap-2 hover:bg-[#C8102E] hover:text-white transition-all duration-300 group">
-                    <span>View All Cities</span>
-                    <i class="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
-                </a>
+                <!-- Navigation List (Centered vertically) -->
+                <nav class="flex-1 flex flex-col justify-center px-6 space-y-1 overflow-y-auto custom-scrollbar">
+                    @foreach($megaMenuCities->take(8) as $index => $city)
+                        <a href="{{ route('cities.show', $city->id) }}"
+                            onmouseenter="showMegaContent('{{ $city->id }}')"
+                            class="mega-link group/link flex items-center gap-4 px-4 py-3.5 rounded-lg transition-all duration-300 cursor-pointer relative overflow-hidden
+                            {{ $index === 0 ? 'active-city' : '' }}"
+                            data-target="{{ $city->id }}"
+                        >
+                            <!-- Number -->
+                            <span class="text-[10px] font-bold font-outfit text-stone-300 transition-colors duration-300 w-4 group-hover/link:text-[#C8102E] number-indicator">
+                                0{{ $index + 1 }}
+                            </span>
+                            
+                            <!-- City Name -->
+                            <span class="text-sm font-outfit uppercase tracking-[0.2em] font-bold text-stone-400 transition-all duration-300 name-text group-hover/link:translate-x-1 group-hover/link:text-stone-900">
+                                {{ $city->nom }}
+                            </span>
+
+                            <!-- Active Indicator (Background Slide) -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-stone-100 to-white -z-10 translate-x-[-100%] transition-transform duration-300 bg-indicator"></div>
+                            
+                            <!-- Active Border -->
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-[#C8102E] opacity-0 transition-opacity duration-300 border-indicator shadow-[0_0_10px_rgba(200,16,46,0.5)]"></div>
+                        </a>
+                    @endforeach
+                </nav>
+
+                <!-- Footer Link -->
+                <div class="p-8 pb-12 flex-shrink-0 border-t border-gray-50">
+                    <a href="{{ route('cities') }}"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 hover:text-[#C8102E] transition-colors flex items-center gap-3 group w-fit">
+                        <span>View All Cities</span>
+                        <div class="w-6 h-6 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#C8102E] transition-colors">
+                            <i class="fas fa-arrow-right transform group-hover:-rotate-45 transition-transform duration-300 text-[8px]"></i>
+                        </div>
+                    </a>
+                </div>
             </div>
 
-            <!-- Right Content -->
-            <div class="flex-1 p-16 pt-16 bg-[#FAFAFA] overflow-y-auto relative custom-scrollbar">
+            <!-- Right Content (Showcase) -->
+            <div class="flex-1 h-full relative bg-[#FAFAFA] overflow-hidden flex flex-col">
                 
                 @foreach($megaMenuCities as $index => $city)
                     <div id="mega-content-{{ $city->id }}"
-                        class="max-w-7xl relative z-10 pt-4 mega-content-pane {{ $index === 0 ? '' : 'hidden' }} animate-fadeIn">
+                        class="mega-content-pane absolute inset-0 flex flex-col h-full w-full {{ $index === 0 ? '' : 'hidden opacity-0' }} transition-opacity duration-500 ease-in-out">
                         
-                        <!-- Header -->
-                        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-gray-100 pb-8 gap-8">
-                            <div class="relative">
-                                <h1 class="text-8xl font-playfair font-black text-[#C8102E] mb-4 z-10 relative">{{ $city->nom }}</h1>
-                                <!-- Green Star Decoration behind text -->
-                                <i class="fas fa-star text-[#006233] absolute -top-4 -right-8 text-2xl opacity-20 rotate-12"></i>
-                                
-                                <p class="text-stone-500 font-playfair italic text-lg leading-relaxed mb-4 max-w-xl">
-                                    "{{ Str::limit($city->description, 150) }}"
-                                </p>
+                        <!-- Top Section: Header Info (50% height) -->
+                        <div class="h-[50%] flex-shrink-0 flex flex-col justify-center px-12 lg:px-20 relative bg-white z-20">
+                            <!-- Watermark -->
+                            <h1 class="absolute top-1/2 -translate-y-1/2 right-0 text-[12rem] lg:text-[18rem] font-playfair font-black text-stone-900 uppercase select-none pointer-events-none opacity-5 leading-none z-0 tracking-tighter overflow-hidden whitespace-nowrap">
+                                {{ substr($city->nom, 0, 3) }}
+                            </h1>
 
-                                <p class="text-xl font-medium text-[#006233] tracking-[0.2em] uppercase flex items-center gap-3">
-                                    {{ $city->label ?? 'Discover The Magic' }}
+                            <div class="relative z-10 max-w-3xl">
+                                <div class="flex items-center gap-4 mb-6 animate-fade-in-up">
+                                    <span class="w-8 h-0.5 bg-[#C8102E]"></span>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-[#C8102E]">Travel Guide</span>
+                                </div>
+                                
+                                <h1 class="text-7xl lg:text-9xl font-playfair font-black text-stone-900 mb-6 leading-[0.85] tracking-tight animate-fade-in-up delay-[100ms]">
+                                    {{ $city->nom }}
+                                </h1>
+                                
+                                <p class="text-xl lg:text-2xl font-playfair italic text-stone-500 max-w-2xl leading-relaxed mb-8 line-clamp-2 animate-fade-in-up delay-[200ms]">
+                                    "{{ Str::limit($city->description, 180) }}"
                                 </p>
+                                
+                                <a href="{{ route('cities.show', $city->id) }}" class="inline-flex items-center gap-4 group animate-fade-in-up delay-[300ms]">
+                                    <span class="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center group-hover:border-[#C8102E] group-hover:bg-[#C8102E] group-hover:text-white transition-all duration-300">
+                                        <i class="fas fa-arrow-right transform -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
+                                    </span>
+                                    <span class="text-xs font-bold uppercase tracking-widest text-stone-900 group-hover:text-[#C8102E] transition-colors">Start Exploring</span>
+                                </a>
                             </div>
-                            <!-- Removed the right-side description block since it's now integrated above -->
                         </div>
 
-                        @if($city->destinations->count() > 0)
-                            {{-- Check if city should use banner layout (Casablanca or Rabat style) --}}
-                            @if(strtolower($city->nom) === 'casablanca' || strtolower($city->nom) === 'rabat')
-                                {{-- Banner Style Layout for Casablanca & Rabat --}}
-                                <div class="w-full h-80 rounded-[2rem] overflow-hidden relative group shadow-xl">
+                        <!-- Bottom Section: Gallery (50% height) -->
+                        <div class="h-[50%] flex-1 bg-stone-50 grid md:grid-cols-3 gap-6 px-12 pb-12 pt-4">
+                             
+                            @php
+                                $displayDestinations = $city->destinations->take(3);
+                            @endphp
+
+                            <!-- Real Destinations -->
+                            @foreach($displayDestinations as $dIndex => $destination)
+                                <a href="{{ route('destinations.show', $destination->id) }}" 
+                                   class="group relative overflow-hidden h-full block cursor-pointer bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500">
+                                    
                                     @php
-                                        // Get the first destination's image for the banner
-                                        $firstDestination = $city->destinations->first();
-                                        $bannerImage = null;
-                                        
-                                        if ($firstDestination && $firstDestination->image) {
-                                            $bannerImage = Str::startsWith($firstDestination->image, 'http')
-                                                ? $firstDestination->image
-                                                : asset($firstDestination->image);
-                                        } elseif ($city->image) {
-                                            $bannerImage = asset($city->image);
-                                        }
+                                        $rImg = $destination->image ?? ($destination->destinationImages->first() ? $destination->destinationImages->first()->image : null);
+                                        $imgPath = $rImg ? (Str::startsWith($rImg, 'http') ? $rImg : (Str::startsWith($rImg, 'images/') ? asset($rImg) : asset('storage/' . $rImg))) : asset('assets/images/morocco_hero.png');
                                     @endphp
-                                    
-                                    @if($bannerImage)
-                                        <img src="{{ $bannerImage }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                                    @endif
-                                    
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#006233]/90 to-transparent flex items-end p-12">
-                                        <div>
-                                            <span class="block text-[#006233] font-bold tracking-widest uppercase mb-2 bg-white/90 px-3 py-1 rounded-full w-fit text-xs">Explore</span>
-                                            <span class="text-white font-playfair font-black text-5xl">{{ $city->nom }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                {{-- Card Grid Layout (Default) --}}
-                                <div class="mb-8 flex items-center gap-3">
-                                    <div class="w-2 h-2 rounded-full bg-[#006233]"></div>
-                                    <h3 class="text-xs font-bold uppercase tracking-widest text-stone-400">Must Visit Places</h3>
-                                </div>
 
-                                <!-- Cards Grid -->
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                    @foreach($city->destinations as $destination)
-                                        <div
-                                            class="group bg-white rounded-[2rem] p-3 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 h-full flex flex-col">
-                                            
-                                            @if($destination->image)
-                                                <div class="w-full h-56 overflow-hidden rounded-[1.5rem] relative mb-4">
-                                                    <img src="{{ Str::startsWith($destination->image, 'http') ? $destination->image : asset($destination->image) }}"
-                                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                                                    
-                                                    <!-- Overlay Tag -->
-                                                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5">
-                                                        <div class="w-1.5 h-1.5 rounded-full bg-[#C8102E]"></div>
-                                                        <span class="text-[9px] font-bold uppercase tracking-wider text-[#006233]">Experience</span>
-                                                    </div>
-                                                </div>
-                                            @else
-                                                <div
-                                                    class="w-full h-56 rounded-[1.5rem] bg-stone-100 flex items-center justify-center text-stone-300 mb-4">
-                                                    <i class="fas fa-image text-3xl"></i>
-                                                </div>
-                                            @endif
-
-                                            <div class="px-2 pb-2 flex-1 flex flex-col">
-                                                <h4 class="font-playfair font-bold text-xl text-stone-900 mb-1 group-hover:text-[#C8102E] transition-colors leading-tight">{{ $destination->nom }}</h4>
-                                                <p
-                                                    class="text-[10px] font-bold uppercase tracking-widest text-[#006233] mt-auto flex items-center gap-1">
-                                                    <span>{{ $destination->label ?? 'Explore' }}</span>
-                                                    <i class="fas fa-arrow-right text-[8px] opacity-0 group-hover:opacity-100 transition-opacity -translate-x-1 group-hover:translate-x-0"></i>
-                                                </p>
+                                    <img src="{{ $imgPath }}"
+                                        class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 ease-out">
+                                    
+                                    <!-- Refined Gradient Overlay -->
+                                    <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
+                                    
+                                    <!-- Content -->
+                                    <div class="absolute bottom-0 left-0 p-8 w-full z-10 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-out">
+                                        <div class="overflow-hidden mb-3">
+                                            <div class="flex items-center gap-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 delay-[50ms]">
+                                                <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D4AF37]">
+                                                    0{{ $dIndex + 1 }}
+                                                </span>
+                                                <span class="h-px w-8 bg-[#D4AF37]"></span>
                                             </div>
                                         </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        @else
-                            <!-- Fallback for cities with no destinations -->
-                            <div class="w-full h-80 rounded-[2rem] overflow-hidden relative group shadow-xl">
-                                @if($city->image)
-                                    <img src="{{ asset($city->image) }}" class="w-full h-full object-cover">
-                                @endif
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#006233]/90 to-transparent flex items-end p-12">
-                                    <div>
-                                        <span class="block text-[#C8102E] font-bold tracking-widest uppercase mb-2 bg-white/90 px-3 py-1 rounded-full w-fit text-xs">Explore</span>
-                                        <span class="text-white font-playfair font-black text-5xl">{{ $city->nom }}</span>
+                                        <h3 class="text-3xl font-playfair font-medium text-white leading-[0.9] mb-4 drop-shadow-lg">
+                                            {{ $destination->nom }}
+                                        </h3>
+                                        <p class="text-stone-300 text-xs font-outfit line-clamp-2 max-w-[90%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-[100ms] leading-relaxed">
+                                            {{ $destination->description ?? 'Explore the unique beauty and history of this destination.' }}
+                                        </p>
                                     </div>
-                                </div>
-                            </div>
-                        @endif
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 @endforeach
             </div>
@@ -723,22 +653,55 @@
             }
 
             // Update Active Link State
+            // Update Active Link State
+            // Update Active Link State
             document.querySelectorAll('.mega-link').forEach(el => {
-                // Reset to default
-                el.classList.remove('bg-[#006233]', 'text-white', 'shadow-lg', 'shadow-green-900/20', 'active-city');
-                el.classList.add('text-stone-400', 'hover:bg-[#C8102E]/5', 'hover:text-[#C8102E]');
-                
-                // Hide arrows on inactive
-                const arrow = el.querySelector('.fa-chevron-right');
-                if(arrow) arrow.classList.add('opacity-0', '-translate-x-2');
+                const number = el.querySelector('.number-indicator');
+                const name = el.querySelector('.name-text');
+                const bg = el.querySelector('.bg-indicator');
+                const border = el.querySelector('.border-indicator');
 
-                // If active
                 if (el.getAttribute('data-target') == cityId) {
-                    el.classList.remove('text-stone-400', 'hover:bg-[#C8102E]/5', 'hover:text-[#C8102E]');
-                    el.classList.add('bg-[#006233]', 'text-white', 'shadow-lg', 'shadow-green-900/20', 'active-city');
+                    // Active State
+                    el.classList.add('active-city');
                     
-                    // Show arrow on active
-                    if(arrow) arrow.classList.remove('opacity-0', '-translate-x-2');
+                    if(number) {
+                        number.classList.remove('text-stone-300', 'group-hover/link:text-[#C8102E]');
+                        number.classList.add('text-[#C8102E]');
+                    }
+                    if(name) {
+                        name.classList.remove('text-stone-400', 'group-hover/link:text-stone-900');
+                        name.classList.add('text-stone-900');
+                    }
+                    if(bg) {
+                        bg.classList.remove('translate-x-[-100%]');
+                        bg.classList.add('translate-x-0');
+                    }
+                    if(border) {
+                        border.classList.remove('opacity-0');
+                        border.classList.add('opacity-100');
+                    }
+
+                } else {
+                    // Inactive State
+                    el.classList.remove('active-city');
+
+                    if(number) {
+                        number.classList.add('text-stone-300', 'group-hover/link:text-[#C8102E]');
+                        number.classList.remove('text-[#C8102E]');
+                    }
+                    if(name) {
+                        name.classList.add('text-stone-400', 'group-hover/link:text-stone-900');
+                        name.classList.remove('text-stone-900');
+                    }
+                    if(bg) {
+                        bg.classList.add('translate-x-[-100%]');
+                        bg.classList.remove('translate-x-0');
+                    }
+                    if(border) {
+                        border.classList.add('opacity-0');
+                        border.classList.remove('opacity-100');
+                    }
                 }
             });
         }
@@ -1073,73 +1036,126 @@
             const msg = message.toLowerCase();
 
             if (msg.includes('hello') || msg.includes('hi') || msg.includes('salam') || msg.includes('marhaba') || msg.includes('hey')) {
-                return "Marhaba! 🌟 Welcome to the Kingdom of Light. Are you planning a trip, looking for history, or just exploring?";
+                return "Marhaba! ðŸŒŸ Welcome to the Kingdom of Light. Are you planning a trip, looking for history, or just exploring?";
             }
             if (msg.includes('food') || msg.includes('eat') || msg.includes('tagine') || msg.includes('couscous') || msg.includes('restaurant')) {
-                return "Ah, the flavors of Morocco! 🍲 You simply must try a Lamb Tagine with prunes, or a traditional Friday Couscous. Are you looking for specific restaurant recommendations in a city?";
+                return "Ah, the flavors of Morocco! ðŸ² You simply must try a Lamb Tagine with prunes, or a traditional Friday Couscous. Are you looking for specific restaurant recommendations in a city?";
             }
             if (msg.includes('visit') || msg.includes('go') || msg.includes('place') || msg.includes('city') || msg.includes('what to do')) {
-                return "Morocco has it all! 🕌 For history, go to Fez. For vibrance, Marrakech. For blue serenity, Chefchaouen. What is your travel vibe?";
+                return "Morocco has it all! ðŸ•Œ For history, go to Fez. For vibrance, Marrakech. For blue serenity, Chefchaouen. What is your travel vibe?";
             }
             if (msg.includes('thank')) {
-                return "You are most welcome! 🙏 Always here to help you discover the magic of our country.";
+                return "You are most welcome! ðŸ™ Always here to help you discover the magic of our country.";
             }
             if (msg.includes('volunteer') || msg.includes('help')) {
-                return "That's a noble spirit! 🤝 Check our 'Volunteer' page to see how you can contribute to the Morocco 2030 vision.";
+                return "That's a noble spirit! ðŸ¤ Check our 'Volunteer' page to see how you can contribute to the Morocco 2030 vision.";
             }
             if (msg.includes('weather') || msg.includes('hot') || msg.includes('cold')) {
-                return "It depends on the season! ☀️ Summers in Marrakech are hot, while the Atlas Mountains can see snow. When are you planning to visit?";
+                return "It depends on the season! â˜€ï¸ Summers in Marrakech are hot, while the Atlas Mountains can see snow. When are you planning to visit?";
             }
 
-            return "That's a fascinating topic about Morocco! 🇲🇦 While I'm an AI assistant in training, I'd love to help you find more. Have you checked out our 'Discover' page for in-depth guides?";
+            return "That's a fascinating topic about Morocco! ðŸ‡²ðŸ‡¦ While I'm an AI assistant in training, I'd love to help you find more. Have you checked out our 'Discover' page for in-depth guides?";
         }
 
-        function sendMessage(event) {
+        async function sendMessage(event) {
             event.preventDefault();
             const input = document.getElementById('chatbot-input');
             const message = input.value.trim();
 
             if (message) {
+                // Add USER message
                 addMessage(message, 'user');
                 input.value = '';
+                
+                // Show loading state
+                const loadingDiv = showTypingIndicator();
 
-                // Show simulated typing delay
-                const delay = Math.min(1000, Math.max(500, message.length * 30)); // Dynamic delay based on reading time
+                try {
+                    // Send to Laravel API
+                    const response = await fetch("{{ route('chat.send') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ message: message })
+                    });
 
-                setTimeout(() => {
-                    const response = getSmartResponse(message);
-                    addMessage(response, 'bot');
-                }, delay);
+                    const data = await response.json();
+
+                    // Remove loading
+                    if(loadingDiv) loadingDiv.remove();
+
+                    if (response.ok && data.reply) {
+                        addMessage(data.reply, 'bot');
+                    } else {
+                        addMessage("Sorry, I'm having trouble connecting to the kingdom right now. Please try again later.", 'bot');
+                        console.error('Chat Error:', data.error);
+                    }
+                } catch (error) {
+                    if(loadingDiv) loadingDiv.remove();
+                    addMessage("Connection error. Please check your internet.", 'bot');
+                    console.error('Fetch Error:', error);
+                }
             }
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.className = 'flex justify-start animate-fadeIn mb-2';
+            typingDiv.innerHTML = `
+                <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100">
+                     <div class="flex gap-1">
+                        <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                     </div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return typingDiv;
         }
 
         function sendQuickMessage(message) {
             const input = document.getElementById('chatbot-input');
             input.value = message;
-            sendMessage(new Event('submit'));
+            // Manually trigger submit
+            const event = new Event('submit', {
+                'bubbles': true,
+                'cancelable': true
+            });
+            document.getElementById('chatbot-form').dispatchEvent(event);
         }
 
         function addMessage(message, sender) {
             const messagesContainer = document.getElementById('chatbot-messages');
             const messageDiv = document.createElement('div');
             // Animated bubbles
-            messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} animate-slideInUp mb-2`;
-
+            messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn mb-2`; 
+            
             // Get Time
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Format the message (handle bold, newlines, etc.)
+            const formattedMessage = formatMessage(message);
 
             if (sender === 'user') {
                 messageDiv.innerHTML = `
                     <div class="max-w-[85%] bg-[#C8102E] text-white rounded-2xl rounded-tr-none px-4 py-3 shadow-md group relative">
-                        <p class="text-sm font-medium leading-relaxed">${escapeHtml(message)}</p>
+                        <p class="text-sm font-medium leading-relaxed font-outfit text-white">${formattedMessage}</p>
                         <span class="text-[10px] text-white/70 mt-1 block text-right">${time}</span>
                     </div>
                 `;
             } else {
                 messageDiv.innerHTML = `
-                   <div class="max-w-[85%] bg-white text-stone-800 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm border border-stone-100 group relative">
-                        <p class="text-sm font-medium leading-relaxed">${escapeHtml(message)}</p>
-                         <span class="text-[10px] text-stone-400 mt-1 block">${time}</span>
+                   <div class="max-w-[85%] bg-white text-gray-800 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm border border-gray-100 group relative">
+                        <div class="text-sm font-medium leading-relaxed font-outfit prose prose-sm max-w-none text-gray-800">
+                            ${formattedMessage}
+                        </div>
+                        <span class="text-[10px] text-gray-400 mt-1 block">${time}</span>
                    </div>
                 `;
             }
@@ -1151,7 +1167,32 @@
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
+            // Re-replace protected characters if needed, but textContent handles the dangerous ones
             return div.innerHTML;
+        }
+
+        function formatMessage(text) {
+            if (!text) return '';
+            
+            // 1. HTML Escape to prevent XSS (Security First)
+            let safeText = escapeHtml(text);
+            
+            // 2. Bold: **text** -> <strong>text</strong>
+            safeText = safeText.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-black">$1</strong>');
+            
+            // 3. Italic: *text* -> <em>text</em>
+            safeText = safeText.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
+            
+            // 4. Headers: ### Title -> <h3...>Title</h3> (Simple support)
+            safeText = safeText.replace(/^### (.*$)/gim, '<h3 class="font-bold text-base mt-2 mb-1">$1</h3>');
+            
+            // 5. Lists: - item -> â€¢ item
+            safeText = safeText.replace(/(?:^|\n)- (.*)/g, '<br>â€¢ $1');
+
+            // 6. Newlines: \n -> <br>
+            safeText = safeText.replace(/\n/g, '<br>');
+
+            return safeText;
         }
 
         // Mobile Menu Toggle - v2.0 (Simplified)
@@ -1536,9 +1577,11 @@
             document.body.style.overflow = 'hidden';
 
             // Close mobile menu if open
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenu && mobileMenu.getAttribute('data-open') === 'true') {
-                toggleMobileMenu();
+            if (typeof toggleAppleMenu === 'function') {
+                const appleMenu = document.getElementById('apple-menu');
+                if (appleMenu && appleMenu.classList.contains('translate-x-0')) {
+                    toggleAppleMenu();
+                }
             }
         }
 

@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route to receive response from n8n
+Route::post('/contact-responses', [App\Http\Controllers\Api\ContactResponseController::class, 'store']);
