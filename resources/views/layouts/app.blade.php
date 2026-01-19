@@ -380,73 +380,78 @@
     </script>
 
     <!-- Chatbot Window (Refined Premium Design) -->
-    <div id="chatbot-window" class="fixed bottom-24 left-4 right-4 md:left-auto md:right-6 md:w-[380px] h-[600px] max-h-[75vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-stone-200 z-[99999]" style="opacity: 0; transform: scale(0.95) translateY(20px); transform-origin: bottom right; pointer-events: none; display: none; transition: all 0.3s ease-out;">
+    <div id="chatbot-window" class="fixed bottom-24 left-4 right-4 md:left-auto md:right-6 md:w-[340px] h-[520px] max-h-[70vh] bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex flex-col overflow-hidden border border-white/50 z-[99999]" style="opacity: 0; transform: scale(0.95) translateY(20px); transform-origin: bottom right; pointer-events: none; display: none; transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);">
         
-        <!-- Header (Matched to Design) -->
-        <div class="px-6 py-5 bg-[#C8102E] text-white flex items-center justify-between shrink-0 shadow-md relative overflow-hidden">
-            <!-- Subtle Header Pattern/Shine -->
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+        <!-- Header (Premium Gradient - Compact) -->
+        <div class="px-5 py-4 bg-gradient-to-r from-[#C8102E] to-[#960a22] text-white flex items-center justify-between shrink-0 shadow-md relative overflow-hidden">
+            <!-- Subtle Noise/Pattern -->
+            <div class="absolute inset-0 opacity-10" style="background-image: url('{{ asset('assets/images/noise.png') }}');"></div>
+            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl -mr-8 -mt-8 pointer-events-none"></div>
 
-            <div class="flex items-center gap-4 relative z-10">
-                <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-inner">
-                     <i class="fas fa-robot text-white text-xl"></i>
+            <div class="flex items-center gap-3 relative z-10">
+                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-sm backdrop-blur-sm">
+                     <i class="fas fa-map-location-dot text-white text-sm"></i>
                 </div>
                 <div class="flex flex-col">
-                     <h3 class="font-bold text-white text-[17px] leading-tight font-outfit tracking-wide">Morocco Assistant</h3>
-                     <div class="flex items-center gap-1.5 mt-0.5 opacity-90">
-                        <span class="w-2 h-2 rounded-full bg-[#4ADE80] shadow-[0_0_8px_rgba(74,222,128,0.6)] animate-pulse"></span> 
-                        <span class="text-[11px] font-medium tracking-wide">Online</span>
-                     </div>
+                     <h3 class="font-bold text-white text-[14px] leading-tight font-playfair tracking-wide">Concierge 2030</h3>
+                     <span class="text-[9px] font-medium text-white/80 uppercase tracking-widest flex items-center gap-1.5 mt-0.5">
+                        <span class="w-1 h-1 rounded-full bg-[#4ADE80] shadow-[0_0_5px_#4ADE80]"></span> Online
+                     </span>
                 </div>
             </div>
-            <button id="chatbot-close" onclick="toggleChatbot()" class="relative z-10 w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-all text-white/90 hover:text-white">
-                <i class="fas fa-times text-lg"></i>
+            
+            <button id="chatbot-close" onclick="toggleChatbot()" class="relative z-10 w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/10 transition-all text-white/80 hover:text-white">
+                <i class="fas fa-times text-xs"></i>
             </button>
         </div>
 
-        <!-- Messages Container -->
-        <div class="flex-1 relative bg-[#F9FAFB] flex flex-col min-h-0">
+        <!-- Messages Area -->
+        <div class="flex-1 relative bg-[#F9FAFB]/90 flex flex-col min-h-0">
              
-             <!-- Background Pattern (Zellige, Grayscale, Very Subtle) -->
-             <div class="absolute inset-0 pointer-events-none opacity-[0.03] bg-repeat mix-blend-multiply grayscale" 
-                  style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 300px;">
+             <!-- Pattern -->
+             <div class="absolute inset-0 pointer-events-none opacity-[0.04] bg-repeat mix-blend-multiply" 
+                  style="background-image: url('{{ asset('assets/images/zellige_pattern.png') }}'); background-size: 250px;">
              </div>
+
              <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth z-10 custom-scrollbar">
                 
                 <!-- Welcome Message -->
                 <div class="flex justify-start animate-fadeIn">
-                    <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-gray-800 shadow-sm border border-gray-100">
-                        <p class="leading-relaxed font-outfit text-[14px]">
-                            <span class="text-[#C8102E] font-bold">Marhaba! ðŸ‡²ðŸ‡¦</span><br> I'm your guide to Morocco. How can I help you today?
-                        </p>
-                        <span class="text-[10px] text-gray-400 mt-1 block text-right">Just now</span>
+                    <div class="max-w-[85%] flex gap-2.5">
+                        <div class="w-6 h-6 rounded-full bg-[#C8102E] flex items-center justify-center shrink-0 border border-white shadow-sm mt-1">
+                            <i class="fas fa-headset text-white text-[10px]"></i>
+                        </div>
+                        <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-none border border-stone-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] text-stone-800">
+                             <p class="leading-relaxed font-outfit text-[12px] text-stone-600">
+                                <span class="text-[#C8102E] font-bold block mb-1">Welcome to Morocco! 🇲🇦</span>
+                                Need travel tips or history info? I'm here to guide you.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
              </div>
              
              <!-- Input Area -->
-             <div class="p-4 bg-white border-t border-gray-100 shrink-0 z-20">
-                <form id="chatbot-form" onsubmit="sendMessage(event)" class="flex items-center gap-2">
-                    <div class="relative flex-1">
-                        <input 
-                            type="text" 
-                            id="chatbot-input" 
-                            placeholder="Type a message..." 
-                            class="w-full bg-gray-100 border-0 rounded-full pl-4 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8102E]/20 focus:bg-white transition-all text-gray-900 font-outfit placeholder-gray-500"
-                            autocomplete="off"
-                        >
-                    </div>
+             <div class="p-4 bg-white border-t border-stone-100 shrink-0 z-20">
+                <form id="chatbot-form" onsubmit="sendMessage(event)" class="relative flex items-center gap-2.5">
+                    <input 
+                        type="text" 
+                        id="chatbot-input" 
+                        placeholder="Type your question..." 
+                        class="flex-1 bg-stone-50 border border-stone-200 rounded-xl pl-4 pr-3 py-2.5 text-[12px] focus:outline-none focus:border-[#C8102E]/50 focus:bg-white transition-all text-stone-800 font-outfit placeholder-stone-400 shadow-inner"
+                        autocomplete="off"
+                    >
                     <button 
                         type="submit" 
-                        class="w-10 h-10 rounded-full bg-[#C8102E] text-white flex items-center justify-center hover:bg-[#a00d25] transition-all shadow-md active:scale-95 shrink-0"
+                        class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#C8102E] to-[#D9381E] text-white flex items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 shrink-0 shadow-md"
                     >
-                        <i class="fas fa-paper-plane text-sm"></i>
+                        <i class="fas fa-paper-plane text-xs"></i>
                     </button>
                 </form>
-                <div class="text-center mt-2">
-                     <p class="text-[10px] text-gray-400 flex items-center justify-center gap-1">
-                        AI can make mistakes.
+                <div class="text-center mt-2.5">
+                     <p class="text-[8px] text-stone-400 font-medium tracking-wider uppercase opacity-70">
+                        AI Vision 2030 Support
                     </p>
                 </div>
             </div>
